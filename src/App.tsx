@@ -5,7 +5,7 @@ import { createTheme } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Layout from "./pages/layout";
+import Layout from "./pages/Layout.js";
 import Dashboard from "./pages/Dashboard";
 import Location from "./pages/Location";
 import Payment from "./pages/Payment";

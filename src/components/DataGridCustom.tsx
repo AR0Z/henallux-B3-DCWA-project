@@ -1,5 +1,5 @@
 import { Box, useTheme } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridToolbarQuickFilter } from "@mui/x-data-grid";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import Header from "../components/Header";
 
@@ -44,11 +44,16 @@ function DataGridCustom({
 						},
 					}}>
 					<DataGrid
-						rows={data}
+						loading={!data}
+						rows={data || []}
 						columns={cols}
-						// @ts-ignore
-						rowsPerPageOptions={[10]}
-						disableSelectionOnClick
+						hideFooter
+						slotProps={{
+							toolbar: {
+								showQuickFilter: true,
+							},
+						}}
+						slots={{ toolbar: GridToolbarQuickFilter }}
 					/>
 				</Box>
 			</Box>

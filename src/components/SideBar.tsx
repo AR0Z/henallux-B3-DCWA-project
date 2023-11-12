@@ -108,11 +108,13 @@ function SideBar({
 						},
 					}}>
 					<Box width="100%">
-						<Box m="1.5rem 2rem 2rem 3rem ">
+						<Box ml="2rem" mt="1rem" mb="1rem">
 							<FlexBetween color={theme.palette.primary.main}>
 								<Box display="flex" alignItems="center" gap="0.5rem">
 									<Typography variant="h4" fontWeight="bold">
-										CarpoolConnect
+										<ListItem onClick={() => navigate("/")}>
+											CarpoolConnect
+										</ListItem>
 									</Typography>
 								</Box>
 							</FlexBetween>
