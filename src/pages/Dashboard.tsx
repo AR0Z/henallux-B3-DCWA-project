@@ -15,6 +15,7 @@ import {
 } from "@mui/x-data-grid-generator";
 import { useTheme } from "@emotion/react";
 import { BorderAllRounded } from "@mui/icons-material";
+import ItemModal from "../components/ItemModal";
 
 let data: any[] = [];
 for (let i = 0; i < 10; i++) {
@@ -71,6 +72,7 @@ const piecharData = [
 
 function Dashboard() {
 	const theme = useTheme();
+
 	return (
 		<Box m="1.5rem 2.5rem">
 			<Header

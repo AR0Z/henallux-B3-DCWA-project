@@ -13,16 +13,20 @@ import Reservation from "./pages/Reservation";
 import User from "./pages/User";
 import Vehicule from "./pages/Vehicule";
 import Travel from "./pages/Travel";
+import Login from "./pages/Login";
+import FormUser from "./pages/FormUser.js";
 
 function App() {
 	const mode = useSelector((state: any) => state.theme.mode);
 	const theme: any = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+
 	return (
 		<>
 			<BrowserRouter>
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
 					<Routes>
+						<Route path="/login" element={<Login />} />
 						<Route element={<Layout />}>
 							<Route path="/" element={<Navigate to="/dashboard" replace />} />
 							<Route path="/dashboard" element={<Dashboard />} />
@@ -33,6 +37,7 @@ function App() {
 							<Route path="/vehicules" element={<Vehicule />} />
 							<Route path="/rides" element={<Travel />} />
 						</Route>
+						<Route path="/test" element={<FormUser />} />
 					</Routes>
 				</ThemeProvider>
 			</BrowserRouter>

@@ -1,25 +1,26 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridColDef, GridToolbarQuickFilter } from "@mui/x-data-grid";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import Header from "../components/Header";
+import { Link } from "react-router-dom";
 
-function DataGridCustom({
-	title,
-	subtitle,
-	data,
-	cols,
-}: {
+function DataGridCustom(props: {
 	title: string;
 	subtitle: string;
 	data: any;
 	cols: GridColDef[];
 }) {
 	const theme = useTheme();
-
+	const { title, subtitle, data, cols } = props;
 	return (
 		<>
 			<Box m="1.5rem 2.5rem">
-				<Header title={title} subtitle={subtitle} />
+				<Box>
+					<Header title={title} subtitle={subtitle} />
+					<Button variant="contained">
+						<Link to="/test">Ajouter un élément</Link>
+					</Button>
+				</Box>
 				<Box
 					mt="40px"
 					height="75vh"

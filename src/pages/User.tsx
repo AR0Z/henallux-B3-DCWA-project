@@ -10,6 +10,7 @@ import {
 	randomBoolean,
 	randomInt,
 } from "@mui/x-data-grid-generator";
+import { useLocation } from "react-router-dom";
 let data: UserModel[] = [];
 for (let i = 0; i < 100; i++) {
 	data.push({
@@ -40,7 +41,6 @@ function User() {
 		{ field: "vehicle", headerName: "Vehicle", width: 130 },
 		{ field: "plateNumber", headerName: "Plate number", width: 130 },
 	];
-
 	return (
 		<>
 			<DataGridCustom
