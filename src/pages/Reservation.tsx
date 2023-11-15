@@ -16,6 +16,7 @@ function Reservation() {
 			title="Réservation"
 			subtitle="Table des réservations"
 			data={null}
+			path="/addreservation"
 		/>
 	);
 }

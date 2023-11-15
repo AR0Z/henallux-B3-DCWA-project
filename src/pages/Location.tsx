@@ -16,6 +16,7 @@ function Location() {
 			title="Locations"
 			subtitle="Table des arrets"
 			data={null}
+			path="/addlocation"
 		/>
 	);
 }

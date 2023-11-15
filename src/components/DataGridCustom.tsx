@@ -9,16 +9,17 @@ function DataGridCustom(props: {
 	subtitle: string;
 	data: any;
 	cols: GridColDef[];
+	path: string;
 }) {
 	const theme = useTheme();
-	const { title, subtitle, data, cols } = props;
+	const { title, subtitle, data, cols, path } = props;
 	return (
 		<>
 			<Box m="1.5rem 2.5rem">
 				<Box>
 					<Header title={title} subtitle={subtitle} />
 					<Button variant="contained">
-						<Link to="/test">Ajouter un élément</Link>
+						<Link to={path}>Ajouter un élément</Link>
 					</Button>
 				</Box>
 				<Box

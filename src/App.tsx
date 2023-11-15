@@ -5,7 +5,7 @@ import { createTheme } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Layout from "./pages/Layout.js";
+import Layout from "./pages/Layouts/Layout.js";
 import Dashboard from "./pages/Dashboard";
 import Location from "./pages/Location";
 import Payment from "./pages/Payment";
@@ -14,7 +14,13 @@ import User from "./pages/User";
 import Vehicule from "./pages/Vehicule";
 import Travel from "./pages/Travel";
 import Login from "./pages/Login";
-import FormUser from "./pages/FormUser.js";
+import LayoutForm from "./pages/Layouts/LayoutForm.js";
+import FormLocation from "./pages/forms/FormLocation";
+import FormReservation from "./pages/forms/FormReservation";
+import FormUser from "./pages/forms/FormUser";
+import FormVehicule from "./pages/forms/FormVehicule";
+import FormPayment from "./pages/forms/FormPayment";
+import FormTravel from "./pages/forms/FormTravel";
 
 function App() {
 	const mode = useSelector((state: any) => state.theme.mode);
@@ -35,9 +41,16 @@ function App() {
 							<Route path="/reservations" element={<Reservation />} />
 							<Route path="/users" element={<User />} />
 							<Route path="/vehicules" element={<Vehicule />} />
-							<Route path="/rides" element={<Travel />} />
+							<Route path="/travels" element={<Travel />} />
 						</Route>
-						<Route path="/test" element={<FormUser />} />
+						<Route element={<LayoutForm />}>
+							<Route path="/adduser" element={<FormUser />} />
+							<Route path="/addlocation" element={<FormLocation />} />
+							<Route path="/addtravel" element={<FormTravel />} />
+							<Route path="/addreservation" element={<FormReservation />} />
+							<Route path="/addvehicle" element={<FormVehicule />} />
+							<Route path="/addpayment" element={<FormPayment />} />
+						</Route>
 					</Routes>
 				</ThemeProvider>
 			</BrowserRouter>

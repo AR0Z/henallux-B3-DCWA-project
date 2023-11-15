@@ -10,7 +10,7 @@ import {
 	randomBoolean,
 	randomInt,
 } from "@mui/x-data-grid-generator";
-import { useLocation } from "react-router-dom";
+
 let data: UserModel[] = [];
 for (let i = 0; i < 100; i++) {
 	data.push({
@@ -48,6 +48,7 @@ function User() {
 				data={data}
 				title="User"
 				subtitle="Liste des utilisateurs"
+				path="/adduser"
 			/>
 		</>
 	);

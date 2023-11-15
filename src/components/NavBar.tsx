@@ -1,15 +1,8 @@
-import React, { useState } from "react";
-import {
-	LightModeOutlined,
-	DarkModeOutlined,
-	Menu as MenuIcon,
-	SettingsOutlined,
-} from "@mui/icons-material";
+import { Menu as MenuIcon, SettingsOutlined } from "@mui/icons-material";
 import FlexBetween from "./FlexBetween";
-import { useDispatch } from "react-redux";
-import { setMode } from "../state";
-import { useTheme } from "@mui/material/";
+
 import { AppBar, IconButton, Toolbar } from "@mui/material";
+import SwitchThemeButton from "./SwitchThemeButton";
 
 export default function NavBar({
 	isSidebarOpen,
@@ -20,8 +13,6 @@ export default function NavBar({
 }) {
 	isSidebarOpen;
 	setIsSidebarOpen;
-	const dispatch = useDispatch();
-	const theme = useTheme();
 
 	return (
 		<AppBar
@@ -40,13 +31,7 @@ export default function NavBar({
 
 				{/* Droite */}
 				<FlexBetween gap="1.5rem">
-					<IconButton onClick={() => dispatch(setMode())}>
-						{theme.palette.mode === "light" ? (
-							<LightModeOutlined sx={{ fontSize: "25px" }} />
-						) : (
-							<DarkModeOutlined sx={{ fontSize: "25px" }} />
-						)}
-					</IconButton>
+					<SwitchThemeButton />
 					<IconButton>
 						<SettingsOutlined sx={{ fontSize: "25px" }} />
 					</IconButton>

@@ -65,9 +65,9 @@ const navItems: NavItemProps[] = [
 		path: "/reservations",
 	},
 	{
-		text: "Maps",
+		text: "Travels",
 		icon: <MapOutlined />,
-		path: "/rides",
+		path: "/travels",
 	},
 ];
 

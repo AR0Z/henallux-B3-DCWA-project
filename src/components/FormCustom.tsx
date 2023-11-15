@@ -1,5 +1,6 @@
 import {
 	Autocomplete,
+	Box,
 	Button,
 	FormControl,
 	FormLabel,
@@ -9,7 +10,8 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useState } from "react";
 import { LineOfForm } from "../model/FormTypes";
-import { Navigate } from "react-router-dom";
+import FlexBetween from "./FlexBetween";
+import { Link, Navigate } from "react-router-dom";
 
 function FormCustom(props: { lines: LineOfForm[]; path: string }) {
 	const [data, setData] = useState<any>({});
@@ -110,9 +112,16 @@ function FormCustom(props: { lines: LineOfForm[]; path: string }) {
 							);
 					}
 				})}
-				<Button type="submit" variant="contained" color="primary">
-					Submit
-				</Button>
+				<FlexBetween width={"80%"}>
+					{/* cancel */}
+					<Button type="button" variant="outlined" color="primary">
+						<Link to={props.path}>Cancel</Link>
+					</Button>
+
+					<Button type="submit" variant="contained" color="primary">
+						Submit
+					</Button>
+				</FlexBetween>
 			</form>
 		</>
 	);

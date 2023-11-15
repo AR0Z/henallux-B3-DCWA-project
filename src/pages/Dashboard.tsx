@@ -1,10 +1,7 @@
 import { Box } from "@mui/material";
 import FlexBetween from "../components/FlexBetween";
-import React from "react";
 import Header from "../components/Header";
-import { PieChart } from "@mui/x-charts";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { User as UserModel } from "model/User";
 import {
 	randomBoolean,
 	randomEmail,
@@ -14,8 +11,7 @@ import {
 	randomUserName,
 } from "@mui/x-data-grid-generator";
 import { useTheme } from "@emotion/react";
-import { BorderAllRounded } from "@mui/icons-material";
-import ItemModal from "../components/ItemModal";
+import InfoCard from "../components/InfoCard";
 
 let data: any[] = [];
 for (let i = 0; i < 10; i++) {
@@ -49,27 +45,6 @@ const cols: GridColDef[] = [
 	},
 ];
 
-const piecharData = [
-	{
-		id: 0,
-		value: 8,
-		label: "% routes en cours",
-		color: "orange",
-	},
-	{
-		id: 1,
-		value: 90,
-		label: "% routes validé",
-		color: "green",
-	},
-	{
-		id: 2,
-		value: 2,
-		label: "% routes annulés",
-		color: "red",
-	},
-];
-
 function Dashboard() {
 	const theme = useTheme();
 
@@ -81,27 +56,23 @@ function Dashboard() {
 			/>
 
 			<FlexBetween gap="10px">
-				<Box width="50%" mt="40px">
-					<PieChart
-						loading={!data}
-						series={[
-							{
-								data: piecharData,
-								arcLabel: (item) => item.value + "%",
-								startAngle: -90,
-							},
-						]}
-						slotProps={{
-							legend: {
-								position: { vertical: "top", horizontal: "middle" },
-								direction: "column",
-								padding: 0,
-							},
-						}}
-						margin={{ top: 100, right: 100, bottom: 100, left: 100 }}
-						height={600}
+				<div
+					style={{
+						display: "flex",
+						alignItems: "start",
+						height: "72vh",
+						width: "100%",
+						justifyContent: "space-between",
+						paddingTop: "100px",
+					}}>
+					<InfoCard icon={"valid"} data={2000} label="Kilomètres éffectués" />
+					<InfoCard
+						icon={"rising"}
+						data={1000}
+						label="Covoiturages effectués"
 					/>
-				</Box>
+					<InfoCard icon={"decreasing"} data={2} label="Covoiturages annulés" />
+				</div>
 				<Box
 					mt="40px"
 					height="72vh"
@@ -110,21 +81,21 @@ function Dashboard() {
 							border: "none",
 						},
 						"& .MuiDataGrid-columnHeaders": {
-							backgroundColor: theme.palette.background.default,
-							color: theme.palette.secondary[100],
 							borderBottom: "none",
 						},
 						"& .MuiDataGrid-virtualScroller": {
 							backgroundColor: theme.palette.primary.light,
 						},
 						"& .MuiDataGrid-footerContainer": {
+							// @ts-ignore
 							backgroundColor: theme.palette.background.default,
 							// @ts-ignore
 							color: theme.palette.secondary[100],
 							borderTop: "none",
 						},
 					}}
-					p={"20px"}>
+					p={"20px"}
+					width={"100%"}>
 					<DataGrid
 						loading={false}
 						rows={data || []}

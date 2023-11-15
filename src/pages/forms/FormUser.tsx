@@ -1,6 +1,5 @@
-import { Box } from "@mui/material";
-import FormCustom from "../components/FormCustom";
-import { LineOfForm } from "../model/FormTypes";
+import FormCustom from "../../components/FormCustom";
+import { LineOfForm } from "../../model/FormTypes";
 
 function FormUser() {
 	const path = "/users";
@@ -37,15 +36,7 @@ function FormUser() {
 		},
 	];
 
-	return (
-		<Box
-			height="100%"
-			display="flex"
-			alignItems="center"
-			justifyContent="center">
-			<FormCustom lines={Lines} path={path}></FormCustom>
-		</Box>
-	);
+	return <FormCustom lines={Lines} path={path}></FormCustom>;
 }
 
 export default FormUser;

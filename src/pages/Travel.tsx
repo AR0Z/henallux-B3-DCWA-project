@@ -18,6 +18,7 @@ function Travel() {
 			title="Travel"
 			subtitle="Table des voyages"
 			data={null}
+			path="/addtravel"
 		/>
 	);
 }

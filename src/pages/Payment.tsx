@@ -16,6 +16,7 @@ function Payment() {
 			title="Payment"
 			subtitle="Table des payments"
 			data={null}
+			path="/addpayment"
 		/>
 	);
 }
