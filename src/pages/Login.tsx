@@ -2,17 +2,41 @@ import * as React from "react";
 import { Avatar, Button, TextField, Box, Typography } from "@mui/material/";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import SwitchThemeButton from "../components/SwitchThemeButton";
+import { useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { useLoginMutation } from "../state/authApiSlice";
+import { setCredentials } from "../state/authSlice";
 
 export default function Login() {
-	function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+	const navigate = useNavigate();
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [login, { isLoading }] = useLoginMutation();
+	const dispatch = useDispatch();
+	const [errMsg, setErrMsg] = useState("");
+	const errRef = useRef<HTMLDivElement>(null);
+
+	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		const data = new FormData(e.currentTarget);
-		console.log({
-			email: data.get("username"),
-			password: data.get("password"),
-		});
-		if (data.get("username") === "admin" && data.get("password") === "admin") {
-			window.location.href = "/dashboard";
+		try {
+			const userData = await login({ username, password }).unwrap();
+			dispatch(setCredentials({ ...userData, username }));
+			setUsername("");
+			setPassword("");
+			navigate("/welcome");
+		} catch (err: any) {
+			if (!err?.originalStatus) {
+				// isLoading: true until timeout occurs
+				setErrMsg("No Server Response");
+			} else if (err.originalStatus === 400) {
+				setErrMsg("Missing Username or Password");
+			} else if (err.originalStatus === 401) {
+				setErrMsg("Unauthorized");
+			} else {
+				setErrMsg("Login Failed");
+			}
+			errRef.current?.focus();
 		}
 	}
 
@@ -49,6 +73,8 @@ export default function Login() {
 						label="Username"
 						name="username"
 						autoFocus
+						value={username}
+						onChange={(e) => setUsername(e.target.value)}
 					/>
 					<TextField
 						margin="normal"
@@ -58,6 +84,8 @@ export default function Login() {
 						label="Password"
 						type="password"
 						id="password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
 					/>
 
 					<Button

@@ -10,4 +10,5 @@ export type User = {
 	description: string;
 	vehicle?: string;
 	plateNumber?: string;
+	isNew?: boolean;
 };

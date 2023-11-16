@@ -21,9 +21,11 @@ import FormUser from "./pages/forms/FormUser";
 import FormVehicule from "./pages/forms/FormVehicule";
 import FormPayment from "./pages/forms/FormPayment";
 import FormTravel from "./pages/forms/FormTravel";
+import RequireAuth from "./pages/Layouts/RequireAuth.js";
 
 function App() {
 	const mode = useSelector((state: any) => state.theme.mode);
+
 	const theme: any = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 
 	return (
@@ -33,23 +35,28 @@ function App() {
 					<CssBaseline />
 					<Routes>
 						<Route path="/login" element={<Login />} />
-						<Route element={<Layout />}>
-							<Route path="/" element={<Navigate to="/dashboard" replace />} />
-							<Route path="/dashboard" element={<Dashboard />} />
-							<Route path="/locations" element={<Location />} />
-							<Route path="/payments" element={<Payment />} />
-							<Route path="/reservations" element={<Reservation />} />
-							<Route path="/users" element={<User />} />
-							<Route path="/vehicules" element={<Vehicule />} />
-							<Route path="/travels" element={<Travel />} />
-						</Route>
-						<Route element={<LayoutForm />}>
-							<Route path="/adduser" element={<FormUser />} />
-							<Route path="/addlocation" element={<FormLocation />} />
-							<Route path="/addtravel" element={<FormTravel />} />
-							<Route path="/addreservation" element={<FormReservation />} />
-							<Route path="/addvehicle" element={<FormVehicule />} />
-							<Route path="/addpayment" element={<FormPayment />} />
+						<Route element={<RequireAuth />}>
+							<Route element={<Layout />}>
+								<Route
+									path="/"
+									element={<Navigate to="/dashboard" replace />}
+								/>
+								<Route path="/dashboard" element={<Dashboard />} />
+								<Route path="/locations" element={<Location />} />
+								<Route path="/payments" element={<Payment />} />
+								<Route path="/reservations" element={<Reservation />} />
+								<Route path="/users" element={<User />} />
+								<Route path="/vehicules" element={<Vehicule />} />
+								<Route path="/travels" element={<Travel />} />
+							</Route>
+							<Route element={<LayoutForm />}>
+								<Route path="/adduser" element={<FormUser />} />
+								<Route path="/addlocation" element={<FormLocation />} />
+								<Route path="/addtravel" element={<FormTravel />} />
+								<Route path="/addreservation" element={<FormReservation />} />
+								<Route path="/addvehicle" element={<FormVehicule />} />
+								<Route path="/addpayment" element={<FormPayment />} />
+							</Route>
 						</Route>
 					</Routes>
 				</ThemeProvider>

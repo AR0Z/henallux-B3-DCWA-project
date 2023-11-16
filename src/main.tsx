@@ -2,15 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { configureStore } from "@reduxjs/toolkit";
-import themeReducer from "./state/index.ts";
-import { Provider } from "react-redux";
+import store from "./state/store";
 
-const store = configureStore({
-	reducer: {
-		theme: themeReducer,
-	},
-});
+import { Provider } from "react-redux";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>

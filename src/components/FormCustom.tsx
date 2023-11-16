@@ -1,6 +1,5 @@
 import {
 	Autocomplete,
-	Box,
 	Button,
 	FormControl,
 	FormLabel,
@@ -11,7 +10,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useState } from "react";
 import { LineOfForm } from "../model/FormTypes";
 import FlexBetween from "./FlexBetween";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function FormCustom(props: { lines: LineOfForm[]; path: string }) {
 	const [data, setData] = useState<any>({});

@@ -1,8 +1,21 @@
 import { Box, Button, useTheme } from "@mui/material";
-import { DataGrid, GridColDef, GridToolbarQuickFilter } from "@mui/x-data-grid";
+import {
+	DataGrid,
+	GridActionsCellItem,
+	GridColDef,
+	GridEventListener,
+	GridRowEditStopReasons,
+	GridRowModel,
+	GridRowModes,
+	GridRowModesModel,
+	GridToolbarQuickFilter,
+} from "@mui/x-data-grid";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
+import { GridRowId } from "@mui/x-data-grid";
+import { useState } from "react";
+import { Cancel, Delete, EditOutlined, Save } from "@mui/icons-material";
 
 function DataGridCustom(props: {
 	title: string;
@@ -13,6 +26,102 @@ function DataGridCustom(props: {
 }) {
 	const theme = useTheme();
 	const { title, subtitle, data, cols, path } = props;
+	const [rows, setRows] = useState<any>(data);
+	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+
+	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
+		params,
+		event
+	) => {
+		if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+			event.defaultMuiPrevented = true;
+		}
+	};
+
+	const handleEditClick = (id: GridRowId) => () => {
+		setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+	};
+
+	const handleSaveClick = (id: GridRowId) => () => {
+		setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+	};
+
+	const handleDeleteClick = (id: GridRowId) => () => {
+		setRows(rows.filter((row: any) => row.id !== id));
+	};
+
+	const handleCancelClick = (id: GridRowId) => () => {
+		setRowModesModel({
+			...rowModesModel,
+			[id]: { mode: GridRowModes.View, ignoreModifications: true },
+		});
+
+		const editedRow = rows.find((row: any) => row.id === id);
+		if (editedRow!.isNew) {
+			setRows(rows.filter((row: any) => row.id !== id));
+		}
+	};
+
+	const processRowUpdate = (newRow: GridRowModel) => {
+		const updatedRow = { ...newRow, isNew: false };
+		setRows(rows.map((row: any) => (row.id === newRow.id ? updatedRow : row)));
+		return updatedRow;
+	};
+
+	const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
+		setRowModesModel(newRowModesModel);
+	};
+
+	const columns: any = [
+		...cols,
+		{
+			field: "actions",
+			type: "actions",
+			headerName: "Actions",
+			width: 100,
+			cellClassName: "actions",
+			getActions: ({ id }: any) => {
+				const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+				if (isInEditMode) {
+					return [
+						<GridActionsCellItem
+							icon={<Save sx={{ color: theme.palette.grey[100] }} />}
+							label="Save"
+							sx={{
+								color: "primary.main",
+							}}
+							onClick={handleSaveClick(id)}
+						/>,
+						<GridActionsCellItem
+							icon={<Cancel />}
+							label="Cancel"
+							className="textPrimary"
+							onClick={handleCancelClick(id)}
+							color="inherit"
+						/>,
+					];
+				}
+
+				return [
+					<GridActionsCellItem
+						icon={<EditOutlined />}
+						label="Edit"
+						className="textPrimary"
+						onClick={handleEditClick(id)}
+						color="inherit"
+					/>,
+					<GridActionsCellItem
+						icon={<Delete />}
+						label="Delete"
+						onClick={handleDeleteClick(id)}
+						color="inherit"
+					/>,
+				];
+			},
+		},
+	];
+
 	return (
 		<>
 			<Box m="1.5rem 2.5rem">
@@ -22,6 +131,7 @@ function DataGridCustom(props: {
 						<Link to={path}>Ajouter un élément</Link>
 					</Button>
 				</Box>
+
 				<Box
 					mt="40px"
 					height="75vh"
@@ -47,15 +157,16 @@ function DataGridCustom(props: {
 					}}>
 					<DataGrid
 						loading={!data}
-						rows={data || []}
-						columns={cols}
+						rows={rows || []}
+						columns={columns}
 						hideFooter
 						slotProps={{
-							toolbar: {
-								showQuickFilter: true,
-							},
+							toolbar: { setRows, setRowModesModel },
 						}}
 						slots={{ toolbar: GridToolbarQuickFilter }}
+						onRowModesModelChange={handleRowModesModelChange}
+						onRowEditStop={handleRowEditStop}
+						processRowUpdate={processRowUpdate}
 					/>
 				</Box>
 			</Box>

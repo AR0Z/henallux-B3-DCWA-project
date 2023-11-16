@@ -16,7 +16,7 @@ function Vehicule() {
 			title="Véhicules"
 			subtitle="Table des véhicules"
 			data={null}
-			path="/addvehicule"
+			path="/addvehicle"
 		/>
 	);
 }
