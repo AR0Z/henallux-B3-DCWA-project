@@ -55,9 +55,11 @@ function reverseTokens(tokensDark) {
 	});
 	return reversedTokens;
 }
+
 export const tokensLight = reverseTokens(tokensDark);
 
-// mui theme settings
+const font = ["Inter", "sans-serif"];
+
 export const themeSettings = (mode) => {
 	return {
 		palette: {
@@ -106,30 +108,30 @@ export const themeSettings = (mode) => {
 				  }),
 		},
 		typography: {
-			fontFamily: ["Inter", "sans-serif"].join(","),
+			fontFamily: font.join(","),
 			fontSize: 12,
 			h1: {
-				fontFamily: ["Inter", "sans-serif"].join(","),
+				fontFamily: font.join(","),
 				fontSize: 40,
 			},
 			h2: {
-				fontFamily: ["Inter", "sans-serif"].join(","),
+				fontFamily: font.join(","),
 				fontSize: 32,
 			},
 			h3: {
-				fontFamily: ["Inter", "sans-serif"].join(","),
+				fontFamily: font.join(","),
 				fontSize: 24,
 			},
 			h4: {
-				fontFamily: ["Inter", "sans-serif"].join(","),
+				fontFamily: font.join(","),
 				fontSize: 20,
 			},
 			h5: {
-				fontFamily: ["Inter", "sans-serif"].join(","),
+				fontFamily: font.join(","),
 				fontSize: 16,
 			},
 			h6: {
-				fontFamily: ["Inter", "sans-serif"].join(","),
+				fontFamily: font.join(","),
 				fontSize: 14,
 			},
 		},

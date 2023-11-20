@@ -27,11 +27,17 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
 
-interface NavItemProps {
+type NavItemProps = {
 	text: string;
 	icon: React.ReactNode;
 	path: string;
-}
+};
+
+type Props = {
+	isSidebarOpen: boolean;
+	setIsSidebarOpen: Function;
+	drawerWidth: string;
+};
 
 const navItems: NavItemProps[] = [
 	{
@@ -71,15 +77,7 @@ const navItems: NavItemProps[] = [
 	},
 ];
 
-function SideBar({
-	isSidebarOpen,
-	setIsSidebarOpen,
-	drawerWidth,
-}: {
-	isSidebarOpen: boolean;
-	setIsSidebarOpen: Function;
-	drawerWidth: string;
-}) {
+function SideBar({ isSidebarOpen, setIsSidebarOpen, drawerWidth }: Props) {
 	const { pathname } = useLocation();
 	const [active, setActive] = useState<string>("");
 	const navigate = useNavigate();

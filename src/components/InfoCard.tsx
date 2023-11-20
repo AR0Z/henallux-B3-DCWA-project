@@ -9,6 +9,12 @@ import Card from "@mui/material/Card";
 
 type Icons = "valid" | "rising" | "decreasing" | "flat";
 
+type Props = {
+	icon: Icons;
+	data?: number;
+	label: string;
+};
+
 function getIconFromName(name: Icons) {
 	switch (name) {
 		case "valid":
@@ -22,7 +28,7 @@ function getIconFromName(name: Icons) {
 	}
 }
 
-function InfoCard(props: { icon: Icons; data?: number; label: string }) {
+function InfoCard({ icon, data, label }: Props) {
 	return (
 		<Card sx={{ width: "12rem", height: "12rem" }}>
 			<CardContent
@@ -35,12 +41,12 @@ function InfoCard(props: { icon: Icons; data?: number; label: string }) {
 					height: "100%",
 				}}>
 				{/* Top icon */}
-				<Box>{getIconFromName(props.icon)}</Box>
+				<Box>{getIconFromName(icon)}</Box>
 				{/* data */}
-				<Box>{props.data ? <h1>{props.data}</h1> : <CircularProgress />}</Box>
+				<Box>{data ? <h1>{data}</h1> : <CircularProgress />}</Box>
 				{/* label */}
 				<Box>
-					<h4>{props.label}</h4>
+					<h4>{label}</h4>
 				</Box>
 			</CardContent>
 		</Card>

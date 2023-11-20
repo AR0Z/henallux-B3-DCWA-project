@@ -17,15 +17,16 @@ import { GridRowId } from "@mui/x-data-grid";
 import { useState } from "react";
 import { Cancel, Delete, EditOutlined, Save } from "@mui/icons-material";
 
-function DataGridCustom(props: {
+type Props = {
 	title: string;
 	subtitle: string;
 	data: any;
 	cols: GridColDef[];
 	path: string;
-}) {
+};
+
+function DataGridCustom({ title, subtitle, data, cols, path }: Props) {
 	const theme = useTheme();
-	const { title, subtitle, data, cols, path } = props;
 	const [rows, setRows] = useState<any>(data);
 	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
@@ -160,13 +161,15 @@ function DataGridCustom(props: {
 						rows={rows || []}
 						columns={columns}
 						hideFooter
+						slots={{ toolbar: GridToolbarQuickFilter }}
 						slotProps={{
 							toolbar: { setRows, setRowModesModel },
 						}}
-						slots={{ toolbar: GridToolbarQuickFilter }}
 						onRowModesModelChange={handleRowModesModelChange}
 						onRowEditStop={handleRowEditStop}
 						processRowUpdate={processRowUpdate}
+						editMode="row"
+						rowModesModel={rowModesModel}
 					/>
 				</Box>
 			</Box>

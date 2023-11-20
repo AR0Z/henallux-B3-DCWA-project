@@ -1,7 +1,11 @@
 import { Typography, Box, useTheme } from "@mui/material";
-import React from "react";
 
-const Header = ({ title, subtitle }) => {
+type Props = {
+	title: string;
+	subtitle: string;
+};
+
+const Header = ({ title, subtitle }: Props) => {
 	const theme = useTheme();
 	return (
 		<Box>

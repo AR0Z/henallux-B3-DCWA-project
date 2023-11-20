@@ -4,16 +4,12 @@ import FlexBetween from "./FlexBetween";
 import { AppBar, IconButton, Toolbar } from "@mui/material";
 import SwitchThemeButton from "./SwitchThemeButton";
 
-export default function NavBar({
-	isSidebarOpen,
-	setIsSidebarOpen,
-}: {
+type Props = {
 	isSidebarOpen: boolean;
 	setIsSidebarOpen: Function;
-}) {
-	isSidebarOpen;
-	setIsSidebarOpen;
+};
 
+export default function NavBar({ isSidebarOpen, setIsSidebarOpen }: Props) {
 	return (
 		<AppBar
 			sx={{

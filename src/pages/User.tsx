@@ -30,16 +30,34 @@ for (let i = 0; i < 100; i++) {
 
 function User() {
 	const columns: GridColDef[] = [
-		{ field: "id", headerName: "ID" },
+		{ field: "id", headerName: "ID", minWidth: 200, type: "number" },
 		{
 			field: "firstName",
 			headerName: "First name",
-			width: 130,
+			minWidth: 140,
 			type: "string",
 		},
-		{ field: "lastName", headerName: "Last name", width: 130, type: "string" },
-		{ field: "email", headerName: "Email", width: 130, type: "string" },
-		{ field: "phoneNumber", headerName: "Phone", width: 130, type: "string" },
+		{
+			field: "lastName",
+			headerName: "Last name",
+			width: 130,
+			type: "string",
+			editable: true,
+		},
+		{
+			field: "email",
+			headerName: "Email",
+			width: 130,
+			type: "string",
+			editable: true,
+		},
+		{
+			field: "phoneNumber",
+			headerName: "Phone",
+			width: 130,
+			type: "string",
+			editable: true,
+		},
 		{
 			field: "isDriver",
 			headerName: "Is driver",
@@ -47,19 +65,33 @@ function User() {
 			type: "boolean",
 			editable: true,
 		},
-		{ field: "nbStars", headerName: "Nb stars", width: 130, type: "number" },
+		{
+			field: "nbStars",
+			headerName: "Nb stars",
+			width: 130,
+			type: "number",
+			editable: true,
+		},
 		{
 			field: "description",
 			headerName: "Description",
 			width: 130,
 			type: "string",
+			editable: true,
 		},
-		{ field: "vehicle", headerName: "Vehicle", width: 130, type: "string" },
+		{
+			field: "vehicle",
+			headerName: "Vehicle",
+			width: 130,
+			type: "string",
+			editable: true,
+		},
 		{
 			field: "plateNumber",
 			headerName: "Plate number",
 			width: 130,
 			type: "string",
+			editable: true,
 		},
 	];
 	return (

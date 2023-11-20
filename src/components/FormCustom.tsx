@@ -1,6 +1,7 @@
 import {
 	Autocomplete,
 	Button,
+	Checkbox,
 	FormControl,
 	FormLabel,
 	TextField,
@@ -8,20 +9,115 @@ import {
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useState } from "react";
-import { LineOfForm } from "../model/FormTypes";
+import { LineOfForm, ComboBox } from "../model/FormTypes";
 import FlexBetween from "./FlexBetween";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function FormCustom(props: { lines: LineOfForm[]; path: string }) {
+type Props = {
+	lines: LineOfForm[];
+	path: string;
+};
+
+function FormCustom({ lines, path }: Props) {
 	const [data, setData] = useState<any>({});
+
+	const navigate = useNavigate();
 
 	function handleSubmit(event: any) {
 		event.preventDefault();
 		if (window.confirm("Êtes-vous sûr de vouloir envoyer ce formulaire ?")) {
-			window.location.href = props.path;
+			navigate(path);
+			// TODO: send le form à l'api
 			console.log(data);
 		} else {
 			console.log("Annulation de l'envoi du formulaire");
+		}
+	}
+
+	function getDate(line: LineOfForm) {
+		return (
+			<>
+				<FormControl fullWidth>
+					<LocalizationProvider dateAdapter={AdapterDayjs}>
+						<DatePicker
+							label={line.label}
+							onChange={(date) => {
+								console.log(line.id, date);
+								setData({ ...data, [line.id]: date });
+							}}
+							slotProps={{
+								textField: {
+									required: true,
+								},
+							}}
+						/>
+					</LocalizationProvider>
+				</FormControl>
+			</>
+		);
+	}
+	function getCheckBox(line: LineOfForm) {
+		return (
+			<FormControl fullWidth>
+				<FormLabel htmlFor={line.id}>{line.label}</FormLabel>
+				<TextField
+					id={line.id}
+					variant="outlined"
+					color="primary"
+					type="checkbox"
+					onChange={(event) => {
+						setData({ ...data, [line.id]: event.target.value });
+					}}
+				/>
+			</FormControl>
+		);
+	}
+
+	function getComboBox(line: LineOfForm) {
+		return (
+			<FormControl fullWidth>
+				<Autocomplete
+					id={line.id}
+					color="primary"
+					options={line.type.options}
+					renderInput={(params) => <TextField {...params} label={line.id} />}
+					onChange={(value) => {
+						setData({ ...data, [line.id]: value });
+					}}
+				/>
+			</FormControl>
+		);
+	}
+
+	function getFormControl(line: LineOfForm) {
+		switch (line.type) {
+			case "text":
+			case "number":
+			case "password":
+			case "email":
+			case "tel":
+				return (
+					<FormControl fullWidth>
+						<TextField
+							id={line.id}
+							label={line.label}
+							variant="outlined"
+							color="primary"
+							type={line.type}
+							onChange={(event) => {
+								setData({ ...data, [line.id]: event.target.value });
+							}}
+							required={line.required}
+						/>
+					</FormControl>
+				);
+
+			case "date":
+				return getDate(line);
+			case "checkbox":
+				return getCheckBox(line);
+			default: // comboBox
+				return getComboBox(line);
 		}
 	}
 
@@ -36,85 +132,11 @@ function FormCustom(props: { lines: LineOfForm[]; path: string }) {
 					justifyContent: "center",
 					gap: "1rem",
 				}}>
-				{props.lines.map((line, index) => {
-					switch (line.type) {
-						case "text":
-						case "number":
-						case "password":
-						case "email":
-						case "tel":
-							return (
-								<FormControl key={index} fullWidth>
-									<TextField
-										id={line.id}
-										label={line.label}
-										variant="outlined"
-										color="primary"
-										type={line.type}
-										onChange={(event) => {
-											setData({ ...data, [line.id]: event.target.value });
-										}}
-										required={line.required}
-									/>
-								</FormControl>
-							);
-
-						case "date":
-							return (
-								<FormControl key={index} fullWidth>
-									<LocalizationProvider dateAdapter={AdapterDayjs}>
-										<DatePicker
-											label={line.label}
-											onChange={(date) => {
-												console.log(line.id, date);
-												setData({ ...data, [line.id]: date });
-											}}
-											slotProps={{
-												textField: {
-													required: true,
-												},
-											}}
-										/>
-									</LocalizationProvider>
-								</FormControl>
-							);
-						case "checkbox":
-							return (
-								<FormControl key={index} fullWidth>
-									<FormLabel htmlFor={line.id}>{line.label}</FormLabel>
-									<TextField
-										id={line.id}
-										variant="outlined"
-										color="primary"
-										type={line.type}
-										onChange={(event) => {
-											setData({ ...data, [line.id]: event.target.value });
-										}}
-									/>
-								</FormControl>
-							);
-						default: // comboBox
-							return (
-								<FormControl key={index} fullWidth>
-									<Autocomplete
-										id={line.id}
-										color="primary"
-										options={line.type.options}
-										renderInput={(params) => (
-											<TextField {...params} label={line.id} />
-										)}
-										onChange={(value) => {
-											setData({ ...data, [line.id]: value });
-										}}
-									/>
-								</FormControl>
-							);
-					}
-				})}
+				{lines.map((line) => getFormControl(line))}
 				<FlexBetween width={"80%"}>
 					{/* cancel */}
 					<Button type="button" variant="outlined" color="primary">
-						<Link to={props.path}>Cancel</Link>
+						<Link to={path}>Cancel</Link>
 					</Button>
 
 					<Button type="submit" variant="contained" color="primary">
