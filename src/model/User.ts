@@ -1,12 +1,12 @@
 export type User = {
 	id: string;
-	firstName: string;
-	lastName: string;
+	firstname: string;
+	lastname: string;
 	email: string;
-	isDriver: boolean;
+	is_driver: boolean;
+	is_admin: boolean;
 	nbStars: number;
-	password: string;
-	phoneNumber: string;
+	phone: string;
 	description: string;
 	vehicle?: string;
 	plateNumber?: string;

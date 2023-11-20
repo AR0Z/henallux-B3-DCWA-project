@@ -1,5 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
 import DataGridCustom from "../components/DataGridCustom";
+import { useState } from "react";
 
 function Location() {
 	const columns: GridColDef[] = [
@@ -10,13 +11,16 @@ function Location() {
 		{ field: "nextStop", headerName: "prochain arret" },
 	];
 
+	const [data, setData] = useState<any[]>([]);
+
 	return (
 		<DataGridCustom
 			cols={columns}
 			title="Locations"
 			subtitle="Table des arrets"
-			data={null}
+			data={data}
 			path="/addlocation"
+			setData={setData}
 		/>
 	);
 }

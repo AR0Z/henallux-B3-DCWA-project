@@ -1,19 +1,14 @@
-export type ComboBox = {
-	label: string;
+export type ComboBoxAttributes = {
+	type: "combobox";
 	options: string[];
+};
+
+export type DefaultAttirubtes = {
+	type: "text" | "number" | "password" | "email" | "tel" | "checkbox" | "date";
 };
 
 export type LineOfForm = {
 	label: string;
-	type:
-		| "text"
-		| "number"
-		| "password"
-		| "email"
-		| "tel"
-		| "checkbox"
-		| "date"
-		| ComboBox;
 	id: string;
 	required: boolean;
-};
+} & (ComboBoxAttributes | DefaultAttirubtes);

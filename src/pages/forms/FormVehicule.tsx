@@ -30,7 +30,7 @@ function FormVehicule() {
 		},
 	];
 
-	return <FormCustom lines={Lines} path={path}></FormCustom>;
+	return <FormCustom lines={Lines} path={path} />;
 }
 
 export default FormVehicule;

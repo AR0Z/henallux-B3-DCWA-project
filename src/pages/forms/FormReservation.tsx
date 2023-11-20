@@ -34,10 +34,8 @@ function FormReservation() {
 		{
 			label: "Status",
 			id: "status",
-			type: {
-				label: "Status",
-				options: ["PENDING", "ACCEPTED", "REFUSED"],
-			},
+			type: "combobox",
+			options: ["PENDING", "ACCEPTED", "REFUSED"],
 			required: true,
 		},
 	];

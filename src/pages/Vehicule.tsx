@@ -1,5 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
 import DataGridCustom from "../components/DataGridCustom";
+import { useState } from "react";
 
 function Vehicule() {
 	const columns: GridColDef[] = [
@@ -10,13 +11,16 @@ function Vehicule() {
 		{ field: "nbPlace", headerName: "nombre de place" },
 	];
 
+	const [data, setData] = useState<any[]>([]);
+
 	return (
 		<DataGridCustom
 			cols={columns}
 			title="Véhicules"
 			subtitle="Table des véhicules"
-			data={null}
+			data={data}
 			path="/addvehicle"
+			setData={setData}
 		/>
 	);
 }

@@ -1,5 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
 import DataGridCustom from "../components/DataGridCustom";
+import { useState } from "react";
 function Travel() {
 	const columns: GridColDef[] = [
 		{ field: "id", headerName: "ID" },
@@ -12,13 +13,17 @@ function Travel() {
 		{ field: "startingTimestamp", headerName: "heure de départ" },
 	];
 
+	const [data, setData] = useState<any[]>([]);
+
+
 	return (
 		<DataGridCustom
 			cols={columns}
 			title="Travel"
 			subtitle="Table des voyages"
-			data={null}
+			data={data}
 			path="/addtravel"
+			setData={setData}
 		/>
 	);
 }

@@ -2,43 +2,30 @@ import { GridColDef } from "@mui/x-data-grid";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import DataGridCustom from "../components/DataGridCustom";
 import { User as UserModel } from "model/User";
-import {
-	randomId,
-	randomUserName,
-	randomEmail,
-	randomPhoneNumber,
-	randomBoolean,
-	randomInt,
-} from "@mui/x-data-grid-generator";
+import { useEffect, useState } from "react";
+import { api } from "../api/api";
 
-let data: UserModel[] = [];
-for (let i = 0; i < 100; i++) {
-	data.push({
-		id: randomId(),
-		firstName: randomUserName(),
-		lastName: randomUserName(),
-		email: randomEmail(),
-		isDriver: randomBoolean(),
-		nbStars: randomInt(0, 5),
-		password: randomUserName(),
-		phoneNumber: randomPhoneNumber(),
-		description: "description",
-		vehicle: "vehicle",
-		plateNumber: undefined,
-	});
-}
+const baseData: UserModel[] = [];
 
 function User() {
+	const [data, setData] = useState<UserModel[]>(baseData);
+	
+	useEffect(() => {
+		api.get("/users").then((res) => {
+			setData(res.data);
+		});
+	}, [data]);
+
 	const columns: GridColDef[] = [
-		{ field: "id", headerName: "ID", minWidth: 200, type: "number" },
+		{ field: "id", headerName: "ID", minWidth: 20, type: "number" },
 		{
-			field: "firstName",
+			field: "firstname",
 			headerName: "First name",
-			minWidth: 140,
+			minWidth: 20,
 			type: "string",
 		},
 		{
-			field: "lastName",
+			field: "lastname",
 			headerName: "Last name",
 			width: 130,
 			type: "string",
@@ -52,21 +39,21 @@ function User() {
 			editable: true,
 		},
 		{
-			field: "phoneNumber",
+			field: "phone",
 			headerName: "Phone",
 			width: 130,
 			type: "string",
 			editable: true,
 		},
 		{
-			field: "isDriver",
+			field: "is_driver",
 			headerName: "Is driver",
-			width: 13,
+			width: 130,
 			type: "boolean",
 			editable: true,
 		},
 		{
-			field: "nbStars",
+			field: "nb_stars",
 			headerName: "Nb stars",
 			width: 130,
 			type: "number",
@@ -80,7 +67,7 @@ function User() {
 			editable: true,
 		},
 		{
-			field: "vehicle",
+			field: "vehicle_id",
 			headerName: "Vehicle",
 			width: 130,
 			type: "string",
@@ -102,6 +89,7 @@ function User() {
 				title="User"
 				subtitle="Liste des utilisateurs"
 				path="/adduser"
+				setData={setData}
 			/>
 		</>
 	);

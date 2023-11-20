@@ -24,19 +24,15 @@ function FormPayment() {
 		},
 		{
 			label: "method",
-			type: {
-				label: "method",
-				options: ["CREDIT_CARD", "PAYPAL"],
-			},
+			type: "combobox",
+			options: ["CREDIT_CARD", "PAYPAL"],
 			id: "method",
 			required: true,
 		},
 		{
 			label: "status",
-			type: {
-				label: "status",
-				options: ["PENDING", "ACCEPTED", "REFUSED"],
-			},
+			type: "combobox",
+			options: ["PENDING", "ACCEPTED", "REFUSED"],
 			id: "status",
 			required: true,
 		},

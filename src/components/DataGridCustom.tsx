@@ -14,7 +14,7 @@ import type {} from "@mui/x-data-grid/themeAugmentation";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
 import { GridRowId } from "@mui/x-data-grid";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { Cancel, Delete, EditOutlined, Save } from "@mui/icons-material";
 
 type Props = {
@@ -23,11 +23,11 @@ type Props = {
 	data: any;
 	cols: GridColDef[];
 	path: string;
+	setData: SetStateAction<any>;
 };
 
-function DataGridCustom({ title, subtitle, data, cols, path }: Props) {
+function DataGridCustom({ title, subtitle, data, cols, path, setData }: Props) {
 	const theme = useTheme();
-	const [rows, setRows] = useState<any>(data);
 	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
@@ -48,7 +48,7 @@ function DataGridCustom({ title, subtitle, data, cols, path }: Props) {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		setRows(rows.filter((row: any) => row.id !== id));
+		setData(data.filter((row: any) => row.id !== id));
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -57,15 +57,15 @@ function DataGridCustom({ title, subtitle, data, cols, path }: Props) {
 			[id]: { mode: GridRowModes.View, ignoreModifications: true },
 		});
 
-		const editedRow = rows.find((row: any) => row.id === id);
+		const editedRow = data.find((row: any) => row.id === id);
 		if (editedRow!.isNew) {
-			setRows(rows.filter((row: any) => row.id !== id));
+			setData(data.filter((row: any) => row.id !== id));
 		}
 	};
 
 	const processRowUpdate = (newRow: GridRowModel) => {
 		const updatedRow = { ...newRow, isNew: false };
-		setRows(rows.map((row: any) => (row.id === newRow.id ? updatedRow : row)));
+		setData(data.map((row: any) => (row.id === newRow.id ? updatedRow : row)));
 		return updatedRow;
 	};
 
@@ -158,13 +158,10 @@ function DataGridCustom({ title, subtitle, data, cols, path }: Props) {
 					}}>
 					<DataGrid
 						loading={!data}
-						rows={rows || []}
+						rows={data || []}
 						columns={columns}
 						hideFooter
 						slots={{ toolbar: GridToolbarQuickFilter }}
-						slotProps={{
-							toolbar: { setRows, setRowModesModel },
-						}}
 						onRowModesModelChange={handleRowModesModelChange}
 						onRowEditStop={handleRowEditStop}
 						processRowUpdate={processRowUpdate}
