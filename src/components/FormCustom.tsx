@@ -11,14 +11,14 @@ import { useState } from "react";
 import { LineOfForm } from "../model/FormTypes";
 import FlexBetween from "./FlexBetween";
 import { Link, useNavigate } from "react-router-dom";
-import { api } from "api/api";
 
 type Props = {
 	lines: LineOfForm[];
 	path: string;
+	newData: Function;
 };
 
-function FormCustom({ lines, path }: Props) {
+function FormCustom({ lines, path, newData }: Props) {
 	const [data, setData] = useState<any>({});
 
 	const navigate = useNavigate();
@@ -27,8 +27,7 @@ function FormCustom({ lines, path }: Props) {
 		event.preventDefault();
 		if (window.confirm("Êtes-vous sûr de vouloir envoyer ce formulaire ?")) {
 			navigate(path);
-			// TODO: send le form à l'api
-			console.log(data);
+			newData(data);
 		} else {
 			console.log("Annulation de l'envoi du formulaire");
 		}

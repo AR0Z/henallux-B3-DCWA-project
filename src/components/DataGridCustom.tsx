@@ -14,21 +14,33 @@ import type {} from "@mui/x-data-grid/themeAugmentation";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
 import { GridRowId } from "@mui/x-data-grid";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useMemo, useState } from "react";
 import { Cancel, Delete, EditOutlined, Save } from "@mui/icons-material";
 
 type Props = {
 	title: string;
 	subtitle: string;
 	data: any;
+	updateData: Function;
 	cols: GridColDef[];
 	path: string;
-	setData: SetStateAction<any>;
 };
 
-function DataGridCustom({ title, subtitle, data, cols, path, setData }: Props) {
+function DataGridCustom({
+	title,
+	subtitle,
+	cols,
+	path,
+	data,
+	updateData,
+}: Props) {
 	const theme = useTheme();
+	const [rows, setRows] = useState<any[]>(data);
 	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+
+	useEffect(() => {
+		setRows(data);
+	}, [data]);
 
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
 		params,
@@ -48,7 +60,7 @@ function DataGridCustom({ title, subtitle, data, cols, path, setData }: Props) {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		setData(data.filter((row: any) => row.id !== id));
+		setRows(rows.filter((row: any) => row.id !== id));
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -56,16 +68,16 @@ function DataGridCustom({ title, subtitle, data, cols, path, setData }: Props) {
 			...rowModesModel,
 			[id]: { mode: GridRowModes.View, ignoreModifications: true },
 		});
-
-		const editedRow = data.find((row: any) => row.id === id);
+		const editedRow = rows.find((row: any) => row.id === id);
 		if (editedRow!.isNew) {
-			setData(data.filter((row: any) => row.id !== id));
+			setRows(rows.filter((row: any) => row.id !== id));
 		}
 	};
 
 	const processRowUpdate = (newRow: GridRowModel) => {
 		const updatedRow = { ...newRow, isNew: false };
-		setData(data.map((row: any) => (row.id === newRow.id ? updatedRow : row)));
+		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+		updateData(updatedRow);
 		return updatedRow;
 	};
 
@@ -155,18 +167,25 @@ function DataGridCustom({ title, subtitle, data, cols, path, setData }: Props) {
 							color: theme.palette.secondary[100],
 							borderTop: "none",
 						},
+						"& .Mui-error": {
+							backgroundColor: `rgb(126,10,15, ${
+								theme.palette.mode === "dark" ? 0 : 0.1
+							})`,
+							color: theme.palette.mode === "dark" ? "#ff4343" : "#750f0f",
+						},
 					}}>
 					<DataGrid
-						loading={!data}
-						rows={data || []}
+						loading={!rows}
+						rows={rows || []}
 						columns={columns}
-						hideFooter
-						slots={{ toolbar: GridToolbarQuickFilter }}
+						editMode="row"
+						rowModesModel={rowModesModel}
 						onRowModesModelChange={handleRowModesModelChange}
 						onRowEditStop={handleRowEditStop}
 						processRowUpdate={processRowUpdate}
-						editMode="row"
-						rowModesModel={rowModesModel}
+						slotProps={{
+							toolbar: { setRows, setRowModesModel },
+						}}
 					/>
 				</Box>
 			</Box>

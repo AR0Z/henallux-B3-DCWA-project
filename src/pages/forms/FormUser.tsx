@@ -36,7 +36,11 @@ function FormUser() {
 		},
 	];
 
-	return <FormCustom lines={Lines} path={path}></FormCustom>;
+	function newUser(userData: any) {
+		// send data to api
+	}
+
+	return <FormCustom lines={Lines} path={path} newData={newUser}></FormCustom>;
 }
 
 export default FormUser;

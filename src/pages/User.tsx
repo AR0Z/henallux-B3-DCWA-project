@@ -1,20 +1,18 @@
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridPreProcessEditCellProps } from "@mui/x-data-grid";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import DataGridCustom from "../components/DataGridCustom";
 import { User as UserModel } from "model/User";
 import { useEffect, useState } from "react";
 import { api } from "../api/api";
 
-const baseData: UserModel[] = [];
-
 function User() {
-	const [data, setData] = useState<UserModel[]>(baseData);
-	
+	const [data, setData] = useState<UserModel[]>([]);
+
 	useEffect(() => {
 		api.get("/users").then((res) => {
 			setData(res.data);
 		});
-	}, [data]);
+	}, []);
 
 	const columns: GridColDef[] = [
 		{ field: "id", headerName: "ID", minWidth: 20, type: "number" },
@@ -37,6 +35,11 @@ function User() {
 			width: 130,
 			type: "string",
 			editable: true,
+			preProcessEditCellProps(params: GridPreProcessEditCellProps) {
+				const regexp = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$");
+				const hasError = !regexp.test(params.props.value as string);
+				return { ...params.props, error: hasError };
+			},
 		},
 		{
 			field: "phone",
@@ -44,6 +47,13 @@ function User() {
 			width: 130,
 			type: "string",
 			editable: true,
+			preProcessEditCellProps(params: GridPreProcessEditCellProps) {
+				const regexp = new RegExp(
+					"^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$"
+				);
+				const hasError = !regexp.test(params.props.value as string);
+				return { ...params.props, error: hasError };
+			},
 		},
 		{
 			field: "is_driver",
@@ -81,15 +91,24 @@ function User() {
 			editable: true,
 		},
 	];
+
+	function updateData(newData: UserModel) {
+		console.log("edited", newData);
+
+		// api.put("/users/" + newData.id, newData).then((res) => {
+		// 	console.log(res);
+		// });
+	}
+
 	return (
 		<>
 			<DataGridCustom
 				cols={columns}
-				data={data}
+				data={data || []}
+				updateData={updateData}
 				title="User"
 				subtitle="Liste des utilisateurs"
 				path="/adduser"
-				setData={setData}
 			/>
 		</>
 	);

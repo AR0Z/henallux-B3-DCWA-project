@@ -13,6 +13,10 @@ function Vehicule() {
 
 	const [data, setData] = useState<any[]>([]);
 
+	function updateData() {
+		console.log("updateData");
+	}
+
 	return (
 		<DataGridCustom
 			cols={columns}
@@ -20,7 +24,7 @@ function Vehicule() {
 			subtitle="Table des véhicules"
 			data={data}
 			path="/addvehicle"
-			setData={setData}
+			updateData={updateData}
 		/>
 	);
 }
