@@ -12,7 +12,7 @@ import {
 } from "@mui/x-data-grid";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import Header from "../components/Header";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useNavigationType } from "react-router-dom";
 import { GridRowId } from "@mui/x-data-grid";
 import { SetStateAction, useEffect, useMemo, useState } from "react";
 import { Cancel, Delete, EditOutlined, Save } from "@mui/icons-material";
@@ -22,6 +22,7 @@ type Props = {
 	subtitle: string;
 	data: any;
 	updateData: Function;
+	removeData: Function;
 	cols: GridColDef[];
 	path: string;
 };
@@ -33,6 +34,7 @@ function DataGridCustom({
 	path,
 	data,
 	updateData,
+	removeData,
 }: Props) {
 	const theme = useTheme();
 	const [rows, setRows] = useState<any[]>(data);
@@ -60,6 +62,9 @@ function DataGridCustom({
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
+		if (!window.confirm("Are you sure you want to delete this item?")) return;
+		const itemToDelete = rows.find((row: any) => row.id === id);
+		removeData(itemToDelete.id);
 		setRows(rows.filter((row: any) => row.id !== id));
 	};
 
@@ -134,7 +139,6 @@ function DataGridCustom({
 			},
 		},
 	];
-
 	return (
 		<>
 			<Box m="1.5rem 2.5rem">

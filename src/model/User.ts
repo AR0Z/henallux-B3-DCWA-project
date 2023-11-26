@@ -3,6 +3,7 @@ export type User = {
 	firstname: string;
 	lastname: string;
 	email: string;
+	password: string;
 	is_driver: boolean;
 	is_admin: boolean;
 	nbStars: number;

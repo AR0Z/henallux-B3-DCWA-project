@@ -1,5 +1,7 @@
+import { api } from "../../api/api";
 import FormCustom from "../../components/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
+import { User } from "model/User";
 
 function FormUser() {
 	const path = "/users";
@@ -7,13 +9,13 @@ function FormUser() {
 		{
 			label: "Nom",
 			type: "text",
-			id: "nom",
+			id: "lastname",
 			required: true,
 		},
 		{
 			label: "Prénom",
 			type: "text",
-			id: "prenom",
+			id: "firstname",
 			required: true,
 		},
 		{
@@ -23,9 +25,15 @@ function FormUser() {
 			required: true,
 		},
 		{
+			label: "Mot de passe",
+			type: "password",
+			id: "password",
+			required: true,
+		},
+		{
 			label: "Téléphone",
 			type: "tel",
-			id: "telephone",
+			id: "phone",
 			required: false,
 		},
 		{
@@ -34,10 +42,38 @@ function FormUser() {
 			id: "dateNaissance",
 			required: true,
 		},
+		{
+			label: "Admin",
+			type: "checkbox",
+			id: "is_admin",
+			required: false,
+		},
+		{
+			label: "Driver",
+			type: "checkbox",
+			id: "is_driver",
+			required: false,
+		},
+		{
+			label: "Vehicle",
+			type: "number",
+			id: "vehicle",
+			required: false,
+		},
 	];
 
-	function newUser(userData: any) {
-		// send data to api
+	function newUser(userData: User) {
+		api
+			.post("/users/", {
+				firstname: userData.firstname,
+				lastname: userData.lastname,
+				email: userData.email,
+				password: userData.password,
+				phone: userData.phone || null,
+			})
+			.then((res) => {
+				console.log(res);
+			});
 	}
 
 	return <FormCustom lines={Lines} path={path} newData={newUser}></FormCustom>;

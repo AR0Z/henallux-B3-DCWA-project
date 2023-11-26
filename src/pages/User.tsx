@@ -8,10 +8,14 @@ import { api } from "../api/api";
 function User() {
 	const [data, setData] = useState<UserModel[]>([]);
 
-	useEffect(() => {
+	function fillState() {
 		api.get("/users").then((res) => {
 			setData(res.data);
 		});
+	}
+
+	useEffect(() => {
+		fillState();
 	}, []);
 
 	const columns: GridColDef[] = [
@@ -95,9 +99,18 @@ function User() {
 	function updateData(newData: UserModel) {
 		console.log("edited", newData);
 
-		// api.put("/users/" + newData.id, newData).then((res) => {
-		// 	console.log(res);
-		// });
+		api.put("/users/" + newData.id, newData).then((res) => {
+			console.log(res);
+		});
+	}
+
+	function removeData(id: number) {
+		console.log("removed", id);
+
+		api.delete("/users/" + id).then((res) => {
+			console.log(res);
+		});
+		fillState();
 	}
 
 	return (
@@ -106,6 +119,7 @@ function User() {
 				cols={columns}
 				data={data || []}
 				updateData={updateData}
+				removeData={removeData}
 				title="User"
 				subtitle="Liste des utilisateurs"
 				path="/adduser"
