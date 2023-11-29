@@ -3,5 +3,8 @@ export type Reservation = {
 	travel: string;
 	passenger: string;
 	reservedSpots: number;
-	status: "PENDING" | "ACCEPTED" | "REFUSED";
+	is_paid: boolean;
+	is_cancelled: boolean;
+	is_confirmed: boolean;
+	is_done: boolean;
 };

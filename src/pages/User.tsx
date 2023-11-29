@@ -3,14 +3,15 @@ import type {} from "@mui/x-data-grid/themeAugmentation";
 import DataGridCustom from "../components/DataGridCustom";
 import { User as UserModel } from "model/User";
 import { useEffect, useState } from "react";
-import { api } from "../api/api";
+import { usersApi } from "../api/usersApi";
 
 function User() {
 	const [data, setData] = useState<UserModel[]>([]);
 
 	function fillState() {
-		api.get("/users").then((res) => {
+		usersApi.getAll().then((res) => {
 			setData(res.data);
+			console.log(res.data);
 		});
 	}
 
@@ -44,6 +45,8 @@ function User() {
 				const hasError = !regexp.test(params.props.value as string);
 				return { ...params.props, error: hasError };
 			},
+			flex: 1,
+			maxWidth: 300,
 		},
 		{
 			field: "phone",
@@ -97,27 +100,25 @@ function User() {
 	];
 
 	function updateData(newData: UserModel) {
-		console.log("edited", newData);
-
-		api.put("/users/" + newData.id, newData).then((res) => {
-			console.log(res);
-		});
+		usersApi.update(newData.id, newData);
 	}
 
-	function removeData(id: number) {
-		console.log("removed", id);
-
-		api.delete("/users/" + id).then((res) => {
-			console.log(res);
-		});
-		fillState();
+	function removeData(id: string) {
+		usersApi
+			.delete(id)
+			.then((res) => {
+				console.log(res);
+			})
+			.then(() => {
+				fillState();
+			});
 	}
 
 	return (
 		<>
 			<DataGridCustom
 				cols={columns}
-				data={data || []}
+				data={data}
 				updateData={updateData}
 				removeData={removeData}
 				title="User"

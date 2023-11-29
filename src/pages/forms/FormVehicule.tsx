@@ -1,6 +1,6 @@
 import FormCustom from "../../components/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
-
+import { vehiclesApi } from "../../api/vehiclesApi";
 function FormVehicule() {
 	const path = "/vehicules";
 	const Lines: LineOfForm[] = [
@@ -30,7 +30,11 @@ function FormVehicule() {
 		},
 	];
 
-	return <FormCustom lines={Lines} path={path} />;
+	function newVehicule(data: any) {
+		vehiclesApi.create(data);
+	}
+
+	return <FormCustom lines={Lines} path={path} newData={newVehicule} />;
 }
 
 export default FormVehicule;

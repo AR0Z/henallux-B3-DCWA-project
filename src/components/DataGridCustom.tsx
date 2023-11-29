@@ -83,6 +83,7 @@ function DataGridCustom({
 		const updatedRow = { ...newRow, isNew: false };
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 		updateData(updatedRow);
+
 		return updatedRow;
 	};
 
@@ -93,6 +94,7 @@ function DataGridCustom({
 	const columns: any = [
 		...cols,
 		{
+			flex: 0,
 			field: "actions",
 			type: "actions",
 			headerName: "Actions",

@@ -1,6 +1,7 @@
 import { GridColDef } from "@mui/x-data-grid";
 import DataGridCustom from "../components/DataGridCustom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { vehiclesApi } from "../api/vehiclesApi";
 
 function Vehicule() {
 	const columns: GridColDef[] = [
@@ -13,8 +14,39 @@ function Vehicule() {
 
 	const [data, setData] = useState<any[]>([]);
 
-	function updateData() {
-		console.log("updateData");
+	function fillState() {
+		vehiclesApi.getAll().then((res) => {
+			setData(res.data);
+		});
+	}
+
+	useEffect(() => {
+		fillState();
+	}, []);
+
+	function updateData(id: string, data: any) {
+		console.log("updated", id, data);
+		vehiclesApi
+			.update(id, data)
+			.then((res) => {
+				console.log(res);
+			})
+			.then(() => {
+				fillState();
+			});
+	}
+
+	function removeData(id: string) {
+		console.log("removed", id);
+
+		vehiclesApi
+			.delete(id)
+			.then((res) => {
+				console.log(res);
+			})
+			.then(() => {
+				fillState();
+			});
 	}
 
 	return (
@@ -25,6 +57,7 @@ function Vehicule() {
 			data={data}
 			path="/addvehicle"
 			updateData={updateData}
+			removeData={removeData}
 		/>
 	);
 }

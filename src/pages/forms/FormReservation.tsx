@@ -1,14 +1,6 @@
 import FormCustom from "../../components/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
-
-/*
-
-	id: string;
-	travel: string;
-	passenger: string;
-	reservedSpots: number;
-	status: "PENDING" | "ACCEPTED" | "REFUSED";
-*/
+import { reservationsApi } from "../../api/reservationsApi";
 
 function FormReservation() {
 	const path = "/reservations";
@@ -32,15 +24,38 @@ function FormReservation() {
 			required: false,
 		},
 		{
-			label: "Status",
-			id: "status",
-			type: "combobox",
-			options: ["PENDING", "ACCEPTED", "REFUSED"],
+			label: "Paid ?",
+			id: "is_paid",
+			type: "checkbox",
+			required: true,
+		},
+		{
+			label: "Cancelled ?",
+			id: "is_cancelled",
+			type: "checkbox",
+			required: true,
+		},
+		{
+			label: "Confirmed ?",
+			id: "is_confirmed",
+			type: "checkbox",
+			required: true,
+		},
+		{
+			label: "Done ?",
+			id: "is_done",
+			type: "checkbox",
 			required: true,
 		},
 	];
 
-	return <FormCustom lines={Lines} path={path}></FormCustom>;
+	function newReservation(data: any) {
+		reservationsApi.create(data);
+	}
+
+	return (
+		<FormCustom lines={Lines} path={path} newData={newReservation}></FormCustom>
+	);
 }
 
 export default FormReservation;

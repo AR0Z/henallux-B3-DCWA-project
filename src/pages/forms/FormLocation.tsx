@@ -1,5 +1,6 @@
 import FormCustom from "../../components/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
+import { locationsApi } from "../../api/locationsApi";
 
 function FormLocation() {
 	const path = "/locations";
@@ -13,13 +14,13 @@ function FormLocation() {
 		{
 			label: "latitude",
 			id: "latitude",
-			type: "number",
+			type: "text",
 			required: true,
 		},
 		{
 			label: "longitude",
 			id: "longitude",
-			type: "number",
+			type: "text",
 			required: true,
 		},
 		{
@@ -30,7 +31,20 @@ function FormLocation() {
 		},
 	];
 
-	return <FormCustom lines={Lines} path={path}></FormCustom>;
+	function newLocation(data: any) {
+		console.log(data);
+
+		locationsApi.create({
+			label: data.label,
+			latitude: parseFloat(data.latitude),
+			longitude: parseFloat(data.longitude),
+			nextStopsId: data.nextStopsId || null,
+		});
+	}
+
+	return (
+		<FormCustom lines={Lines} path={path} newData={newLocation}></FormCustom>
+	);
 }
 
 export default FormLocation;

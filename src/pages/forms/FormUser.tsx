@@ -1,4 +1,4 @@
-import { api } from "../../api/api";
+import { usersApi } from "../../api/usersApi";
 import FormCustom from "../../components/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
 import { User } from "model/User";
@@ -63,17 +63,13 @@ function FormUser() {
 	];
 
 	function newUser(userData: User) {
-		api
-			.post("/users/", {
-				firstname: userData.firstname,
-				lastname: userData.lastname,
-				email: userData.email,
-				password: userData.password,
-				phone: userData.phone || null,
-			})
-			.then((res) => {
-				console.log(res);
-			});
+		usersApi.create({
+			firstname: userData.firstname,
+			lastname: userData.lastname,
+			email: userData.email,
+			password: userData.password,
+			phone: userData.phone || null,
+		});
 	}
 
 	return <FormCustom lines={Lines} path={path} newData={newUser}></FormCustom>;

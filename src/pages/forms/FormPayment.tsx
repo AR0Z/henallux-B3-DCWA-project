@@ -1,11 +1,6 @@
 import FormCustom from "../../components/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
-
-// id: string;
-// amount: number;
-// reservation: string;
-// method: "CREDIT_CARD" | "PAYPAL";
-// status: "PENDING" | "ACCEPTED" | "REFUSED";
+import { paymentsApi } from "../../api/paymentsApi";
 
 function FormPayment() {
 	const path = "/payments";
@@ -18,8 +13,8 @@ function FormPayment() {
 		},
 		{
 			label: "reservation",
-			type: "text",
-			id: "reservation",
+			type: "number",
+			id: "reservation_id",
 			required: true,
 		},
 		{
@@ -32,13 +27,28 @@ function FormPayment() {
 		{
 			label: "status",
 			type: "combobox",
-			options: ["PENDING", "ACCEPTED", "REFUSED"],
-			id: "status",
+			options: ["pending", "paid", "failed"],
+			id: "payment_status",
 			required: true,
 		},
 	];
 
-	return <FormCustom lines={Lines} path={path}></FormCustom>;
+	function newPayment(data: any) {
+		paymentsApi
+			.create({
+				amount: parseFloat(data.amount),
+				reservation_id: parseInt(data.reservation_id),
+				method: data.method,
+				payment_status: data.payment_status,
+			})
+			.then((res) => {
+				console.log(res);
+			});
+	}
+
+	return (
+		<FormCustom lines={Lines} path={path} newData={newPayment}></FormCustom>
+	);
 }
 
 export default FormPayment;

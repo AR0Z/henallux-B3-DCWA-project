@@ -81,8 +81,8 @@ function FormCustom({ lines, path, newData }: Props) {
 					color="primary"
 					options={line.options}
 					renderInput={(params) => <TextField {...params} label={line.id} />}
-					onChange={(value) => {
-						setData({ ...data, [line.id]: value });
+					onChange={(e, value) => {
+						setData({ ...data, [line.label]: value });
 					}}
 				/>
 			</FormControl>
