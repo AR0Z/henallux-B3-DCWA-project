@@ -4,6 +4,7 @@ import DataGridCustom from "../components/DataGridCustom";
 import { User as UserModel } from "model/User";
 import { useEffect, useState } from "react";
 import { usersApi } from "../api/usersApi";
+import { phoneFormat, emailFormat } from "../components/utils";
 
 function User() {
 	const [data, setData] = useState<UserModel[]>([]);
@@ -41,9 +42,7 @@ function User() {
 			type: "string",
 			editable: true,
 			preProcessEditCellProps(params: GridPreProcessEditCellProps) {
-				const regexp = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$");
-				const hasError = !regexp.test(params.props.value as string);
-				return { ...params.props, error: hasError };
+				return { ...params.props, error: !emailFormat(params.props.value) };
 			},
 			flex: 1,
 			maxWidth: 300,
@@ -55,11 +54,7 @@ function User() {
 			type: "string",
 			editable: true,
 			preProcessEditCellProps(params: GridPreProcessEditCellProps) {
-				const regexp = new RegExp(
-					"^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$"
-				);
-				const hasError = !regexp.test(params.props.value as string);
-				return { ...params.props, error: hasError };
+				return { ...params.props, error: !phoneFormat(params.props.value) };
 			},
 		},
 		{

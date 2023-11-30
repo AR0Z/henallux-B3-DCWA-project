@@ -5,14 +5,49 @@ import { travelsApi } from "../api/travelsApi";
 
 function Travel() {
 	const columns: GridColDef[] = [
-		{ field: "id", headerName: "ID" },
-		{ field: "fk_driver", headerName: "id conducteur" },
-		{ field: "dateTravel", headerName: "date voyage" },
-		{ field: "dateCreate", headerName: "date réservation" },
-		{ field: "fk_startingLoc", headerName: "lieu de départ" },
-		{ field: "costPerSpot", headerName: "cout par place" },
-		{ field: "nbAvailableSpot", headerName: "nombre de place disponible" },
-		{ field: "startingTimestamp", headerName: "heure de départ" },
+		{ field: "id", headerName: "ID", type: "number" },
+		{
+			field: "fk_driver",
+			headerName: "id conducteur",
+			editable: true,
+			type: "number",
+		},
+		{
+			field: "dateTravel",
+			headerName: "date voyage",
+			editable: true,
+			type: "date",
+		},
+		{
+			field: "dateCreate",
+			headerName: "date réservation",
+			editable: true,
+			type: "date",
+		},
+		{
+			field: "fk_startingLoc",
+			headerName: "lieu de départ",
+			editable: true,
+			type: "number",
+		},
+		{
+			field: "costPerSpot",
+			headerName: "cout par place",
+			editable: true,
+			type: "number",
+		},
+		{
+			field: "nbAvailableSpot",
+			headerName: "nombre de place disponible",
+			editable: true,
+			type: "number",
+		},
+		{
+			field: "startingTimestamp",
+			headerName: "heure de départ",
+			editable: true,
+			type: "dateTime",
+		},
 	];
 
 	const [data, setData] = useState<any[]>([]);
