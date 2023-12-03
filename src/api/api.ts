@@ -1,7 +1,11 @@
 import axios from "axios";
 
 const api = axios.create({
-	baseURL: "http://localhost:3000",
+	baseURL: "https://smartcities.aroz.be/api/",
 });
+
+api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(
+	"token"
+)}`;
 
 export default api;

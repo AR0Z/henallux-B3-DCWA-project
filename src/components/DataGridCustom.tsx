@@ -8,13 +8,12 @@ import {
 	GridRowModel,
 	GridRowModes,
 	GridRowModesModel,
-	GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import Header from "../components/Header";
-import { Link, useNavigate, useNavigationType } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { GridRowId } from "@mui/x-data-grid";
-import { SetStateAction, useEffect, useMemo, useState } from "react";
+import { useEffect,  useState } from "react";
 import { Cancel, Delete, EditOutlined, Save } from "@mui/icons-material";
 
 type Props = {
@@ -65,6 +64,7 @@ function DataGridCustom({
 		if (!window.confirm("Are you sure you want to delete this item?")) return;
 		const itemToDelete = rows.find((row: any) => row.id === id);
 		removeData(itemToDelete.id);
+
 		setRows(rows.filter((row: any) => row.id !== id));
 	};
 

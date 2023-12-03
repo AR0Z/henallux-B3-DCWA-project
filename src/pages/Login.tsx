@@ -3,41 +3,41 @@ import { Avatar, Button, TextField, Box, Typography } from "@mui/material/";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import SwitchThemeButton from "../components/SwitchThemeButton";
 import { useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState } from "react";
+import { login } from "../api/authApi";
 import { useDispatch } from "react-redux";
-import { useLoginMutation } from "../state/authApiSlice";
-import { setCredentials } from "../state/authSlice";
+import { userLoaded } from "../state/authSlice";
 
 export default function Login() {
 	const navigate = useNavigate();
-	const [username, setUsername] = useState("");
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [login, { isLoading }] = useLoginMutation();
-	const dispatch = useDispatch();
 	const [errMsg, setErrMsg] = useState("");
-	const errRef = useRef<HTMLDivElement>(null);
+	const dispatch = useDispatch();
 
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		try {
-			const userData = await login({ username, password }).unwrap();
-			dispatch(setCredentials({ ...userData, username }));
-			setUsername("");
-			setPassword("");
-			navigate("/welcome");
-		} catch (err: any) {
-			if (!err?.originalStatus) {
-				// isLoading: true until timeout occurs
-				setErrMsg("No Server Response");
-			} else if (err.originalStatus === 400) {
-				setErrMsg("Missing Username or Password");
-			} else if (err.originalStatus === 401) {
-				setErrMsg("Unauthorized");
-			} else {
-				setErrMsg("Login Failed");
-			}
-			errRef.current?.focus();
-		}
+		await login(email, password)
+			.then((res) => {
+				dispatch(userLoaded(res.token));
+				localStorage.setItem("token", res.token);
+				if (res.refreshToken)
+					localStorage.setItem("refreshToken", res.refreshToken);
+				navigate("/");
+			})
+			.catch((err) => {
+				switch (err.response.status) {
+					case 400:
+						setErrMsg("Invalid email or password");
+						break;
+					case 401:
+						setErrMsg("Invalid email or password");
+						break;
+					default:
+						setErrMsg("Something went wrong");
+						break;
+				}
+			});
 	}
 
 	return (
@@ -69,12 +69,13 @@ export default function Login() {
 						margin="normal"
 						required
 						fullWidth
-						id="username"
-						label="Username"
-						name="username"
+						id="email"
+						label="Email"
+						name="email"
 						autoFocus
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
+						value={email}
+						onChange={(e) => setEmail(e.target.value)
+						}
 					/>
 					<TextField
 						margin="normal"
@@ -96,6 +97,7 @@ export default function Login() {
 						Log In
 					</Button>
 				</Box>
+				<Typography color={"red"}>{errMsg}</Typography>
 			</Box>
 		</>
 	);
