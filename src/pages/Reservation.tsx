@@ -68,28 +68,15 @@ function Reservation() {
 		fillState();
 	}, []);
 	function removeData(id: string) {
-		console.log("removed", id);
-
-		reservationsApi
-			.delete(id)
-			.then((res) => {
-				console.log(res);
-			})
-			.then(() => {
-				fillState();
-			});
+		reservationsApi.delete(id).then(() => {
+			fillState();
+		});
 	}
 
 	function updateData(id: string, data: any) {
-		console.log("updated", id, data);
-		reservationsApi
-			.update(id, data)
-			.then((res) => {
-				console.log(res);
-			})
-			.then(() => {
-				fillState();
-			});
+		reservationsApi.update(id, data).then(() => {
+			fillState();
+		});
 	}
 
 	return (

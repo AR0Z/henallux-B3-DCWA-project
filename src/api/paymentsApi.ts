@@ -10,8 +10,6 @@ export const paymentsApi = {
 		return response;
 	},
 	async create(data: any) {
-		console.log(data);
-
 		const response = await api.post("/payments", data);
 		return response;
 	},

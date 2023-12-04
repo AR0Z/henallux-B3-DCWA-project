@@ -18,7 +18,7 @@ export default function Login() {
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		await login(email, password)
-			.then((res) => {
+			.then((res: any) => {
 				dispatch(userLoaded(res.token));
 				localStorage.setItem("token", res.token);
 				if (res.refreshToken)
@@ -26,16 +26,28 @@ export default function Login() {
 				navigate("/");
 			})
 			.catch((err) => {
-				switch (err.response.status) {
-					case 400:
-						setErrMsg("Invalid email or password");
-						break;
-					case 401:
-						setErrMsg("Invalid email or password");
-						break;
-					default:
-						setErrMsg("Something went wrong");
-						break;
+				console.log(err);
+				if (!err.response) {
+					setErrMsg("Something went wrong");
+					return;
+				} else {
+					switch (err.response.status) {
+						case 400:
+							setErrMsg("Invalid email or password");
+							break;
+						case 401:
+							setErrMsg("Invalid email or password");
+							break;
+						case 500:
+							setErrMsg("Server error you might want to try again later");
+							break;
+						case 503:
+							setErrMsg("Server Down");
+							break;
+						default:
+							setErrMsg("Something went wrong");
+							break;
+					}
 				}
 			});
 	}
@@ -74,8 +86,7 @@ export default function Login() {
 						name="email"
 						autoFocus
 						value={email}
-						onChange={(e) => setEmail(e.target.value)
-						}
+						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<TextField
 						margin="normal"

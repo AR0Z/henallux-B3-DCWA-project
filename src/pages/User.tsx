@@ -12,7 +12,6 @@ function User() {
 	function fillState() {
 		usersApi.getAll().then((res) => {
 			setData(res.data);
-			console.log(res.data);
 		});
 	}
 
@@ -44,8 +43,6 @@ function User() {
 			preProcessEditCellProps(params: GridPreProcessEditCellProps) {
 				return { ...params.props, error: !emailFormat(params.props.value) };
 			},
-			flex: 1,
-			maxWidth: 300,
 		},
 		{
 			field: "phone",
@@ -60,6 +57,13 @@ function User() {
 		{
 			field: "is_driver",
 			headerName: "Is driver",
+			width: 130,
+			type: "boolean",
+			editable: true,
+		},
+		{
+			field: "is_admin",
+			headerName: "Is admin",
 			width: 130,
 			type: "boolean",
 			editable: true,
@@ -99,14 +103,9 @@ function User() {
 	}
 
 	function removeData(id: string) {
-		usersApi
-			.delete(id)
-			.then((res) => {
-				console.log(res);
-			})
-			.then(() => {
-				fillState();
-			});
+		usersApi.delete(id).then(() => {
+			fillState();
+		});
 	}
 
 	return (

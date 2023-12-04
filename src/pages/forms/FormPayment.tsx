@@ -34,16 +34,12 @@ function FormPayment() {
 	];
 
 	function newPayment(data: any) {
-		paymentsApi
-			.create({
-				amount: parseFloat(data.amount),
-				reservation_id: parseInt(data.reservation_id),
-				method: data.method,
-				payment_status: data.payment_status,
-			})
-			.then((res) => {
-				console.log(res);
-			});
+		paymentsApi.create({
+			amount: parseFloat(data.amount),
+			reservation_id: parseInt(data.reservation_id),
+			method: data.method,
+			payment_status: data.payment_status,
+		});
 	}
 
 	return (

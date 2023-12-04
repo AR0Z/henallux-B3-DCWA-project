@@ -33,11 +33,14 @@ api.interceptors.response.use(
 );
 
 export async function login(email: string, password: string) {
-	const { data } = await api.post("auth/login", {
-		email: email,
-		password: password,
-	});
-	console.log(data);
-
+	let data;
+	try {
+		data = await api.post("auth/login", {
+			email: email,
+			password: password,
+		});
+	} catch (error) {
+		return Promise.reject(error);
+	}
 	return data;
 }

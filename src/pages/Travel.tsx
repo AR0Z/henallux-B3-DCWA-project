@@ -63,28 +63,15 @@ function Travel() {
 	}, []);
 
 	function removeData(id: string) {
-		console.log("removed", id);
-
-		travelsApi
-			.delete(id)
-			.then((res) => {
-				console.log(res);
-			})
-			.then(() => {
-				fillState();
-			});
+		travelsApi.delete(id).then(() => {
+			fillState();
+		});
 	}
 
 	function updateData(id: string, data: any) {
-		console.log("updated", id, data);
-		travelsApi
-			.update(id, data)
-			.then((res) => {
-				console.log(res);
-			})
-			.then(() => {
-				fillState();
-			});
+		travelsApi.update(id, data).then(() => {
+			fillState();
+		});
 	}
 
 	return (

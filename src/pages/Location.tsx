@@ -25,28 +25,15 @@ function Location() {
 	}, []);
 
 	function removeData(id: string) {
-		console.log("removed", id);
-
-		locationsApi
-			.delete(id)
-			.then((res) => {
-				console.log(res);
-			})
-			.then(() => {
-				fillState();
-			});
+		locationsApi.delete(id).then(() => {
+			fillState();
+		});
 	}
 
 	function updateData(data: any) {
-		console.log("updated", data);
-		locationsApi
-			.update(data.id, data)
-			.then((res) => {
-				console.log(res);
-			})
-			.then(() => {
-				fillState();
-			});
+		locationsApi.update(data.id, data).then(() => {
+			fillState();
+		});
 	}
 
 	return (

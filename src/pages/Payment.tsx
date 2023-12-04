@@ -34,27 +34,15 @@ function Payment() {
 		fillState();
 	}, []);
 	function removeData(id: string) {
-		console.log("removed", id);
-
-		paymentsApi
-			.delete(id)
-			.then((res) => {
-				console.log(res);
-			})
-			.then(() => {
-				fillState();
-			});
+		paymentsApi.delete(id).then(() => {
+			fillState();
+		});
 	}
 
 	function updateData(data: any) {
-		paymentsApi
-			.update(data.id, data)
-			.then((res) => {
-				console.log(res);
-			})
-			.then(() => {
-				fillState();
-			});
+		paymentsApi.update(data.id, data).then(() => {
+			fillState();
+		});
 	}
 
 	return (

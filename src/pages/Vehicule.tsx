@@ -25,28 +25,15 @@ function Vehicule() {
 	}, []);
 
 	function updateData(id: string, data: any) {
-		console.log("updated", id, data);
-		vehiclesApi
-			.update(id, data)
-			.then((res) => {
-				console.log(res);
-			})
-			.then(() => {
-				fillState();
-			});
+		vehiclesApi.update(id, data).then(() => {
+			fillState();
+		});
 	}
 
 	function removeData(id: string) {
-		console.log("removed", id);
-
-		vehiclesApi
-			.delete(id)
-			.then((res) => {
-				console.log(res);
-			})
-			.then(() => {
-				fillState();
-			});
+		vehiclesApi.delete(id).then(() => {
+			fillState();
+		});
 	}
 
 	return (

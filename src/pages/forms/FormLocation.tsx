@@ -32,8 +32,6 @@ function FormLocation() {
 	];
 
 	function newLocation(data: any) {
-		console.log(data);
-
 		locationsApi.create({
 			label: data.label,
 			latitude: parseFloat(data.latitude),

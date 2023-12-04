@@ -25,12 +25,13 @@ function FormCustom({ lines, path, newData }: Props) {
 
 	function handleSubmit(event: any) {
 		event.preventDefault();
-		if (window.confirm("Êtes-vous sûr de vouloir envoyer ce formulaire ?")) {
-			navigate(path);
-			newData(data);
-		} else {
-			console.log("Annulation de l'envoi du formulaire");
-		}
+
+		console.log(event);
+
+		// if (window.confirm("Êtes-vous sûr de vouloir envoyer ce formulaire ?")) {
+		// navigate(path);
+		// newData(data);
+		// }
 	}
 
 	function getDate(line: LineOfForm) {
@@ -40,10 +41,7 @@ function FormCustom({ lines, path, newData }: Props) {
 					<LocalizationProvider dateAdapter={AdapterDayjs}>
 						<DatePicker
 							label={line.label}
-							onChange={(date) => {
-								console.log(line.id, date);
-								setData({ ...data, [line.id]: date });
-							}}
+							onChange={(date) => setData({ ...data, [line.id]: date })}
 							slotProps={{
 								textField: {
 									required: true,
