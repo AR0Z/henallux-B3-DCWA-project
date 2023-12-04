@@ -47,7 +47,6 @@ const cols: GridColDef[] = [
 
 function Dashboard() {
 	const theme = useTheme();
-
 	return (
 		<Box m="1.5rem 2.5rem">
 			<Header

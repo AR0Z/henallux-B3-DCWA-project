@@ -1,6 +1,5 @@
 import { GridColDef } from "@mui/x-data-grid";
 import DataGridCustom from "../components/DataGridCustom";
-import { useEffect, useState } from "react";
 import { travelsApi } from "../api/travelsApi";
 
 function Travel() {
@@ -50,39 +49,14 @@ function Travel() {
 		},
 	];
 
-	const [data, setData] = useState<any[]>([]);
-
-	function fillState() {
-		travelsApi.getAll().then((res) => {
-			setData(res.data);
-		});
-	}
-
-	useEffect(() => {
-		fillState();
-	}, []);
-
-	function removeData(id: string) {
-		travelsApi.delete(id).then(() => {
-			fillState();
-		});
-	}
-
-	function updateData(id: string, data: any) {
-		travelsApi.update(id, data).then(() => {
-			fillState();
-		});
-	}
-
+	
 	return (
 		<DataGridCustom
 			cols={columns}
 			title="Travel"
 			subtitle="Table des voyages"
-			data={data}
 			path="/addtravel"
-			removeData={removeData}
-			updateData={updateData}
+			api={travelsApi}
 		/>
 	);
 }

@@ -15,23 +15,25 @@ import { Link, useNavigate } from "react-router-dom";
 type Props = {
 	lines: LineOfForm[];
 	path: string;
-	newData: Function;
+	api: any;
+	baseData: Object;
 };
 
-function FormCustom({ lines, path, newData }: Props) {
-	const [data, setData] = useState<any>({});
+function FormCustom<T>({ lines, path, api, baseData }: Props) {
+	const [data, setData] = useState<any>(baseData);
 
 	const navigate = useNavigate();
 
+	function newData() {
+		api.create(data);
+	}
+
 	function handleSubmit(event: any) {
 		event.preventDefault();
-
-		console.log(event);
-
-		// if (window.confirm("Êtes-vous sûr de vouloir envoyer ce formulaire ?")) {
-		// navigate(path);
-		// newData(data);
-		// }
+		newData();
+		if (window.confirm("Êtes-vous sûr de vouloir envoyer ce formulaire ?")) {
+			navigate(path);
+		}
 	}
 
 	function getDate(line: LineOfForm) {
@@ -47,6 +49,7 @@ function FormCustom({ lines, path, newData }: Props) {
 									required: true,
 								},
 							}}
+							format="DD/MM/YYYY"
 						/>
 					</LocalizationProvider>
 				</FormControl>
@@ -64,7 +67,8 @@ function FormCustom({ lines, path, newData }: Props) {
 					color="primary"
 					type="checkbox"
 					onChange={(event) => {
-						setData({ ...data, [line.id]: event.target.value });
+						console.log(event.target.checked);
+						setData({ ...data, [line.id]: event.target.checked });
 					}}
 				/>
 			</FormControl>
@@ -134,7 +138,6 @@ function FormCustom({ lines, path, newData }: Props) {
 				}}>
 				{lines.map((line) => getFormControl(line))}
 				<FlexBetween width={"80%"}>
-					{/* cancel */}
 					<Button type="button" variant="outlined" color="primary">
 						<Link to={path}>Cancel</Link>
 					</Button>

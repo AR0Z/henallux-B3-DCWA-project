@@ -1,9 +1,9 @@
 import { usersApi } from "../../api/usersApi";
 import FormCustom from "../../components/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
-import { User } from "model/User";
+import Form from "../../model/FormTypes";
 
-function FormUser() {
+function FormUser<Form>() {
 	const path = "/users";
 	const Lines: LineOfForm[] = [
 		{
@@ -62,17 +62,24 @@ function FormUser() {
 		},
 	];
 
-	function newUser(userData: User) {
-		usersApi.create({
-			firstname: userData.firstname,
-			lastname: userData.lastname,
-			email: userData.email,
-			password: userData.password,
-			phone: userData.phone || null,
-		});
-	}
+	const baseData = {
+		firstname: "",
+		lastname: "",
+		email: "",
+		password: "",
+		phone: "",
+		is_admin: false,
+		is_driver: false,
+		vehicle: "",
+	};
 
-	return <FormCustom lines={Lines} path={path} newData={newUser}></FormCustom>;
+	return (
+		<FormCustom
+			lines={Lines}
+			path={path}
+			api={usersApi}
+			baseData={baseData}></FormCustom>
+	);
 }
 
 export default FormUser;

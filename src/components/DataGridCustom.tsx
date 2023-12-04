@@ -8,40 +8,54 @@ import {
 	GridRowModel,
 	GridRowModes,
 	GridRowModesModel,
+	GridToolbar,
 } from "@mui/x-data-grid";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
 import { GridRowId } from "@mui/x-data-grid";
-import { useEffect,  useState } from "react";
+import { useEffect, useState } from "react";
 import { Cancel, Delete, EditOutlined, Save } from "@mui/icons-material";
+import { AxiosResponse } from "axios";
 
 type Props = {
 	title: string;
 	subtitle: string;
-	data: any;
-	updateData: Function;
-	removeData: Function;
 	cols: GridColDef[];
 	path: string;
+	api: any;
 };
 
-function DataGridCustom({
-	title,
-	subtitle,
-	cols,
-	path,
-	data,
-	updateData,
-	removeData,
-}: Props) {
+function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 	const theme = useTheme();
-	const [rows, setRows] = useState<any[]>(data);
+	const [rows, setRows] = useState<any[]>([]);
 	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
 	useEffect(() => {
-		setRows(data);
-	}, [data]);
+		updateData();
+	}, []);
+
+	function updateData() {
+		api.getAll().then((res: AxiosResponse) => {
+			setRows(res.data);
+		});
+	}
+
+	function putData(newData: any) {
+		api.update(newData.id, newData).then(() => {
+			updateData();
+		});
+	}
+
+	function removeData(id: string) {
+		api.delete(id).then(() => {
+			updateData();
+		});
+	}
+
+	useEffect(() => {
+		updateData();
+	}, []);
 
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
 		params,
@@ -82,8 +96,7 @@ function DataGridCustom({
 	const processRowUpdate = (newRow: GridRowModel) => {
 		const updatedRow = { ...newRow, isNew: false };
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-		updateData(updatedRow);
-
+		putData(updatedRow);
 		return updatedRow;
 	};
 
@@ -102,7 +115,6 @@ function DataGridCustom({
 			cellClassName: "actions",
 			getActions: ({ id }: any) => {
 				const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
 				if (isInEditMode) {
 					return [
 						<GridActionsCellItem
@@ -182,6 +194,7 @@ function DataGridCustom({
 					}}>
 					<DataGrid
 						loading={!rows}
+						density="comfortable"
 						rows={rows || []}
 						columns={columns}
 						editMode="row"
@@ -190,8 +203,9 @@ function DataGridCustom({
 						onRowEditStop={handleRowEditStop}
 						processRowUpdate={processRowUpdate}
 						slotProps={{
-							toolbar: { setRows, setRowModesModel },
+							toolbar: { setRows, setRowModesModel, showQuickFilter: true },
 						}}
+						slots={{ toolbar: GridToolbar }}
 					/>
 				</Box>
 			</Box>

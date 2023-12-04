@@ -1,24 +1,3 @@
-import api from "./api";
+import CRUDApi from "./crudApi";
 
-export const vehiclesApi = {
-	async getAll() {
-		const response = await api.get("/vehicules");
-		return response;
-	},
-	async get(id: string) {
-		const response = await api.get(`/vehicules/${id}`);
-		return response;
-	},
-	async create(data: any) {
-		const response = await api.post("/vehicules", data);
-		return response;
-	},
-	async update(id: string, data: any) {
-		const response = await api.put(`/vehicules/${id}`, data);
-		return response;
-	},
-	async delete(id: string) {
-		const response = await api.delete(`/vehicules/${id}`);
-		return response;
-	},
-};
+export const vehiculesApi = CRUDApi("/vehicules");

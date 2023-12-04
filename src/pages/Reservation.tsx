@@ -1,6 +1,5 @@
 import { GridColDef } from "@mui/x-data-grid";
 import DataGridCustom from "../components/DataGridCustom";
-import { useEffect, useState } from "react";
 import { reservationsApi } from "../api/reservationsApi";
 
 function Reservation() {
@@ -57,37 +56,13 @@ function Reservation() {
 		},
 	];
 
-	const [data, setData] = useState<any[]>([]);
-
-	function fillState() {
-		reservationsApi.getAll().then((res) => {
-			setData(res.data);
-		});
-	}
-	useEffect(() => {
-		fillState();
-	}, []);
-	function removeData(id: string) {
-		reservationsApi.delete(id).then(() => {
-			fillState();
-		});
-	}
-
-	function updateData(id: string, data: any) {
-		reservationsApi.update(id, data).then(() => {
-			fillState();
-		});
-	}
-
 	return (
 		<DataGridCustom
 			cols={columns}
 			title="Réservation"
 			subtitle="Table des réservations"
-			data={data}
 			path="/addreservation"
-			updateData={updateData}
-			removeData={removeData}
+			api={reservationsApi}
 		/>
 	);
 }

@@ -1,24 +1,10 @@
 import { GridColDef, GridPreProcessEditCellProps } from "@mui/x-data-grid";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import DataGridCustom from "../components/DataGridCustom";
-import { User as UserModel } from "model/User";
-import { useEffect, useState } from "react";
 import { usersApi } from "../api/usersApi";
 import { phoneFormat, emailFormat } from "../components/utils";
 
 function User() {
-	const [data, setData] = useState<UserModel[]>([]);
-
-	function fillState() {
-		usersApi.getAll().then((res) => {
-			setData(res.data);
-		});
-	}
-
-	useEffect(() => {
-		fillState();
-	}, []);
-
 	const columns: GridColDef[] = [
 		{ field: "id", headerName: "ID", minWidth: 20, type: "number" },
 		{
@@ -98,23 +84,11 @@ function User() {
 		},
 	];
 
-	function updateData(newData: UserModel) {
-		usersApi.update(newData.id, newData);
-	}
-
-	function removeData(id: string) {
-		usersApi.delete(id).then(() => {
-			fillState();
-		});
-	}
-
 	return (
 		<>
 			<DataGridCustom
 				cols={columns}
-				data={data}
-				updateData={updateData}
-				removeData={removeData}
+				api={usersApi}
 				title="User"
 				subtitle="Liste des utilisateurs"
 				path="/adduser"

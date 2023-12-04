@@ -1,6 +1,5 @@
 import { GridColDef } from "@mui/x-data-grid";
 import DataGridCustom from "../components/DataGridCustom";
-import { useEffect, useState } from "react";
 import { paymentsApi } from "../api/paymentsApi";
 
 function Payment() {
@@ -23,37 +22,14 @@ function Payment() {
 			editable: true,
 		},
 	];
-	const [data, setData] = useState<any[]>([]);
-
-	function fillState() {
-		paymentsApi.getAll().then((res) => {
-			setData(res.data);
-		});
-	}
-	useEffect(() => {
-		fillState();
-	}, []);
-	function removeData(id: string) {
-		paymentsApi.delete(id).then(() => {
-			fillState();
-		});
-	}
-
-	function updateData(data: any) {
-		paymentsApi.update(data.id, data).then(() => {
-			fillState();
-		});
-	}
 
 	return (
 		<DataGridCustom
 			cols={columns}
 			title="Payment"
 			subtitle="Table des payments"
-			data={data}
 			path="/addpayment"
-			updateData={updateData}
-			removeData={removeData}
+			api={paymentsApi}
 		/>
 	);
 }

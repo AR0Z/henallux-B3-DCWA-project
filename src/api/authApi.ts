@@ -1,4 +1,6 @@
 import axios from "axios";
+import store from "../state/store";
+import { userLoaded } from "../state/authSlice";
 
 const api = axios.create({
 	baseURL: "https://smartcities.aroz.be/api/",
@@ -13,21 +15,19 @@ api.interceptors.response.use(
 			originalRequest._retry = true;
 
 			try {
-				const refreshToken = localStorage.getItem("refreshToken");
-				const response = await axios.post("/api/loigin", {
+				const refreshToken = store.dispatch((state) => state.auth.refreshToken);
+				const response = await axios.post("/api/login", {
 					refreshToken,
 				});
 				const { token } = response.data;
-
-				localStorage.setItem("token", token);
-
+				store.dispatch(userLoaded({ token }));
 				originalRequest.headers.Authorization = `Bearer ${token}`;
+				console.log(token)
 				return axios(originalRequest);
 			} catch (error) {
 				return Promise.reject(error);
 			}
 		}
-
 		return Promise.reject(error);
 	}
 );
@@ -42,5 +42,16 @@ export async function login(email: string, password: string) {
 	} catch (error) {
 		return Promise.reject(error);
 	}
+	console.log(data);
 	return data;
+}
+
+export async function logout() {
+	try {
+		await api.post("auth/logout", {
+			token: store.dispatch((state) => state.auth.token),
+		});
+	} catch (error) {
+		return Promise.reject(error);
+	}
 }

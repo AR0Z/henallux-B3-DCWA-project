@@ -11,5 +11,4 @@ export type LineOfForm = {
 	label: string;
 	id: string;
 	required: boolean;
-	format?: Function;
 } & (ComboBoxAttributes | DefaultAttirubtes);

@@ -19,11 +19,9 @@ export default function Login() {
 		e.preventDefault();
 		await login(email, password)
 			.then((res: any) => {
-				dispatch(userLoaded(res.token));
-				localStorage.setItem("token", res.token);
-				if (res.refreshToken)
-					localStorage.setItem("refreshToken", res.refreshToken);
-				navigate("/");
+				console.log(res);
+				dispatch(userLoaded(res.data));
+				navigate("/dashboard");
 			})
 			.catch((err) => {
 				console.log(err);
