@@ -2,38 +2,19 @@ import { Box } from "@mui/material";
 import FlexBetween from "../components/FlexBetween";
 import Header from "../components/Header";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import {
-	randomBoolean,
-	randomEmail,
-	randomId,
-	randomInt,
-	randomPhoneNumber,
-	randomUserName,
-} from "@mui/x-data-grid-generator";
+
 import { useTheme } from "@emotion/react";
 import InfoCard from "../components/InfoCard";
-
-let data: any[] = [];
-for (let i = 0; i < 10; i++) {
-	data.push({
-		id: randomId(),
-		firstName: randomUserName(),
-		lastName: randomUserName(),
-		email: randomEmail(),
-		isDriver: randomBoolean(),
-		nbStars: randomInt(0, 5),
-		password: randomUserName(),
-		phoneNumber: randomPhoneNumber(),
-		description: "description",
-		vehicle: "vehicle",
-		plateNumber: undefined,
-		numberOfKm: randomInt(0, 1000),
-	});
-}
+import "../styles/dashboard.css";
 
 const cols: GridColDef[] = [
 	{ sortable: false, field: "id", headerName: "ID" },
-	{ sortable: false, field: "firstName", headerName: "First name", width: 130 },
+	{
+		sortable: false,
+		field: "firstName",
+		headerName: "First name",
+		width: 130,
+	},
 	{ sortable: false, field: "lastName", headerName: "Last name", width: 130 },
 	{ sortable: false, field: "email", headerName: "Email", width: 130 },
 	{ sortable: false, field: "nbStars", headerName: "Nb stars", width: 130 },
@@ -46,58 +27,60 @@ const cols: GridColDef[] = [
 ];
 
 function Dashboard() {
-	const theme = useTheme();
+	const theme: any = useTheme();
+
+	const data = {
+		nbKm: 2000,
+		nbCovoit: 1000,
+		nbCovoitCanceled: 2,
+	};
+
+	const datagridTheme = {
+		"& .MuiDataGrid-root": {
+			border: "none",
+		},
+		"& .MuiDataGrid-columnHeaders": {
+			borderBottom: "none",
+		},
+		"& .MuiDataGrid-virtualScroller": {
+			backgroundColor: theme.palette.primary.light,
+		},
+		"& .MuiDataGrid-footerContainer": {
+			backgroundColor: theme.palette.background.default,
+			color: theme.palette.secondary[100],
+			borderTop: "none",
+		},
+	};
+
 	return (
-		<Box m="1.5rem 2.5rem">
+		<Box className="wrapper-dashboard">
 			<Header
 				title="Dashboard"
 				subtitle="Bienvenue sur le dashboard du back office"
 			/>
 
 			<FlexBetween gap="10px">
-				<div
-					style={{
-						display: "flex",
-						alignItems: "start",
-						height: "72vh",
-						width: "100%",
-						justifyContent: "space-between",
-						paddingTop: "100px",
-					}}>
-					<InfoCard icon={"valid"} data={2000} label="Kilomètres éffectués" />
+				<Box className="wrapper-info-card">
+					<InfoCard
+						icon={"valid"}
+						data={data.nbKm}
+						label="Kilomètres éffectués"
+					/>
 					<InfoCard
 						icon={"rising"}
-						data={1000}
+						data={data.nbCovoit}
 						label="Covoiturages effectués"
 					/>
-					<InfoCard icon={"decreasing"} data={2} label="Covoiturages annulés" />
-				</div>
-				<Box
-					mt="40px"
-					height="72vh"
-					sx={{
-						"& .MuiDataGrid-root": {
-							border: "none",
-						},
-						"& .MuiDataGrid-columnHeaders": {
-							borderBottom: "none",
-						},
-						"& .MuiDataGrid-virtualScroller": {
-							backgroundColor: theme.palette.primary.light,
-						},
-						"& .MuiDataGrid-footerContainer": {
-							// @ts-ignore
-							backgroundColor: theme.palette.background.default,
-							// @ts-ignore
-							color: theme.palette.secondary[100],
-							borderTop: "none",
-						},
-					}}
-					p={"20px"}
-					width={"100%"}>
+					<InfoCard
+						icon={"decreasing"}
+						data={data.nbCovoitCanceled}
+						label="Covoiturages annulés"
+					/>
+				</Box>
+				<Box className="wrapper-datagrid" sx={datagridTheme}>
 					<DataGrid
 						loading={false}
-						rows={data || []}
+						rows={[]}
 						columns={cols}
 						hideFooter
 						autoHeight

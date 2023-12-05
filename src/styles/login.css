@@ -1,0 +1,34 @@
+/* position="absolute" top="0" right="0" m="1rem" */
+#root {
+	height: 100vh;
+}
+
+.theme-button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 1rem;
+}
+
+.wrapper-login {
+	margin-top: 8px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 90vh;
+	justify-content: center;
+}
+
+.submit {
+	margin-top: 3px;
+	margin-bottom: 2px;
+}
+
+.avatar {
+	margin: 1px;
+}
+
+.login-form {
+	width: 300px;
+	margin-top: 10px;
+}

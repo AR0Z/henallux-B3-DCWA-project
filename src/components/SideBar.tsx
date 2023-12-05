@@ -81,7 +81,7 @@ function SideBar({ isSidebarOpen, setIsSidebarOpen, drawerWidth }: Props) {
 	const { pathname } = useLocation();
 	const [active, setActive] = useState<string>("");
 	const navigate = useNavigate();
-	const theme = useTheme();
+	const theme: any = useTheme();
 
 	useEffect(() => {
 		setActive(pathname.substring(1));

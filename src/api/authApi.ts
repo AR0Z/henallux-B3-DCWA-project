@@ -1,12 +1,13 @@
 import axios from "axios";
 import store from "../state/store";
 import { userLoaded } from "../state/authSlice";
+import api from "../api/api";
 
-const api = axios.create({
+const loginApi = axios.create({
 	baseURL: "https://smartcities.aroz.be/api/",
 });
 
-api.interceptors.response.use(
+loginApi.interceptors.response.use(
 	(response) => response,
 	async (error) => {
 		const originalRequest = error.config;
@@ -15,14 +16,16 @@ api.interceptors.response.use(
 			originalRequest._retry = true;
 
 			try {
-				const refreshToken = store.dispatch((state) => state.auth.refreshToken);
+				const refreshToken = store.dispatch(
+					(state: any) => state.auth.refreshToken
+				);
 				const response = await axios.post("/api/login", {
 					refreshToken,
 				});
 				const { token } = response.data;
 				store.dispatch(userLoaded({ token }));
 				originalRequest.headers.Authorization = `Bearer ${token}`;
-				console.log(token)
+				console.log(token);
 				return axios(originalRequest);
 			} catch (error) {
 				return Promise.reject(error);
@@ -35,21 +38,20 @@ api.interceptors.response.use(
 export async function login(email: string, password: string) {
 	let data;
 	try {
-		data = await api.post("auth/login", {
+		data = await loginApi.post("auth/login", {
 			email: email,
 			password: password,
 		});
 	} catch (error) {
 		return Promise.reject(error);
 	}
-	console.log(data);
 	return data;
 }
 
 export async function logout() {
 	try {
 		await api.post("auth/logout", {
-			token: store.dispatch((state) => state.auth.token),
+			token: localStorage.getItem("token"),
 		});
 	} catch (error) {
 		return Promise.reject(error);

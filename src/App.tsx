@@ -2,7 +2,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 // @ts-ignore
 import { themeSettings } from "./theme.js";
 import { createTheme } from "@mui/material/styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./pages/Layouts/Layout.js";
@@ -22,13 +22,11 @@ import FormVehicule from "./pages/forms/FormVehicule";
 import FormPayment from "./pages/forms/FormPayment";
 import FormTravel from "./pages/forms/FormTravel";
 import RequireAuth from "./pages/Layouts/RequireAuth.js";
-import { logState } from "./state/authSlice.js";
 
 function App() {
 	const mode = useSelector((state: any) => state.theme.mode);
 
 	const theme: any = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-	const dispatch = useDispatch();
 	return (
 		<>
 			<BrowserRouter>

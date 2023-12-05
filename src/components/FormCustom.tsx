@@ -8,9 +8,10 @@ import {
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useState } from "react";
-import { LineOfForm } from "../model/FormTypes";
+import { ComboBoxAttributes, LineOfForm } from "../model/FormTypes";
 import FlexBetween from "./FlexBetween";
 import { Link, useNavigate } from "react-router-dom";
+import "../styles/form.css";
 
 type Props = {
 	lines: LineOfForm[];
@@ -19,7 +20,7 @@ type Props = {
 	baseData: Object;
 };
 
-function FormCustom<T>({ lines, path, api, baseData }: Props) {
+function FormCustom({ lines, path, api, baseData }: Props) {
 	const [data, setData] = useState<any>(baseData);
 
 	const navigate = useNavigate();
@@ -59,23 +60,23 @@ function FormCustom<T>({ lines, path, api, baseData }: Props) {
 
 	function getCheckBox(line: LineOfForm) {
 		return (
-			<FormControl fullWidth>
-				<FormLabel htmlFor={line.id}>{line.label}</FormLabel>
+			<FormControl fullWidth className="checkbox-wrapper">
+				<FormLabel htmlFor={line.id} className="checkbox-label">
+					{line.label}
+				</FormLabel>
 				<TextField
 					id={line.id}
-					variant="outlined"
-					color="primary"
 					type="checkbox"
-					onChange={(event) => {
-						console.log(event.target.checked);
+					onChange={(event: any) => {
 						setData({ ...data, [line.id]: event.target.checked });
 					}}
+					className="checkbox"
 				/>
 			</FormControl>
 		);
 	}
 
-	function getComboBox(line: LineOfForm) {
+	function getComboBox(line: LineOfForm & ComboBoxAttributes) {
 		return (
 			<FormControl fullWidth>
 				<Autocomplete
@@ -83,7 +84,7 @@ function FormCustom<T>({ lines, path, api, baseData }: Props) {
 					color="primary"
 					options={line.options}
 					renderInput={(params) => <TextField {...params} label={line.id} />}
-					onChange={(e, value) => {
+					onChange={(value) => {
 						setData({ ...data, [line.label]: value });
 					}}
 				/>
@@ -127,15 +128,7 @@ function FormCustom<T>({ lines, path, api, baseData }: Props) {
 
 	return (
 		<>
-			<form
-				onSubmit={handleSubmit}
-				style={{
-					display: "flex",
-					flexDirection: "column",
-					alignItems: "center",
-					justifyContent: "center",
-					gap: "1rem",
-				}}>
+			<form onSubmit={handleSubmit} className="form-wrapper">
 				{lines.map((line) => getFormControl(line))}
 				<FlexBetween width={"80%"}>
 					<Button type="button" variant="outlined" color="primary">

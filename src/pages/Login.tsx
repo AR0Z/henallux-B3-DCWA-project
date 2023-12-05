@@ -7,6 +7,7 @@ import { useState } from "react";
 import { login } from "../api/authApi";
 import { useDispatch } from "react-redux";
 import { userLoaded } from "../state/authSlice";
+import "../styles/login.css";
 
 export default function Login() {
 	const navigate = useNavigate();
@@ -52,17 +53,11 @@ export default function Login() {
 
 	return (
 		<>
-			<Box position="absolute" top="0" right="0" m="1rem">
+			<Box className="theme-button">
 				<SwitchThemeButton />
 			</Box>
-			<Box
-				sx={{
-					marginTop: 8,
-					display: "flex",
-					flexDirection: "column",
-					alignItems: "center",
-				}}>
-				<Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+			<Box className="wrapper-login">
+				<Avatar className="avatar" sx={{ bgcolor: "secondary.main" }}>
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
@@ -71,10 +66,8 @@ export default function Login() {
 				<Box
 					component="form"
 					onSubmit={handleSubmit}
-					noValidate
-					sx={{
-						mt: 1,
-					}}>
+					className="login-form"
+					noValidate>
 					<TextField
 						margin="normal"
 						required
@@ -84,6 +77,7 @@ export default function Login() {
 						name="email"
 						autoFocus
 						value={email}
+						type="email"
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<TextField
@@ -102,7 +96,7 @@ export default function Login() {
 						type="submit"
 						fullWidth
 						variant="contained"
-						sx={{ mt: 3, mb: 2 }}>
+						className="submit">
 						Log In
 					</Button>
 				</Box>

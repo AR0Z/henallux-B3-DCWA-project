@@ -1,43 +1,56 @@
 import FormCustom from "../../components/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
+import { travelsApi } from "../../api/travelsApi";
 
+const path = "/travels";
+const Lines: LineOfForm[] = [
+	{
+		label: "Driver",
+		type: "text",
+		id: "driver",
+		required: true,
+	},
+	{
+		label: "Departure Date",
+		type: "date",
+		id: "departureDate",
+		required: true,
+	},
+	{
+		label: "Available Places",
+		type: "number",
+		id: "availablePlaces",
+		required: true,
+	},
+	{
+		label: "Price Per Spot",
+		type: "number",
+		id: "pricePerSpot",
+		required: true,
+	},
+	{
+		label: "Starting Location",
+		type: "text",
+		id: "startingLocation",
+		required: true,
+	},
+];
 
+const baseData = {
+	driver: "",
+	departureDate: "",
+	availablePlaces: 0,
+	pricePerSpot: 0,
+	startingLocation: "",
+};
 function FormTravel() {
-	const path = "/travels";
-	const Lines: LineOfForm[] = [
-		{
-			label: "Driver",
-			type: "text",
-			id: "driver",
-			required: true,
-		},
-		{
-			label: "Departure Date",
-			type: "date",
-			id: "departureDate",
-			required: true,
-		},
-		{
-			label: "Available Places",
-			type: "number",
-			id: "availablePlaces",
-			required: true,
-		},
-		{
-			label: "Price Per Spot",
-			type: "number",
-			id: "pricePerSpot",
-			required: true,
-		},
-		{
-			label: "Starting Location",
-			type: "text",
-			id: "startingLocation",
-			required: true,
-		},
-	];
-
-	return <FormCustom lines={Lines} path={path}></FormCustom>;
+	return (
+		<FormCustom
+			lines={Lines}
+			path={path}
+			baseData={baseData}
+			api={travelsApi}></FormCustom>
+	);
 }
 
 export default FormTravel;

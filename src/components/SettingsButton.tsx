@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userLogout } from "../state/authSlice";
+import { logout } from "../api/authApi";
 
 function SettingsButton() {
 	const navigate = useNavigate();
@@ -16,8 +17,10 @@ function SettingsButton() {
 	};
 
 	function handleLogout() {
-		dispatch(userLogout());
-		navigate("/login");
+		logout().then(() => {
+			dispatch(userLogout());
+			navigate("/login");
+		});
 	}
 
 	return (

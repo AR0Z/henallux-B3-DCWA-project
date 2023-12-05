@@ -6,7 +6,7 @@ type Props = {
 };
 
 const Header = ({ title, subtitle }: Props) => {
-	const theme = useTheme();
+	const theme: any = useTheme();
 	return (
 		<Box>
 			<Typography

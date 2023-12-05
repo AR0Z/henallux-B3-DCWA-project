@@ -1,3 +1,3 @@
-import crudApi from './crudApi';
+import crudApi from "./crudApi";
 
-export const locationsApi = crudApi('/locations');
+export const locationsApi = crudApi("/location_travel");
