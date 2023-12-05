@@ -3,11 +3,16 @@ import DataGridCustom from "../../components/DataGridCustom";
 import { locationsApi } from "../../api/locationsApi";
 
 const columns: GridColDef[] = [
-	{ field: "id", headerName: "ID" },
-	{ field: "label", headerName: "Nom", editable: true },
-	{ field: "latitude", headerName: "Latitude", editable: true },
-	{ field: "longitude", headerName: "Longitude", editable: true },
-	{ field: "next_stop", headerName: "prochain arret", editable: true },
+	{ field: "id", headerName: "ID", width: 50, type: "number" },
+	{ field: "label", headerName: "Nom", editable: true, width: 130 },
+	{ field: "latitude", headerName: "Latitude", editable: true, width: 130 },
+	{ field: "longitude", headerName: "Longitude", editable: true, width: 130 },
+	{
+		field: "next_stop",
+		headerName: "prochain arret",
+		editable: true,
+		width: 130,
+	},
 ];
 
 function Location() {

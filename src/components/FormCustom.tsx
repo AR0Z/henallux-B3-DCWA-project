@@ -60,7 +60,7 @@ function FormCustom({ lines, path, api, baseData }: Props) {
 
 	function getCheckBox(line: LineOfForm) {
 		return (
-			<FormControl fullWidth className="checkbox-wrapper">
+			<FormControl className="checkbox-wrapper">
 				<FormLabel htmlFor={line.id} className="checkbox-label">
 					{line.label}
 				</FormLabel>
@@ -87,6 +87,26 @@ function FormCustom({ lines, path, api, baseData }: Props) {
 					onChange={(value) => {
 						setData({ ...data, [line.label]: value });
 					}}
+				/>
+			</FormControl>
+		);
+	}
+
+	function getTextArea(line: LineOfForm) {
+		return (
+			<FormControl fullWidth>
+				<TextField
+					id={line.id}
+					label={line.label}
+					variant="outlined"
+					color="primary"
+					type="textarea"
+					onChange={(event) => {
+						setData({ ...data, [line.id]: event.target.value });
+					}}
+					required={line.required}
+					multiline
+					rows={4}
 				/>
 			</FormControl>
 		);
@@ -121,6 +141,8 @@ function FormCustom({ lines, path, api, baseData }: Props) {
 				return getCheckBox(line);
 			case "combobox":
 				return getComboBox(line);
+			case "textarea":
+				return getTextArea(line);
 			default:
 				return <></>;
 		}

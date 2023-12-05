@@ -57,6 +57,12 @@ const Lines: LineOfForm[] = [
 		id: "vehicle",
 		required: false,
 	},
+	{
+		label: "Description",
+		type: "textarea",
+		id: "description",
+		required: false,
+	},
 ];
 
 const baseData = {

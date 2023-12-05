@@ -4,7 +4,15 @@ export type ComboBoxAttributes = {
 };
 
 export type DefaultAttirubtes = {
-	type: "text" | "number" | "password" | "email" | "tel" | "checkbox" | "date";
+	type:
+		| "text"
+		| "number"
+		| "password"
+		| "email"
+		| "tel"
+		| "checkbox"
+		| "date"
+		| "textarea";
 };
 
 export type LineOfForm = {

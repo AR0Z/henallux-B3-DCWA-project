@@ -31,7 +31,7 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 	const theme = useTheme();
 	const [rows, setRows] = useState<any[]>([]);
 	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
-
+	console.log(rows);
 	const datagridTheme = {
 		"& .MuiDataGrid-root": {
 			border: "none",
@@ -215,6 +215,9 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 							},
 						}}
 						slots={{ toolbar: GridToolbar }}
+						sx={{
+							width: "90%",
+						}}
 					/>
 				</Box>
 			</Box>

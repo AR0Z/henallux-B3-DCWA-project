@@ -5,8 +5,8 @@ import { travelsApi } from "../../api/travelsApi";
 const path = "/travels";
 const Lines: LineOfForm[] = [
 	{
-		label: "Driver",
-		type: "text",
+		label: "id du conducteur",
+		type: "email",
 		id: "driver",
 		required: true,
 	},
@@ -29,7 +29,7 @@ const Lines: LineOfForm[] = [
 		required: true,
 	},
 	{
-		label: "Starting Location",
+		label: "id du lieu de départ",
 		type: "text",
 		id: "startingLocation",
 		required: true,

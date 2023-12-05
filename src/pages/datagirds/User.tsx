@@ -5,11 +5,16 @@ import { usersApi } from "../../api/usersApi";
 import { phoneFormat, emailFormat } from "../../components/utils";
 
 const columns: GridColDef[] = [
-	{ field: "id", headerName: "ID", minWidth: 20, type: "number" },
+	{
+		field: "id",
+		headerName: "ID",
+		width: 50,
+		type: "number",
+	},
 	{
 		field: "firstname",
 		headerName: "First name",
-		minWidth: 20,
+		width: 130,
 		type: "string",
 	},
 	{
