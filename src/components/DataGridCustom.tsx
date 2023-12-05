@@ -208,7 +208,11 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 						onRowEditStop={handleRowEditStop}
 						processRowUpdate={processRowUpdate}
 						slotProps={{
-							toolbar: { setRows, setRowModesModel, showQuickFilter: true },
+							toolbar: {
+								// setRows,
+								// setRowModesModel,
+								showQuickFilter: true,
+							},
 						}}
 						slots={{ toolbar: GridToolbar }}
 					/>

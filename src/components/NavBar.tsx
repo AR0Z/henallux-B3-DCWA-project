@@ -17,6 +17,7 @@ export default function NavBar({ isSidebarOpen, setIsSidebarOpen }: Props) {
 				position: "sticky",
 				background: "none",
 				boxShadow: "none",
+				height: "4rem",
 			}}>
 			<Toolbar sx={{ justifyContent: "space-between" }}>
 				{/* Gauche */}

@@ -28,7 +28,6 @@ const fallback = (
 
 function App() {
 	const mode = useSelector((state: any) => state.theme.mode);
-
 	const theme: any = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 	return (
 		<>
