@@ -1,8 +1,8 @@
 import { GridColDef, GridPreProcessEditCellProps } from "@mui/x-data-grid";
 import type {} from "@mui/x-data-grid/themeAugmentation";
-import DataGridCustom from "../components/DataGridCustom";
-import { usersApi } from "../api/usersApi";
-import { phoneFormat, emailFormat } from "../components/utils";
+import DataGridCustom from "../../components/DataGridCustom";
+import { usersApi } from "../../api/usersApi";
+import { phoneFormat, emailFormat } from "../../components/utils";
 
 const columns: GridColDef[] = [
 	{ field: "id", headerName: "ID", minWidth: 20, type: "number" },

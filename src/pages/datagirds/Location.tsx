@@ -1,6 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
-import DataGridCustom from "../components/DataGridCustom";
-import { locationsApi } from "../api/locationsApi";
+import DataGridCustom from "../../components/DataGridCustom";
+import { locationsApi } from "../../api/locationsApi";
 
 const columns: GridColDef[] = [
 	{ field: "id", headerName: "ID" },

@@ -1,6 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
-import DataGridCustom from "../components/DataGridCustom";
-import { reservationsApi } from "../api/reservationsApi";
+import DataGridCustom from "../../components/DataGridCustom";
+import { reservationsApi } from "../../api/reservationsApi";
 
 const columns: GridColDef[] = [
 	{ field: "id", headerName: "ID", type: "number", flex: 1, maxWidth: 100 },
