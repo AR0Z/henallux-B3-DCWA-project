@@ -4,7 +4,7 @@ import {
 	TrendingFlat,
 	TrendingUp,
 } from "@mui/icons-material";
-import { Box, CardContent, CircularProgress } from "@mui/material";
+import { CardContent, CircularProgress } from "@mui/material";
 import Card from "@mui/material/Card";
 
 type Icons = "valid" | "rising" | "decreasing" | "flat";
@@ -41,13 +41,18 @@ function InfoCard({ icon, data, label }: Props) {
 					height: "100%",
 				}}>
 				{/* Top icon */}
-				<Box>{getIconFromName(icon)}</Box>
+				<div>{getIconFromName(icon)}</div>
 				{/* data */}
-				<Box>{data ? <h1>{data}</h1> : <CircularProgress />}</Box>
+				<div>{data ? <h1>{data}</h1> : <CircularProgress />}</div>
 				{/* label */}
-				<Box>
-					<h4>{label}</h4>
-				</Box>
+				<div>
+					<h4
+						style={{
+							textAlign: "center",
+						}}>
+						{label}
+					</h4>
+				</div>
 			</CardContent>
 		</Card>
 	);
