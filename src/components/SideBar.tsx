@@ -1,9 +1,7 @@
 import React from "react";
 import {
-	Box,
 	Divider,
 	Drawer,
-	List,
 	ListItem,
 	ListItemIcon,
 	ListItemButton,
@@ -12,9 +10,6 @@ import {
 } from "@mui/material";
 
 import {
-	SettingsOutlined,
-	ChevronLeft,
-	ChevronRightOutlined,
 	HomeOutlined,
 	DirectionsCarOutlined,
 	PersonOutlineOutlined,
@@ -25,7 +20,7 @@ import {
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import FlexBetween from "./FlexBetween";
+import "../styles/sidebar.css";
 
 type NavItemProps = {
 	text: string;
@@ -36,7 +31,6 @@ type NavItemProps = {
 type Props = {
 	isSidebarOpen: boolean;
 	setIsSidebarOpen: Function;
-	drawerWidth: string;
 };
 
 const navItems: NavItemProps[] = [
@@ -77,7 +71,9 @@ const navItems: NavItemProps[] = [
 	},
 ];
 
-function SideBar({ isSidebarOpen, setIsSidebarOpen, drawerWidth }: Props) {
+const drawerWidth = "15rem";
+
+function SideBar({ isSidebarOpen, setIsSidebarOpen }: Props) {
 	const { pathname } = useLocation();
 	const [active, setActive] = useState<string>("");
 	const navigate = useNavigate();
@@ -88,7 +84,7 @@ function SideBar({ isSidebarOpen, setIsSidebarOpen, drawerWidth }: Props) {
 	}, [pathname]);
 
 	return (
-		<Box component="nav">
+		<nav>
 			{isSidebarOpen && (
 				<Drawer
 					open={isSidebarOpen}
@@ -105,55 +101,56 @@ function SideBar({ isSidebarOpen, setIsSidebarOpen, drawerWidth }: Props) {
 							boxSizing: "border-box",
 						},
 					}}>
-					<Box width="100%">
-						<Box ml="2rem" mt="1rem" mb="1rem">
-							<FlexBetween color={theme.palette.primary.main}>
-								<Box display="flex" alignItems="center" gap="0.5rem">
-									<Typography variant="h4" fontWeight="bold">
-										<ListItem onClick={() => navigate("/")}>
-											CarpoolConnect
-										</ListItem>
-									</Typography>
-								</Box>
-							</FlexBetween>
-						</Box>
-					</Box>
+					<div id="title-wrapper">
+						<div id="title">
+							<Typography
+								variant="h4"
+								fontWeight="bold"
+								color={theme.palette.primary.main}>
+								<ListItem onClick={() => navigate("/")}>
+									CarpoolConnect
+								</ListItem>
+							</Typography>
+						</div>
+					</div>
 					<Divider />
-					<List>
+					<ul>
 						{navItems.map((item) => (
-							<ListItem key={item.text} disablePadding>
-								<ListItemButton
-									onClick={() => {
-										navigate(item.path);
-										setActive(item.path);
-									}}
-									selected={active === item.path}
-									sx={{
-										backgroundColor:
-											active === item.text
-												? theme.palette.secondary[300]
-												: "transparent",
-										color:
-											active === item.text
-												? theme.palette.primary[600]
-												: theme.palette.secondary[100],
-										"&:hover": {
-											backgroundColor: theme.palette.secondary[300],
-											color: theme.palette.primary[600],
-										},
-										marginTop: "1rem",
-									}}>
-									<ListItemIcon>{item.icon}</ListItemIcon>
-									<Typography variant="h6" fontWeight="bold">
-										{item.text}
-									</Typography>
-								</ListItemButton>
-							</ListItem>
+							<>
+								<ListItem key={item.text} className="sidebar-items">
+									<ListItemButton
+										className="sidebar-btn"
+										onClick={() => {
+											navigate(item.path);
+											setActive(item.path);
+										}}
+										selected={active === item.path}
+										sx={{
+											backgroundColor:
+												active === item.text
+													? theme.palette.secondary[300]
+													: "transparent",
+											color:
+												active === item.text
+													? theme.palette.primary[600]
+													: theme.palette.secondary[100],
+											"&:hover": {
+												backgroundColor: theme.palette.secondary[300],
+												color: theme.palette.primary[600],
+											},
+										}}>
+										<ListItemIcon>{item.icon}</ListItemIcon>
+										<Typography variant="h6" fontWeight="bold">
+											{item.text}
+										</Typography>
+									</ListItemButton>
+								</ListItem>
+							</>
 						))}
-					</List>
+					</ul>
 				</Drawer>
 			)}
-		</Box>
+		</nav>
 	);
 }
 
