@@ -25,7 +25,6 @@ loginApi.interceptors.response.use(
 				const { token } = response.data;
 				store.dispatch(userLoaded({ token }));
 				originalRequest.headers.Authorization = `Bearer ${token}`;
-				console.log(token);
 				return axios(originalRequest);
 			} catch (error) {
 				return Promise.reject(error);

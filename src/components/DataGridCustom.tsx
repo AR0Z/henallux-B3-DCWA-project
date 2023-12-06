@@ -1,4 +1,4 @@
-import { Box, Button, useTheme } from "@mui/material";
+import { Alert, Box, Button, Snackbar, Stack, useTheme } from "@mui/material";
 import {
 	DataGrid,
 	GridActionsCellItem,
@@ -31,7 +31,10 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 	const theme = useTheme();
 	const [rows, setRows] = useState<any[]>([]);
 	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
-	console.log(rows);
+	const [open, setOpen] = useState(false);
+	const [errorMessage, setErrorMessage] = useState<string>("");
+	const [severity, setSeverity] = useState<"success" | "error" | "info">();
+
 	const datagridTheme = {
 		"& .MuiDataGrid-root": {
 			border: "none",
@@ -64,21 +67,52 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 	}, []);
 
 	function updateData() {
-		api.getAll().then((res: AxiosResponse) => {
-			setRows(res.data);
-		});
+		api
+			.getAll()
+			.then((res: AxiosResponse) => {
+				setRows(res.data);
+			})
+			.catch((_: any) => {
+				setErrorMessage("Une erreur est survenue");
+				setSeverity("error");
+				setOpen(true);
+			});
 	}
 
 	function putData(newData: any) {
-		api.update(newData.id, newData).then(() => {
-			updateData();
-		});
+		api
+			.update(newData.id, newData)
+			.then(() => {
+				updateData();
+			})
+			.catch((_: any) => {
+				setErrorMessage("Une erreur est survenue");
+				setSeverity("error");
+				setOpen(true);
+			})
+			.finally(() => {
+				setSeverity("success");
+				setErrorMessage("L'élément a bien été modifié");
+				setOpen(true);
+			});
 	}
 
 	function removeData(id: string) {
-		api.delete(id).then(() => {
-			updateData();
-		});
+		api
+			.delete(id)
+			.then(() => {
+				updateData();
+			})
+			.catch((_: any) => {
+				setErrorMessage("Une erreur est survenue");
+				setSeverity("error");
+				setOpen(true);
+			})
+			.finally(() => {
+				setSeverity("success");
+				setErrorMessage("L'élément a bien été supprimé");
+				setOpen(true);
+			});
 	}
 
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
@@ -107,7 +141,6 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 			if (!window.confirm("Are you sure you want to delete this item?")) return;
 			const itemToDelete = rows.find((row: any) => row.id === id);
 			removeData(itemToDelete.id);
-
 			setRows(rows.filter((row: any) => row.id !== id));
 		};
 	}
@@ -122,6 +155,9 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 			if (editedRow!.isNew) {
 				setRows(rows.filter((row: any) => row.id !== id));
 			}
+			setSeverity("info");
+			setErrorMessage("L'élément n'a pas été modifié");
+			setOpen(true);
 		};
 	}
 
@@ -146,55 +182,52 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 			width: 100,
 			cellClassName: "actions",
 			getActions: ({ id }: any) => {
-				const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-				if (isInEditMode) {
-					return [
-						<GridActionsCellItem
-							icon={<Save sx={{ color: theme.palette.grey[100] }} />}
-							label="Save"
-							sx={{
-								color: "primary.main",
-							}}
-							onClick={handleSaveClick(id)}
-						/>,
-						<GridActionsCellItem
-							icon={<Cancel />}
-							label="Cancel"
-							className="textPrimary"
-							onClick={handleCancelClick(id)}
-							color="inherit"
-						/>,
-					];
-				}
-
-				return [
-					<GridActionsCellItem
-						icon={<EditOutlined />}
-						label="Edit"
-						className="textPrimary"
-						onClick={handleEditClick(id)}
-						color="inherit"
-					/>,
-					<GridActionsCellItem
-						icon={<Delete />}
-						label="Delete"
-						onClick={handleDeleteClick(id)}
-						color="inherit"
-					/>,
-				];
+				return rowModesModel[id]?.mode === GridRowModes.Edit
+					? [
+							<GridActionsCellItem
+								icon={<Save sx={{ color: theme.palette.grey[100] }} />}
+								label="Save"
+								sx={{
+									color: "primary.main",
+								}}
+								onClick={handleSaveClick(id)}
+							/>,
+							<GridActionsCellItem
+								icon={<Cancel />}
+								label="Cancel"
+								className="textPrimary"
+								onClick={handleCancelClick(id)}
+								color="inherit"
+							/>,
+					  ]
+					: [
+							<GridActionsCellItem
+								icon={<EditOutlined />}
+								label="Edit"
+								className="textPrimary"
+								onClick={handleEditClick(id)}
+								color="inherit"
+							/>,
+							<GridActionsCellItem
+								icon={<Delete />}
+								label="Delete"
+								onClick={handleDeleteClick(id)}
+								color="inherit"
+							/>,
+					  ];
 			},
 		},
 	];
 
 	return (
 		<>
-			<Box className="wrapper">
-				<Box>
+			<div className="wrapper">
+				<div>
 					<Header title={title} subtitle={subtitle} />
 					<Button variant="contained">
 						<Link to={path}>Ajouter un élément</Link>
 					</Button>
-				</Box>
+				</div>
 
 				<Box className="datagrid-wrapper" sx={datagridTheme}>
 					<DataGrid
@@ -209,8 +242,6 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 						processRowUpdate={processRowUpdate}
 						slotProps={{
 							toolbar: {
-								// setRows,
-								// setRowModesModel,
 								showQuickFilter: true,
 							},
 						}}
@@ -218,9 +249,28 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 						sx={{
 							width: "90%",
 						}}
+						initialState={{
+							sorting: {
+								sortModel: [
+									{
+										field: "id",
+										sort: "asc",
+									},
+								],
+							},
+						}}
 					/>
 				</Box>
-			</Box>
+			</div>
+			<Stack spacing={2} sx={{ width: "100%" }}>
+				<Snackbar
+					anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+					open={open}
+					autoHideDuration={2000}
+					onClose={() => setOpen(false)}>
+					<Alert severity={severity}>{errorMessage}</Alert>
+				</Snackbar>
+			</Stack>
 		</>
 	);
 }

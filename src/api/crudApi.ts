@@ -15,6 +15,10 @@ export default function CRUDApi(URL: string) {
 			return response;
 		},
 		async update(id: string, data: any) {
+			if (data.nb_seats) {
+				data.nbSeats = data.nb_seats;
+				delete data.nb_seats;
+			}
 			const response = await api.put(`${URL}/${id}`, data);
 			return response;
 		},

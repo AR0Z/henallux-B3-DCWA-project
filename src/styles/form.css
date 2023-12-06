@@ -1,11 +1,14 @@
 .checkbox-wrapper {
-	justify-content: space-between;
 	border-radius: 4px;
 	border: 0.1px solid rgb(118, 118, 118);
-}
-
-.checkbox-wrapper > * {
 	width: 100%;
+	height: 3rem;
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	align-items: center;
+	padding: 1rem;
+	justify-content: space-between;
 }
 
 .checkbox-wrapper .MuiOutlinedInput-notchedOutline {

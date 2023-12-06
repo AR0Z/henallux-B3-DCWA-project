@@ -31,8 +31,8 @@ function FormCustom({ lines, path, api, baseData }: Props) {
 
 	function handleSubmit(event: any) {
 		event.preventDefault();
-		newData();
 		if (window.confirm("Êtes-vous sûr de vouloir envoyer ce formulaire ?")) {
+			newData();
 			navigate(path);
 		}
 	}
@@ -84,7 +84,7 @@ function FormCustom({ lines, path, api, baseData }: Props) {
 					color="primary"
 					options={line.options}
 					renderInput={(params) => <TextField {...params} label={line.id} />}
-					onChange={(value) => {
+					onChange={(_, value) => {
 						setData({ ...data, [line.label]: value });
 					}}
 				/>

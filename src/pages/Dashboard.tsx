@@ -53,14 +53,14 @@ function Dashboard() {
 	};
 
 	return (
-		<Box className="wrapper-dashboard">
+		<div className="wrapper-dashboard">
 			<Header
 				title="Dashboard"
 				subtitle="Bienvenue sur le dashboard du back office"
 			/>
 
 			<FlexBetween gap="10px">
-				<Box className="wrapper-info-card">
+				<div className="wrapper-info-card">
 					<InfoCard
 						icon={"valid"}
 						data={data.nbKm}
@@ -76,7 +76,7 @@ function Dashboard() {
 						data={data.nbCovoitCanceled}
 						label="Covoiturages annulés"
 					/>
-				</Box>
+				</div>
 				<Box className="wrapper-datagrid" sx={datagridTheme}>
 					<DataGrid
 						loading={false}
@@ -92,7 +92,7 @@ function Dashboard() {
 					/>
 				</Box>
 			</FlexBetween>
-		</Box>
+		</div>
 	);
 }
 

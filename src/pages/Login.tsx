@@ -20,12 +20,10 @@ export default function Login() {
 		e.preventDefault();
 		await login(email, password)
 			.then((res: any) => {
-				console.log(res);
 				dispatch(userLoaded(res.data));
 				navigate("/dashboard");
 			})
 			.catch((err) => {
-				console.log(err);
 				if (!err.response) {
 					setErrMsg("Something went wrong");
 					return;

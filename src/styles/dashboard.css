@@ -3,14 +3,13 @@
 }
 
 .wrapper-info-card {
-	display: flex;
-	align-items: start;
+	display: grid;
 	height: 72vh;
 	width: 100%;
-	justify-content: space-between;
-	gap: 5px;
-	padding-top: 100px;
+	gap: 10px;
 	font-size: 20px;
+	grid-template-columns: repeat(3, 1fr);
+	justify-content: space-between;
 }
 
 .wrapper-info-card > div {
@@ -25,26 +24,11 @@
 	width: 100%;
 }
 
-/* media queries width <= 1200, 1440, 1920*/
-@media (max-width: 1300px) {
-	.wrapper-info-card {
-		flex-direction: row;
-		height: 100%;
-		width: 100%;
-		padding-top: 0;
-	}
-
-	.wrapper-info-card > div {
-		font-size: 0.6rem;
-	}
-}
-
 @media (max-width: 1440px) {
 	.wrapper-info-card {
-		flex-direction: column;
 		height: 100%;
 		width: 100%;
-		padding-top: 0;
+		grid-template-columns: repeat(2, 1fr);
 	}
 
 	.wrapper-info-card > div {
