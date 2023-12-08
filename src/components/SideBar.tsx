@@ -20,7 +20,7 @@ import {
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "../styles/sidebar.css";
+import "./sidebar.css";
 
 type NavItemProps = {
 	text: string;

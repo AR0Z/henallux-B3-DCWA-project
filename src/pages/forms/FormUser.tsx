@@ -64,7 +64,6 @@ const Lines: LineOfForm[] = [
 		required: false,
 	},
 ];
-
 const baseData = {
 	firstname: "",
 	lastname: "",
@@ -78,11 +77,7 @@ const baseData = {
 
 function FormUser() {
 	return (
-		<FormCustom
-			lines={Lines}
-			path={path}
-			api={usersApi}
-			baseData={baseData}></FormCustom>
+		<FormCustom lines={Lines} path={path} api={usersApi} baseData={baseData} />
 	);
 }
 

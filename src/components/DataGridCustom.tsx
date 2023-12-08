@@ -17,7 +17,7 @@ import { GridRowId } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { Cancel, Delete, EditOutlined, Save } from "@mui/icons-material";
 import { AxiosResponse } from "axios";
-import "../styles/datagrid.css";
+import "./datagrid.css";
 
 type Props = {
 	title: string;

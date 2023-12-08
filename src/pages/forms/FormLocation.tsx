@@ -29,7 +29,6 @@ const Lines: LineOfForm[] = [
 		required: false,
 	},
 ];
-
 const baseData = {
 	label: "",
 	latitude: "",
@@ -42,7 +41,8 @@ function FormLocation() {
 			lines={Lines}
 			path={path}
 			baseData={baseData}
-			api={locationsApi}></FormCustom>
+			api={locationsApi}
+		/>
 	);
 }
 

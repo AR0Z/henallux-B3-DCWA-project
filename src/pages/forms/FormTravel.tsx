@@ -35,7 +35,6 @@ const Lines: LineOfForm[] = [
 		required: true,
 	},
 ];
-
 const baseData = {
 	driver: "",
 	departureDate: "",
@@ -49,7 +48,8 @@ function FormTravel() {
 			lines={Lines}
 			path={path}
 			baseData={baseData}
-			api={travelsApi}></FormCustom>
+			api={travelsApi}
+		/>
 	);
 }
 

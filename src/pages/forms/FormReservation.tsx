@@ -56,13 +56,15 @@ const baseData = {
 	is_confirmed: false,
 	is_done: false,
 };
+
 function FormReservation() {
 	return (
 		<FormCustom
 			lines={Lines}
 			path={path}
 			baseData={baseData}
-			api={reservationsApi}></FormCustom>
+			api={reservationsApi}
+		/>
 	);
 }
 

@@ -1,2 +1,14 @@
 export { default as Login } from "./Login";
 export { default as Dashboard } from "./Dashboard";
+export { default as Location } from "../pages/datagirds/Location";
+export { default as User } from "../pages/datagirds/User";
+export { default as Payment } from "../pages/datagirds/Payment";
+export { default as Reservation } from "../pages/datagirds/Reservation";
+export { default as Vehicule } from "../pages/datagirds/Vehicule";
+export { default as Travel } from "../pages/datagirds/Travel";
+export { default as LocationForm } from "../pages/forms/FormLocation";
+export { default as UserForm } from "../pages/forms/FormUser";
+export { default as PaymentForm } from "../pages/forms/FormPayment";
+export { default as ReservationForm } from "../pages/forms/FormReservation";
+export { default as VehiculeForm } from "../pages/forms/FormVehicule";
+export { default as TravelForm } from "../pages/forms/FormTravel";

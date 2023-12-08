@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import { lazy, Suspense } from "react";
 const NavBar = lazy(() => import("../components/NavBar"));
 const SideBar = lazy(() => import("../components/SideBar"));
-import "../styles/base-layout.css";
+import "./base-layout.css";
 
 function Layout() {
 	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);

@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import SwitchThemeButton from "../components/SwitchThemeButton";
 import { Outlet } from "react-router-dom";
-import "../styles/layoutform.css";
+import "./form-layout.css";
 
 function LayoutForm() {
 	return (

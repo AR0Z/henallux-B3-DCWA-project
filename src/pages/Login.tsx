@@ -7,7 +7,7 @@ import { useState } from "react";
 import { login } from "../api/authApi";
 import { useDispatch } from "react-redux";
 import { userLoaded } from "../state/authSlice";
-import "../styles/login.css";
+import "./login.css";
 
 export default function Login() {
 	const navigate = useNavigate();

@@ -5,7 +5,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 import { useTheme } from "@emotion/react";
 import InfoCard from "../components/InfoCard";
-import "../styles/dashboard.css";
+import "./dashboard.css";
 
 const cols: GridColDef[] = [
 	{ sortable: false, field: "id", headerName: "ID" },

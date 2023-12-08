@@ -11,7 +11,7 @@ import { useState } from "react";
 import { ComboBoxAttributes, LineOfForm } from "../model/FormTypes";
 import FlexBetween from "./FlexBetween";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/form.css";
+import "./form.css";
 
 type Props = {
 	lines: LineOfForm[];

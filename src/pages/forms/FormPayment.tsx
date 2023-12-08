@@ -31,7 +31,6 @@ const Lines: LineOfForm[] = [
 		required: true,
 	},
 ];
-
 const baseData = {
 	amount: 0,
 	reservation_id: 0,
@@ -44,7 +43,8 @@ function FormPayment() {
 			lines={Lines}
 			path={path}
 			baseData={baseData}
-			api={paymentsApi}></FormCustom>
+			api={paymentsApi}
+		/>
 	);
 }
 
