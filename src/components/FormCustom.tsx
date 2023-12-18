@@ -7,21 +7,23 @@ import {
 } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import { ComboBoxAttributes, LineOfForm } from "../model/FormTypes";
 import FlexBetween from "./FlexBetween";
 import { Link, useNavigate } from "react-router-dom";
 import "./form.css";
 
+import { CRUDApi, CRUDApiType } from "api/crudApi";
+
 type Props = {
 	lines: LineOfForm[];
 	path: string;
-	api: any;
-	baseData: Object;
+	api: CRUDApi;
+	baseData: CRUDApiType;
 };
 
 function FormCustom({ lines, path, api, baseData }: Props) {
-	const [data, setData] = useState<any>(baseData);
+	const [data, setData] = useState<CRUDApiType>(baseData);
 
 	const navigate = useNavigate();
 
@@ -29,7 +31,7 @@ function FormCustom({ lines, path, api, baseData }: Props) {
 		api.create(data);
 	}
 
-	function handleSubmit(event: any) {
+	function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		if (window.confirm("Êtes-vous sûr de vouloir envoyer ce formulaire ?")) {
 			newData();
@@ -67,7 +69,7 @@ function FormCustom({ lines, path, api, baseData }: Props) {
 				<TextField
 					id={line.id}
 					type="checkbox"
-					onChange={(event: any) => {
+					onChange={(event: ChangeEvent<HTMLInputElement>) => {
 						setData({ ...data, [line.id]: event.target.checked });
 					}}
 					className="checkbox"

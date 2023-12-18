@@ -37,10 +37,11 @@ const Lines: LineOfForm[] = [
 ];
 const baseData = {
 	driver: "",
-	departureDate: "",
+	departureDate: new Date(),
 	availablePlaces: 0,
 	pricePerSpot: 0,
 	startingLocation: "",
+	isNew: true
 };
 function FormTravel() {
 	return (

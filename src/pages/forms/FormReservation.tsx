@@ -55,6 +55,7 @@ const baseData = {
 	is_cancelled: false,
 	is_confirmed: false,
 	is_done: false,
+	isNew: true
 };
 
 function FormReservation() {

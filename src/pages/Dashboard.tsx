@@ -7,6 +7,8 @@ import { useTheme } from "@emotion/react";
 import InfoCard from "../components/InfoCard";
 import "./dashboard.css";
 
+import { ThemeSettings } from "../theme";
+
 const cols: GridColDef[] = [
 	{ sortable: false, field: "id", headerName: "ID" },
 	{
@@ -27,7 +29,7 @@ const cols: GridColDef[] = [
 ];
 
 function Dashboard() {
-	const theme: any = useTheme();
+	const theme: ThemeSettings = useTheme();
 
 	const data = {
 		nbKm: 2000,

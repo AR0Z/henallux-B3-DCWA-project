@@ -7,6 +7,7 @@ import {
 	ListItemButton,
 	Typography,
 	useTheme,
+	Theme
 } from "@mui/material";
 
 import {
@@ -30,7 +31,7 @@ type NavItemProps = {
 
 type Props = {
 	isSidebarOpen: boolean;
-	setIsSidebarOpen: Function;
+	setIsSidebarOpen: (isOpen: boolean) => void;
 };
 
 const navItems: NavItemProps[] = [
@@ -77,7 +78,7 @@ function SideBar({ isSidebarOpen, setIsSidebarOpen }: Props) {
 	const { pathname } = useLocation();
 	const [active, setActive] = useState<string>("");
 	const navigate = useNavigate();
-	const theme: any = useTheme();
+	const theme: Theme = useTheme();
 
 	useEffect(() => {
 		setActive(pathname.substring(1));

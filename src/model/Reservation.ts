@@ -1,5 +1,5 @@
 export type Reservation = {
-	id: string;
+	id?: string;
 	travel: string;
 	passenger: string;
 	reservedSpots: number;
@@ -7,4 +7,5 @@ export type Reservation = {
 	is_cancelled: boolean;
 	is_confirmed: boolean;
 	is_done: boolean;
+	isNew: boolean;
 };

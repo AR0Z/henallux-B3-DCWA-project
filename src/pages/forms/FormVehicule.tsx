@@ -35,8 +35,9 @@ const Lines: LineOfForm[] = [
 const baseData = {
 	brand: "",
 	model: "",
-	color: "",
+	color: 0,
 	nbSeats: 0,
+	isNew: true
 };
 const path = "/vehicules";
 function FormVehicule() {

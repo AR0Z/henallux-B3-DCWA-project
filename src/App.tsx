@@ -1,6 +1,6 @@
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider, PaletteMode } from "@mui/material";
 import { themeSettings } from "./theme.js";
-import { createTheme } from "@mui/material/styles";
+import { createTheme, Theme } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { Suspense, useMemo, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
@@ -19,6 +19,7 @@ const FormVehicule = lazy(() => import("./pages/forms/FormVehicule"));
 const FormPayment = lazy(() => import("./pages/forms/FormPayment"));
 const FormTravel = lazy(() => import("./pages/forms/FormTravel"));
 import CircularProgress from "@mui/material/CircularProgress";
+import { RootState } from "state/store.js";
 
 const fallback = (
 	<div className="loading">
@@ -27,8 +28,8 @@ const fallback = (
 );
 
 function App() {
-	const mode = useSelector((state: any) => state.theme.mode);
-	const theme: any = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+	const mode = useSelector((state: RootState) => state.theme.mode as PaletteMode);
+	const theme: Theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 	return (
 		<>
 			<BrowserRouter>

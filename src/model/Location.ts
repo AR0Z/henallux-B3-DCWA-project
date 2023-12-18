@@ -1,7 +1,8 @@
 export type Location = {
-	id: string;
+	id?: string;
 	label: string;
 	latitude: number;
 	longitude: number;
 	nextStopsId: string | null;
+	isNew: boolean;
 };

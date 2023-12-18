@@ -1,7 +1,10 @@
 import { LineOfForm } from "./FormTypes";
 
+import { CRUDApiType } from "api/crudApi";
+
 export interface Form {
 	path: string;
 	Lines: LineOfForm[];
-	baseData: any;
+	baseData: CRUDApiType;
+	isNew?: boolean;
 }

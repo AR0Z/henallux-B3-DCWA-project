@@ -33,9 +33,8 @@ const Lines: LineOfForm[] = [
 ];
 const baseData = {
 	amount: 0,
-	reservation_id: 0,
-	method: "",
-	payment_status: "",
+	reservationId: 0,
+	isNew: true
 };
 function FormPayment() {
 	return (

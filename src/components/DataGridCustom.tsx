@@ -1,4 +1,4 @@
-import {Alert, Box, Button, Snackbar, Stack, useTheme} from "@mui/material";
+import {Alert, Box, Button, Snackbar, Stack, Theme, useTheme} from "@mui/material";
 import {
     DataGrid,
     GridActionsCellItem,
@@ -13,33 +13,32 @@ import {
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import Header from "../components/Header";
 import {Link} from "react-router-dom";
-import {GridRowId} from "@mui/x-data-grid";
+import { GridRowId, GridRowParams } from "@mui/x-data-grid";
 import {useEffect, useState} from "react";
 import {Cancel, Delete, EditOutlined, Save} from "@mui/icons-material";
 import {AxiosResponse} from "axios";
 import "./datagrid.css";
+import { CRUDApi, CRUDApiType } from "../api/crudApi"
+
 
 type Props = {
     title: string;
     subtitle: string;
     cols: GridColDef[];
     path: string;
-    api: any;
+    api: CRUDApi;
 };
 
-type Severity = {
-    severity: "success" | "error" | "info";
-};
+type Severity =  "success" | "error" | "info";
 
 
 function DataGridCustom({title, subtitle, cols, path, api}: Props) {
-    const theme = useTheme();
-    const [rows, setRows] = useState<any[]>([]);
+    const theme: Theme = useTheme();
+    const [rows, setRows] = useState<CRUDApiType[]>([]);
     const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
     const [open, setOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
-    const [severity, setSeverity] = useState<Severity>();
-
+    const [severity, setSeverity] = useState<Severity>("success");
     const datagridTheme = {
         "& .MuiDataGrid-root": {
             border: "none",
@@ -58,12 +57,10 @@ function DataGridCustom({title, subtitle, cols, path, api}: Props) {
             borderTop: "none",
         },
         "& .Mui-error": {
-            backgroundColor: `rgb(126,10,15, ${
-                theme.palette.mode === "dark" ? 0 : 0.1
-            })`,
+            backgroundColor: `rgb(126,10,15, ${theme.palette.mode === "dark" ? 0 : 0.1})`,
             color: theme.palette.mode === "dark" ? "#ff4343" : "#750f0f",
         },
-    };
+      };
 
     useEffect(() => {
         updateData();
@@ -75,20 +72,21 @@ function DataGridCustom({title, subtitle, cols, path, api}: Props) {
             .then((res: AxiosResponse) => {
                 setRows(res.data);
             })
-            .catch((_: any) => {
+            .catch(() => {
                 setErrorMessage("Une erreur est survenue");
                 setSeverity("error");
                 setOpen(true);
             });
     }
 
-    function putData(newData: any) {
+    function putData(newData: CRUDApiType) {
+        if (newData.id)
         api
             .update(newData.id, newData)
             .then(() => {
                 updateData();
             })
-            .catch((_: any) => {
+            .catch(() => {
                 setErrorMessage("Une erreur est survenue");
                 setSeverity("error");
                 setOpen(true);
@@ -106,7 +104,7 @@ function DataGridCustom({title, subtitle, cols, path, api}: Props) {
             .then(() => {
                 updateData();
             })
-            .catch((_: any) => {
+            .catch(() => {
                 setErrorMessage("Une erreur est survenue");
                 setSeverity("error");
                 setOpen(true);
@@ -142,9 +140,10 @@ function DataGridCustom({title, subtitle, cols, path, api}: Props) {
     function handleDeleteClick(id: GridRowId) {
         return () => {
             if (!window.confirm("Are you sure you want to delete this item?")) return;
-            const itemToDelete = rows.find((row: any) => row.id === id);
-            removeData(itemToDelete.id);
-            setRows(rows.filter((row: any) => row.id !== id));
+            const itemToDelete = rows.find((row: CRUDApiType) => row.id === id);
+            if (itemToDelete?.id)
+                removeData(itemToDelete.id);
+            setRows(rows.filter((row: CRUDApiType) => row.id !== id));
         };
     }
 
@@ -154,9 +153,9 @@ function DataGridCustom({title, subtitle, cols, path, api}: Props) {
                 ...rowModesModel,
                 [id]: {mode: GridRowModes.View, ignoreModifications: true},
             });
-            const editedRow = rows.find((row: any) => row.id === id);
+            const editedRow = rows.find((row: CRUDApiType) => row.id === id);
             if (editedRow!.isNew) {
-                setRows(rows.filter((row: any) => row.id !== id));
+                setRows(rows.filter((row: CRUDApiType) => row.id !== id));
             }
             setSeverity("info");
             setErrorMessage("L'élément n'a pas été modifié");
@@ -165,7 +164,7 @@ function DataGridCustom({title, subtitle, cols, path, api}: Props) {
     }
 
     function processRowUpdate(newRow: GridRowModel) {
-        const updatedRow = {...newRow, isNew: false};
+        const updatedRow: CRUDApiType = {...newRow, isNew: false} as CRUDApiType;
         setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
         putData(updatedRow);
         return updatedRow;
@@ -184,43 +183,44 @@ function DataGridCustom({title, subtitle, cols, path, api}: Props) {
             headerName: "Actions",
             width: 100,
             cellClassName: "actions",
-            getActions: ({id}: number) => {
+            getActions: (params: GridRowParams<CRUDApiType>) => {
+                const id = params.id as string; // Assurez-vous que id est une chaîne
                 return rowModesModel[id]?.mode === GridRowModes.Edit
-                    ? [
-                        <GridActionsCellItem
-                            icon={<Save sx={{color: theme.palette.grey[100]}}/>}
-                            label="Save"
-                            sx={{
-                                color: "primary.main",
-                            }}
-                            onClick={handleSaveClick(id)}
-                        />,
-                        <GridActionsCellItem
-                            icon={<Cancel/>}
-                            label="Cancel"
-                            className="textPrimary"
-                            onClick={handleCancelClick(id)}
-                            color="inherit"
-                        />,
+                  ? [
+                      <GridActionsCellItem
+                        icon={<Save sx={{ color: theme.palette.grey[100] }} />}
+                        label="Save"
+                        sx={{
+                          color: "primary.main",
+                        }}
+                        onClick={handleSaveClick(id)}
+                      />,
+                      <GridActionsCellItem
+                        icon={<Cancel />}
+                        label="Cancel"
+                        className="textPrimary"
+                        onClick={handleCancelClick(id)}
+                        color="inherit"
+                      />,
                     ]
-                    : [
-                        <GridActionsCellItem
-                            icon={<EditOutlined/>}
-                            label="Edit"
-                            className="textPrimary"
-                            onClick={handleEditClick(id)}
-                            color="inherit"
-                        />,
-                        <GridActionsCellItem
-                            icon={<Delete/>}
-                            label="Delete"
-                            onClick={handleDeleteClick(id)}
-                            color="inherit"
-                        />,
+                  : [
+                      <GridActionsCellItem
+                        icon={<EditOutlined />}
+                        label="Edit"
+                        className="textPrimary"
+                        onClick={handleEditClick(id)}
+                        color="inherit"
+                      />,
+                      <GridActionsCellItem
+                        icon={<Delete />}
+                        label="Delete"
+                        onClick={handleDeleteClick(id)}
+                        color="inherit"
+                      />,
                     ];
+              },
             },
-        },
-    ];
+          ];
 
     return (
         <>

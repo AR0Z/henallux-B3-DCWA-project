@@ -31,9 +31,10 @@ const Lines: LineOfForm[] = [
 ];
 const baseData = {
 	label: "",
-	latitude: "",
-	longitude: "",
+	latitude: 0,
+	longitude: 0,
 	nextStopsId: "",
+	isNew: true
 };
 function FormLocation() {
 	return (

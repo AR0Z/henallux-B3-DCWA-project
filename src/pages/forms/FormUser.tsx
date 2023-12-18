@@ -72,7 +72,9 @@ const baseData = {
 	phone: "",
 	is_admin: false,
 	is_driver: false,
+	description: "",
 	vehicle: "",
+	isNew: true
 };
 
 function FormUser() {

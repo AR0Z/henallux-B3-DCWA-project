@@ -1,7 +1,8 @@
 export type Vehicle = {
-	id: string;
+	id?: string;
 	brand: string;
 	model: string;
 	color: number;
-	nbPlace: number;
+	nbSeats: number;
+	isNew: boolean;
 };

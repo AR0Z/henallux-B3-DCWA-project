@@ -1,9 +1,10 @@
 export type Travel = {
-	id: string;
+	id?: string;
 	driver: string;
 	departureDate: Date;
-	creationDate: Date;
+	creationDate?: Date;
 	availablePlaces: number;
 	pricePerSpot: number;
 	startingLocation: string;
+	isNew: boolean;
 };

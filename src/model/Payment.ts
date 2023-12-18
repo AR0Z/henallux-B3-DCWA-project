@@ -1,7 +1,8 @@
 export type Payment = {
-	id: string;
+	id?: string;
 	amount: number;
-	reservation: string;
-	method: "CREDIT_CARD" | "PAYPAL";
-	status: "PENDING" | "ACCEPTED" | "REFUSED";
+	reservationId: number;
+	method?: "CREDIT_CARD" | "PAYPAL";
+	status?: "PENDING" | "ACCEPTED" | "REFUSED";
+	isNew: boolean;
 };

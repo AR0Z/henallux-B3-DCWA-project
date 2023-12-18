@@ -47,8 +47,10 @@ export async function login(email: string, password: string) {
 
 export async function logout() {
 	try {
-		await api.post("auth/logout", {
-			token: localStorage.getItem("token"),
+		await api.delete("auth/logout", {
+			data : {
+				token: localStorage.getItem("token")
+			}
 		});
 	} catch (error) {
 		return Promise.reject(error);

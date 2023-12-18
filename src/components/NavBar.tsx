@@ -7,7 +7,7 @@ import SettingsButton from "./SettingsButton";
 
 type Props = {
 	isSidebarOpen: boolean;
-	setIsSidebarOpen: Function;
+	setIsSidebarOpen: (isOpen: boolean) => void;
 };
 
 export default function NavBar({ isSidebarOpen, setIsSidebarOpen }: Props) {

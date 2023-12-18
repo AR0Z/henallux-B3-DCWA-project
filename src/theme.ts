@@ -1,7 +1,7 @@
 import { PaletteMode, ThemeOptions } from "@mui/material";
 
 type Payload = {
-	[key: string]: Object;
+	[key: string]: Record<string, unknown>;
 };
 
 type ColorToken = {
@@ -78,35 +78,35 @@ export const themeSettings = (mode: PaletteMode): ThemeOptions => {
 				? {
 						primary: {
 							...tokensDark.primary,
-							main: tokensDark.primary?.[400],
-							light: tokensDark.primary?.[400],
+							main: tokensDark.primary[400],
+							light: tokensDark.primary[400],
 						},
 						secondary: {
 							...tokensDark.secondary,
-							main: tokensDark.secondary?.[300],
+							main: tokensDark.secondary[300],
 						},
-						neutral: { ...tokensDark.grey, main: tokensDark.grey?.[500] },
+						neutral: { ...tokensDark.grey, main: tokensDark.grey[500] },
 						background: {
 							...tokensDark.grey,
-							default: tokensDark.primary?.[600],
+							default: tokensDark.primary[600],
 						},
-				  }
+					}
 				: {
 						primary: {
 							...tokensLight.primary,
-							main: tokensDark.grey?.[50],
-							light: tokensDark.grey?.[100],
+							main: tokensDark.grey[50],
+							light: tokensDark.grey[100],
 						},
 						secondary: {
 							...tokensLight.secondary,
-							main: tokensDark.secondary?.[600],
-							light: tokensDark.secondary?.[700],
+							main: tokensDark.secondary[600],
+							light: tokensDark.secondary[700],
 						},
-						neutral: { ...tokensLight.grey, main: tokensDark.grey?.[500] },
+						neutral: { ...tokensLight.grey, main: tokensDark.grey[500] },
 						background: {
-							default: tokensDark.grey?.[0],
+							default: tokensDark.grey[0],
 						},
-				  }),
+					}),
 		},
 		typography: {
 			fontFamily: font.join(","),
