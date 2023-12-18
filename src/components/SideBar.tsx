@@ -116,38 +116,36 @@ function SideBar({ isSidebarOpen, setIsSidebarOpen }: Props) {
 					</div>
 					<Divider />
 					<ul>
-						{navItems.map((item) => (
-							<>
-								<ListItem key={item.text} className="sidebar-items">
-									<ListItemButton
-										className="sidebar-btn"
-										onClick={() => {
-											navigate(item.path);
-											setActive(item.path);
-										}}
-										selected={active === item.path}
-										sx={{
-											backgroundColor:
-												active === item.text
-													? theme.palette.secondary[300]
-													: "transparent",
-											color:
-												active === item.text
-													? theme.palette.primary[600]
-													: theme.palette.secondary[100],
-											"&:hover": {
-												backgroundColor: theme.palette.secondary[300],
-												color: theme.palette.primary[600],
-											},
-										}}>
-										<ListItemIcon>{item.icon}</ListItemIcon>
-										<Typography variant="h6" fontWeight="bold">
-											{item.text}
-										</Typography>
-									</ListItemButton>
-								</ListItem>
-							</>
-						))}
+					{navItems.map((item) => (
+						<ListItem key={item.path} className="sidebar-items">
+							<ListItemButton
+								className="sidebar-btn"
+								onClick={() => {
+									navigate(item.path);
+									setActive(item.path);
+								}}
+								selected={active === item.path}
+								sx={{
+									backgroundColor:
+										active === item.path
+											? theme.palette.secondary[300]
+											: "transparent",
+									color:
+										active === item.path
+											? theme.palette.primary[600]
+											: theme.palette.secondary[100],
+									"&:hover": {
+										backgroundColor: theme.palette.secondary[300],
+										color: theme.palette.primary[600],
+									},
+								}}>
+								<ListItemIcon>{item.icon}</ListItemIcon>
+								<Typography variant="h6" fontWeight="bold">
+									{item.text}
+								</Typography>
+							</ListItemButton>
+						</ListItem>
+					))}
 					</ul>
 				</Drawer>
 			)}
