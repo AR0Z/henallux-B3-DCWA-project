@@ -16,9 +16,7 @@ loginApi.interceptors.response.use(
 			originalRequest._retry = true;
 
 			try {
-				const refreshToken = store.dispatch(
-					(state: any) => state.auth.refreshToken
-				);
+				const refreshToken = store.getState().auth.refreshToken;
 				const response = await axios.post("/api/login", {
 					refreshToken,
 				});

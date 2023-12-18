@@ -1,5 +1,12 @@
 import api from "./api";
 
+import { Vehicle } from "../model/Vehicle";
+import { User } from "../model/User";
+import { Travel } from "../model/Travel";
+import { Reservation } from "../model/Reservation";
+import { Payment } from "../model/Payment";
+import { Location } from "model/Location";
+
 export default function CRUDApi(URL: string) {
 	return {
 		async getAll() {
@@ -10,15 +17,11 @@ export default function CRUDApi(URL: string) {
 			const response = await api.get(`${URL}/${id}`);
 			return response;
 		},
-		async create(data: any) {
+		async create(data: Vehicle | User | Travel | Reservation | Payment | Location) {
 			const response = await api.post(URL, data);
 			return response;
 		},
-		async update(id: string, data: any) {
-			if (data.nb_seats) {
-				data.nbSeats = data.nb_seats;
-				delete data.nb_seats;
-			}
+		async update(id: string, data: Vehicle | User | Travel | Reservation | Payment | Location) {
 			const response = await api.put(`${URL}/${id}`, data);
 			return response;
 		},

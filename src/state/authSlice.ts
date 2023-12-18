@@ -32,7 +32,7 @@ const authSlice = createSlice({
         logState: (state) => {
             console.log(state.token);
             console.log(state.refreshToken);
-        }
+        },
     },
 });
 
