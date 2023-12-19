@@ -7,7 +7,7 @@ import {
 	ListItemButton,
 	Typography,
 	useTheme,
-	Theme
+	Theme,
 } from "@mui/material";
 
 import {
@@ -95,8 +95,8 @@ function SideBar({ isSidebarOpen, setIsSidebarOpen }: Props) {
 					sx={{
 						width: drawerWidth,
 						[`& .MuiDrawer-paper`]: {
-							color: theme.palette.secondary[200],
-							backgroundColor: theme.palette.primary[800],
+							color: theme.palette.secondary.light,
+							backgroundColor: theme.palette.primary.dark,
 							borderWidth: "0px",
 							width: drawerWidth,
 							boxSizing: "border-box",
@@ -116,36 +116,36 @@ function SideBar({ isSidebarOpen, setIsSidebarOpen }: Props) {
 					</div>
 					<Divider />
 					<ul>
-					{navItems.map((item) => (
-						<ListItem key={item.path} className="sidebar-items">
-							<ListItemButton
-								className="sidebar-btn"
-								onClick={() => {
-									navigate(item.path);
-									setActive(item.path);
-								}}
-								selected={active === item.path}
-								sx={{
-									backgroundColor:
-										active === item.path
-											? theme.palette.secondary[300]
-											: "transparent",
-									color:
-										active === item.path
-											? theme.palette.primary[600]
-											: theme.palette.secondary[100],
-									"&:hover": {
-										backgroundColor: theme.palette.secondary[300],
-										color: theme.palette.primary[600],
-									},
-								}}>
-								<ListItemIcon>{item.icon}</ListItemIcon>
-								<Typography variant="h6" fontWeight="bold">
-									{item.text}
-								</Typography>
-							</ListItemButton>
-						</ListItem>
-					))}
+						{navItems.map((item) => (
+							<ListItem key={item.path} className="sidebar-items">
+								<ListItemButton
+									className="sidebar-btn"
+									onClick={() => {
+										navigate(item.path);
+										setActive(item.path);
+									}}
+									selected={active === item.path}
+									sx={{
+										backgroundColor:
+											active === item.path
+												? theme.palette.secondary.dark
+												: "transparent",
+										color:
+											active === item.path
+												? theme.palette.primary.dark
+												: theme.palette.secondary.light,
+										"&:hover": {
+											backgroundColor: theme.palette.secondary.light,
+											color: theme.palette.primary.dark,
+										},
+									}}>
+									<ListItemIcon>{item.icon}</ListItemIcon>
+									<Typography variant="h6" fontWeight="bold">
+										{item.text}
+									</Typography>
+								</ListItemButton>
+							</ListItem>
+						))}
 					</ul>
 				</Drawer>
 			)}

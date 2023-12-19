@@ -28,7 +28,9 @@ const fallback = (
 );
 
 function App() {
-	const mode = useSelector((state: RootState) => state.theme.mode as PaletteMode);
+	const mode = useSelector(
+		(state: RootState) => state.theme.mode as PaletteMode
+	);
 	const theme: Theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 	return (
 		<>

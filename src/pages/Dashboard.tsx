@@ -1,13 +1,10 @@
-import { Box } from "@mui/material";
+import { Box, Theme, useTheme } from "@mui/material";
 import FlexBetween from "../components/FlexBetween";
 import Header from "../components/Header";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
-import { useTheme } from "@emotion/react";
 import InfoCard from "../components/InfoCard";
 import "./dashboard.css";
-
-import { ThemeSettings } from "../theme";
 
 const cols: GridColDef[] = [
 	{ sortable: false, field: "id", headerName: "ID" },
@@ -29,7 +26,7 @@ const cols: GridColDef[] = [
 ];
 
 function Dashboard() {
-	const theme: ThemeSettings = useTheme();
+	const theme: Theme = useTheme();
 
 	const data = {
 		nbKm: 2000,
@@ -49,7 +46,7 @@ function Dashboard() {
 		},
 		"& .MuiDataGrid-footerContainer": {
 			backgroundColor: theme.palette.background.default,
-			color: theme.palette.secondary[100],
+			color: theme.palette.secondary.main,
 			borderTop: "none",
 		},
 	};
@@ -90,7 +87,7 @@ function Dashboard() {
 							sorting: {
 								sortModel: [{ field: "numberOfKm", sort: "desc" }],
 							},
-						}}
+						}}	
 					/>
 				</Box>
 			</FlexBetween>

@@ -5,19 +5,14 @@ type Props = {
 	subtitle: string;
 };
 
-
 const Header = ({ title, subtitle }: Props) => {
 	const theme: Theme = useTheme();
 	return (
 		<Box>
-			<Typography
-				variant="h2"
-				color={theme.palette.secondary['100']}
-				fontWeight="bold"
-				sx={{ mb: "5px" }}>
+			<Typography variant="h2" fontWeight="bold" sx={{ mb: "5px" }}>
 				{title}
 			</Typography>
-			<Typography variant="h5" color={theme.palette.secondary['300']}>
+			<Typography variant="h5" color={theme.palette.secondary.main}>
 				{subtitle}
 			</Typography>
 		</Box>
