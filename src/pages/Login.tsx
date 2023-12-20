@@ -4,19 +4,17 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import SwitchThemeButton from "../components/SwitchThemeButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { login } from "../api/authApi";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsLoggedIn, userLoaded, userLogin } from "../state/authSlice";
+import { selectIsLoggedIn, userLogin } from "../state/authSlice";
 import "./login.css";
-import { RootState } from "state/store";
-import { AnyAction } from "@reduxjs/toolkit";
+import { AppDispatch } from "state/store";
 
 export default function Login() {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errMsg, setErrMsg] = useState("");
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	let isLoggedIn = useSelector(selectIsLoggedIn);
 	const [logged, setLogged] = useState(isLoggedIn);
 	React.useEffect(() => {

@@ -21,7 +21,7 @@ const FormVehicule = lazy(() => import("./pages/forms/FormVehicule"));
 const FormPayment = lazy(() => import("./pages/forms/FormPayment"));
 const FormTravel = lazy(() => import("./pages/forms/FormTravel"));
 import CircularProgress from "@mui/material/CircularProgress";
-import { RootState } from "state/store.js";
+import { AppDispatch, RootState } from "state/store.js";
 import { loginWithToken } from "./state/authSlice.js";
 
 const fallback = (
@@ -35,7 +35,7 @@ function App() {
 		(state: RootState) => state.theme.mode as PaletteMode
 	);
 	const theme: Theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	dispatch(loginWithToken());
 	return (
 		<>

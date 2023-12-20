@@ -128,7 +128,7 @@ function DataGridCustom({ cols, api }: Props) {
 	};
 
 	const handleRowEditStart = (
-		params: GridRowParams<CRUDApiType>,
+		_: GridRowParams<CRUDApiType>,
 		event: MuiEvent<React.SyntheticEvent>
 	) => {
 		event.defaultMuiPrevented = true;
