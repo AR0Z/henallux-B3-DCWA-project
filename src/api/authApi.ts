@@ -1,38 +1,20 @@
 import axios from "axios";
-import store from "../state/store";
-import { userLoaded } from "../state/authSlice";
 import api from "../api/api";
+import { Cookies } from "react-cookie";
+
+const cookies = new Cookies();
 
 const loginApi = axios.create({
 	baseURL: "https://smartcities.aroz.be/api/",
 });
 
-loginApi.interceptors.response.use(
-	(response) => response,
-	async (error) => {
-		const originalRequest = error.config;
-
-		if (error.response.status === 401 && !originalRequest._retry) {
-			originalRequest._retry = true;
-
-			try {
-				const refreshToken = store.getState().auth.refreshToken;
-				const response = await axios.post("/api/login", {
-					refreshToken,
-				});
-				const { token } = response.data;
-				store.dispatch(userLoaded({ token }));
-				originalRequest.headers.Authorization = `Bearer ${token}`;
-				return axios(originalRequest);
-			} catch (error) {
-				return Promise.reject(error);
-			}
-		}
-		return Promise.reject(error);
-	}
-);
-
-export async function login(email: string, password: string) {
+export async function login({
+	email,
+	password,
+}: {
+	email: string;
+	password: string;
+}) {
 	let data;
 	try {
 		data = await loginApi.post("auth/login", {
@@ -48,11 +30,25 @@ export async function login(email: string, password: string) {
 export async function logout() {
 	try {
 		await api.delete("auth/logout", {
-			data : {
-				token: localStorage.getItem("token")
-			}
+			data: {
+				token: cookies.get("token"),
+			},
 		});
 	} catch (error) {
 		return Promise.reject(error);
 	}
+}
+
+export async function getMe(token: string) {
+	let data;
+	try {
+		data = await api.get("users/me", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+	} catch (error) {
+		return Promise.reject(error);
+	}
+	return data;
 }

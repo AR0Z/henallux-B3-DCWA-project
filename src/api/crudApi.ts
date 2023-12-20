@@ -12,11 +12,20 @@ export interface CRUDApi {
 	getAll: () => Promise<AxiosResponse<CRUDApiType>>;
 	get: (id: string) => Promise<AxiosResponse<CRUDApiType>>;
 	create: (data: CRUDApiType) => Promise<AxiosResponse<CRUDApiType>>;
-	update: (id: string, data: CRUDApiType) => Promise<AxiosResponse<CRUDApiType>>;
+	update: (
+		id: string,
+		data: CRUDApiType
+	) => Promise<AxiosResponse<CRUDApiType>>;
 	delete: (id: string) => Promise<AxiosResponse<CRUDApiType>>;
 }
 
-export type CRUDApiType = Vehicle | User | Travel | Reservation | Payment | Location;
+export type CRUDApiType =
+	| Vehicle
+	| User
+	| Travel
+	| Reservation
+	| Payment
+	| Location;
 
 export default function CRUDApi(URL: string) {
 	return {

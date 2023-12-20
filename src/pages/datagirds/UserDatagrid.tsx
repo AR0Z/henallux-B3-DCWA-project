@@ -3,6 +3,9 @@ import type {} from "@mui/x-data-grid/themeAugmentation";
 import DataGridCustom from "../../components/DataGridCustom";
 import { usersApi } from "../../api/usersApi";
 import { phoneFormat, emailFormat } from "../../components/utils";
+import Header from "../../components/Header";
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const columns: GridColDef[] = [
 	{
@@ -16,6 +19,10 @@ const columns: GridColDef[] = [
 		headerName: "First name",
 		width: 130,
 		type: "string",
+		editable: true,
+		preProcessEditCellProps(params: GridPreProcessEditCellProps) {
+			return { ...params.props, error: params.props.value.length < 3 };
+		},
 	},
 	{
 		field: "lastname",
@@ -23,6 +30,9 @@ const columns: GridColDef[] = [
 		width: 130,
 		type: "string",
 		editable: true,
+		preProcessEditCellProps(params: GridPreProcessEditCellProps) {
+			return { ...params.props, error: params.props.value.length < 3 };
+		},
 	},
 	{
 		field: "email",
@@ -45,24 +55,17 @@ const columns: GridColDef[] = [
 		},
 	},
 	{
-		field: "is_driver",
+		field: "isDriver",
 		headerName: "Is driver",
 		width: 130,
 		type: "boolean",
 		editable: true,
 	},
 	{
-		field: "is_admin",
+		field: "isAdmin",
 		headerName: "Is admin",
 		width: 130,
 		type: "boolean",
-		editable: true,
-	},
-	{
-		field: "nb_stars",
-		headerName: "Nb stars",
-		width: 130,
-		type: "number",
 		editable: true,
 	},
 	{
@@ -73,15 +76,8 @@ const columns: GridColDef[] = [
 		editable: true,
 	},
 	{
-		field: "vehicle_id",
+		field: "vehicleId",
 		headerName: "Vehicle",
-		width: 130,
-		type: "string",
-		editable: true,
-	},
-	{
-		field: "plateNumber",
-		headerName: "Plate number",
 		width: 130,
 		type: "string",
 		editable: true,
@@ -89,15 +85,15 @@ const columns: GridColDef[] = [
 ];
 function User() {
 	return (
-		<>
-			<DataGridCustom
-				cols={columns}
-				api={usersApi}
-				title="User"
-				subtitle="Liste des utilisateurs"
-				path="/adduser"
-			/>
-		</>
+		<div className="wrapper">
+			<div>
+				<Header title={"User"} subtitle={"Liste des utilisateurs"} />
+				<Button variant="contained">
+					<Link to={"/adduser"}>Ajouter un élément</Link>
+				</Button>
+			</div>
+			<DataGridCustom cols={columns} api={usersApi} />
+		</div>
 	);
 }
 

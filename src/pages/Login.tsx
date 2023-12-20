@@ -5,9 +5,11 @@ import SwitchThemeButton from "../components/SwitchThemeButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { login } from "../api/authApi";
-import { useDispatch } from "react-redux";
-import { userLoaded } from "../state/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectIsLoggedIn, userLoaded, userLogin } from "../state/authSlice";
 import "./login.css";
+import { RootState } from "state/store";
+import { AnyAction } from "@reduxjs/toolkit";
 
 export default function Login() {
 	const navigate = useNavigate();
@@ -15,39 +17,29 @@ export default function Login() {
 	const [password, setPassword] = useState("");
 	const [errMsg, setErrMsg] = useState("");
 	const dispatch = useDispatch();
+	let isLoggedIn = useSelector(selectIsLoggedIn);
+	const [logged, setLogged] = useState(isLoggedIn);
+	React.useEffect(() => {
+		if (isLoggedIn) {
+			setLogged(true);
+		}
+	}, [isLoggedIn]);
 
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		await login(email, password)
-			.then((res) => {
-				console.log(res.data);
-				dispatch(userLoaded(res.data));
-				navigate("/dashboard");
-			})
-			.catch((err) => {
-				if (!err.response) {
-					setErrMsg("Something went wrong");
-					return;
-				} else {
-					switch (err.response.status) {
-						case 400:
-							setErrMsg("Invalid email or password");
-							break;
-						case 401:
-							setErrMsg("Invalid email or password");
-							break;
-						case 500:
-							setErrMsg("Server error you might want to try again later");
-							break;
-						case 503:
-							setErrMsg("Server Down");
-							break;
-						default:
-							setErrMsg("Something went wrong");
-							break;
-					}
-				}
-			});
+		if (!email || !password) {
+			setErrMsg("Please fill all the fields");
+		} else {
+			const loginDetails = { email, password };
+			dispatch(userLogin(loginDetails));
+			if (!logged) {
+				setErrMsg("You are not an admin");
+			}
+		}
+	}
+
+	if (logged) {
+		navigate("/dashboard");
 	}
 
 	return (
@@ -99,7 +91,14 @@ export default function Login() {
 						Log In
 					</Button>
 				</Box>
-				<Typography color={"red"}>{errMsg}</Typography>
+				<Typography
+					color={"red"}
+					style={{
+						marginTop: "10px",
+						textAlign: "center",
+					}}>
+					{errMsg}
+				</Typography>
 			</Box>
 		</>
 	);

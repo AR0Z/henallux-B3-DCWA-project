@@ -1,10 +1,9 @@
 import {
 	Alert,
+	AlertColor,
 	Box,
-	Button,
 	Snackbar,
 	Stack,
-	Theme,
 	useTheme,
 } from "@mui/material";
 import {
@@ -16,35 +15,33 @@ import {
 	GridRowModel,
 	GridRowModes,
 	GridRowModesModel,
+	GridRowParams,
 	GridToolbar,
+	MuiEvent,
 } from "@mui/x-data-grid";
 import type {} from "@mui/x-data-grid/themeAugmentation";
-import Header from "../components/Header";
-import { Link } from "react-router-dom";
-import { GridRowId, GridRowParams } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+
+import { GridRowId } from "@mui/x-data-grid";
+import { useCallback, useEffect, useState } from "react";
 import { Cancel, Delete, EditOutlined, Save } from "@mui/icons-material";
 import { AxiosResponse } from "axios";
 import "./datagrid.css";
-import { CRUDApi, CRUDApiType } from "../api/crudApi";
+import { CRUDApiType } from "api/crudApi";
 
 type Props = {
-	title: string;
-	subtitle: string;
 	cols: GridColDef[];
-	path: string;
-	api: CRUDApi;
+
+	api: any;
 };
 
-type Severity = "success" | "error" | "info";
-
-function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
-	const theme: Theme = useTheme();
-	const [rows, setRows] = useState<CRUDApiType[]>([]);
+function DataGridCustom({ cols, api }: Props) {
+	const theme = useTheme();
+	const [rows, setRows] = useState<any[]>([]);
 	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 	const [open, setOpen] = useState(false);
 	const [errorMessage, setErrorMessage] = useState<string>("");
-	const [severity, setSeverity] = useState<Severity>("success");
+	const [severity, setSeverity] = useState<AlertColor>("success");
+
 	const datagridTheme = {
 		"& .MuiDataGrid-root": {
 			border: "none",
@@ -78,30 +75,29 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 			.then((res: AxiosResponse) => {
 				setRows(res.data);
 			})
-			.catch(() => {
+			.catch((_: any) => {
 				setErrorMessage("Une erreur est survenue");
 				setSeverity("error");
 				setOpen(true);
 			});
 	}
 
-	function putData(newData: CRUDApiType) {
-		if (newData.id)
-			api
-				.update(newData.id, newData)
-				.then(() => {
-					updateData();
-				})
-				.catch(() => {
-					setErrorMessage("Une erreur est survenue");
-					setSeverity("error");
-					setOpen(true);
-				})
-				.finally(() => {
-					setSeverity("success");
-					setErrorMessage("L'élément a bien été modifié");
-					setOpen(true);
-				});
+	function putData(newData: any) {
+		api
+			.update(newData.id, newData)
+			.then(() => {
+				updateData();
+			})
+			.catch((_: any) => {
+				setErrorMessage("Une erreur est survenue");
+				setSeverity("error");
+				setOpen(true);
+			})
+			.finally(() => {
+				setSeverity("success");
+				setErrorMessage("L'élément a bien été modifié");
+				setOpen(true);
+			});
 	}
 
 	function removeData(id: string) {
@@ -110,7 +106,7 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 			.then(() => {
 				updateData();
 			})
-			.catch(() => {
+			.catch((_: any) => {
 				setErrorMessage("Une erreur est survenue");
 				setSeverity("error");
 				setOpen(true);
@@ -131,53 +127,55 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 		}
 	};
 
-	function handleEditClick(id: GridRowId) {
-		return () => {
-			setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-		};
-	}
+	const handleRowEditStart = (
+		params: GridRowParams<CRUDApiType>,
+		event: MuiEvent<React.SyntheticEvent>
+	) => {
+		event.defaultMuiPrevented = true;
+	};
 
-	function handleSaveClick(id: GridRowId) {
-		return () => {
-			setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-		};
-	}
+	const handleEditClick = (id: GridRowId) => () => {
+		setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+	};
 
-	function handleDeleteClick(id: GridRowId) {
-		return () => {
-			if (!window.confirm("Are you sure you want to delete this item?")) return;
-			const itemToDelete = rows.find((row: CRUDApiType) => row.id === id);
-			if (itemToDelete?.id) removeData(itemToDelete.id);
-			setRows(rows.filter((row: CRUDApiType) => row.id !== id));
-		};
-	}
+	const handleSaveClick = (id: GridRowId) => () => {
+		setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+	};
 
-	function handleCancelClick(id: GridRowId) {
-		return () => {
-			setRowModesModel({
-				...rowModesModel,
-				[id]: { mode: GridRowModes.View, ignoreModifications: true },
-			});
-			const editedRow = rows.find((row: CRUDApiType) => row.id === id);
-			if (editedRow!.isNew) {
-				setRows(rows.filter((row: CRUDApiType) => row.id !== id));
-			}
-			setSeverity("info");
-			setErrorMessage("L'élément n'a pas été modifié");
-			setOpen(true);
-		};
-	}
+	const handleDeleteClick = (id: GridRowId) => () => {
+		setRows(rows.filter((row) => row.id !== id));
+		removeData(id as string);
+	};
 
-	function processRowUpdate(newRow: GridRowModel) {
-		const updatedRow: CRUDApiType = { ...newRow, isNew: false } as CRUDApiType;
-		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-		putData(updatedRow);
-		return updatedRow;
-	}
+	const handleCancelClick = (id: GridRowId) => () => {
+		setRowModesModel({
+			...rowModesModel,
+			[id]: { mode: GridRowModes.View, ignoreModifications: true },
+		});
 
-	function handleRowModesModelChange(newRowModesModel: GridRowModesModel) {
+		const editedRow = rows.find((row) => row.id === id);
+		if (editedRow!.isNew) {
+			setRows(rows.filter((row) => row.id !== id));
+		}
+	};
+
+	const processRowUpdate = useCallback(
+		async (newRow: GridRowModel) => {
+			const updatedRow = { ...newRow, isNew: false };
+			setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+			putData(updatedRow);
+			return updatedRow;
+		},
+		[rows]
+	);
+
+	const onProcessRowUpdateError = useCallback((err: unknown) => {
+		console.log(err);
+	}, []);
+
+	const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
 		setRowModesModel(newRowModesModel);
-	}
+	};
 
 	const columns: GridColDef[] = [
 		...cols,
@@ -229,48 +227,44 @@ function DataGridCustom({ title, subtitle, cols, path, api }: Props) {
 
 	return (
 		<>
-			<div className="wrapper">
-				{/* Header */}
-				<div>
-					<Header title={title} subtitle={subtitle} />
-					<Button variant="contained">
-						<Link to={path}>Ajouter un élément</Link>
-					</Button>
-				</div>
-				{/* Datagrid */}
-				<Box className="datagrid-wrapper" sx={datagridTheme}>
-					<DataGrid
-						loading={!rows}
-						density="comfortable"
-						rows={rows || []}
-						columns={columns}
-						editMode="row"
-						rowModesModel={rowModesModel}
-						onRowModesModelChange={handleRowModesModelChange}
-						onRowEditStop={handleRowEditStop}
-						processRowUpdate={processRowUpdate}
-						slotProps={{
-							toolbar: {
-								showQuickFilter: true,
-							},
-						}}
-						slots={{ toolbar: GridToolbar }}
-						sx={{
-							width: "90%",
-						}}
-						initialState={{
-							sorting: {
-								sortModel: [
-									{
-										field: "id",
-										sort: "asc",
-									},
-								],
-							},
-						}}
-					/>
-				</Box>
-			</div>
+			<Box className="datagrid-wrapper" sx={datagridTheme}>
+				<DataGrid
+					loading={!rows}
+					density="comfortable"
+					rows={rows}
+					columns={columns}
+					editMode="row"
+					rowModesModel={rowModesModel}
+					onRowModesModelChange={handleRowModesModelChange}
+					onRowEditStop={handleRowEditStop}
+					processRowUpdate={processRowUpdate}
+					onProcessRowUpdateError={onProcessRowUpdateError}
+					onRowEditStart={handleRowEditStart}
+					slotProps={{
+						toolbar: {
+							setRows,
+							setRowModesModel,
+						},
+					}}
+					slots={{ toolbar: GridToolbar }}
+					sx={{
+						width: "90%",
+					}}
+					initialState={{
+						sorting: {
+							sortModel: [
+								{
+									field: "id",
+									sort: "asc",
+								},
+							],
+						},
+					}}
+					isCellEditable={(params) => {
+						return params.row.id !== "0";
+					}}
+				/>
+			</Box>
 			{/* information popup */}
 			<Stack spacing={2} sx={{ width: "100%" }}>
 				<Snackbar

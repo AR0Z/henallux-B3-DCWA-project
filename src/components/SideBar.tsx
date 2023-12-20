@@ -115,7 +115,7 @@ function SideBar({ isSidebarOpen, setIsSidebarOpen }: Props) {
 						</div>
 					</div>
 					<Divider />
-					<ul>
+					<ul className="sidebar-wrapper">
 						{navItems.map((item) => (
 							<ListItem key={item.path} className="sidebar-items">
 								<ListItemButton

@@ -1,13 +1,14 @@
 import { useSelector } from "react-redux";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import { RootState } from "state/store";
+import { selectIsLoggedIn } from "../state/authSlice";
 
 export default function RequireAuth() {
-  const token = useSelector((state: RootState) => state.auth.token);
-  const location = useLocation();
-    if (token) {
-        return <Outlet />;
-    } else {
-        return <Navigate to="/login" state={{ from: location }} replace />;
-    }
+	const isLoggedIn = useSelector(selectIsLoggedIn);
+	console.log(isLoggedIn);
+	const location = useLocation();
+	if (isLoggedIn) {
+		return <Outlet />;
+	} else {
+		return <Navigate to="/login" state={{ from: location }} replace />;
+	}
 }

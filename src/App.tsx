@@ -1,17 +1,19 @@
 import { CssBaseline, ThemeProvider, PaletteMode } from "@mui/material";
 import { themeSettings } from "./theme.js";
 import { createTheme, Theme } from "@mui/material/styles";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Suspense, useMemo, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Login, Dashboard } from "./pages";
 import { Layout, LayoutForm, RequireAuth } from "./Layouts";
-const Location = lazy(() => import("./pages/datagirds/Location"));
-const Payment = lazy(() => import("./pages/datagirds/Payment"));
-const Reservation = lazy(() => import("./pages/datagirds/Reservation"));
-const User = lazy(() => import("./pages/datagirds/User"));
-const Vehicule = lazy(() => import("./pages/datagirds/Vehicule"));
-const Travel = lazy(() => import("./pages/datagirds/Travel"));
+const Location = lazy(() => import("./pages/datagirds/LocationDatagrid.js"));
+const Payment = lazy(() => import("./pages/datagirds/PaymentDatagrid.js"));
+const Reservation = lazy(
+	() => import("./pages/datagirds/ReservationDatagrid.js")
+);
+const User = lazy(() => import("./pages/datagirds/UserDatagrid.js"));
+const Vehicule = lazy(() => import("./pages/datagirds/VehiculeDatagrid.js"));
+const Travel = lazy(() => import("./pages/datagirds/TravelDatagrid.js"));
 const FormLocation = lazy(() => import("./pages/forms/FormLocation"));
 const FormReservation = lazy(() => import("./pages/forms/FormReservation"));
 const FormUser = lazy(() => import("./pages/forms/FormUser"));
@@ -20,6 +22,7 @@ const FormPayment = lazy(() => import("./pages/forms/FormPayment"));
 const FormTravel = lazy(() => import("./pages/forms/FormTravel"));
 import CircularProgress from "@mui/material/CircularProgress";
 import { RootState } from "state/store.js";
+import { loginWithToken } from "./state/authSlice.js";
 
 const fallback = (
 	<div className="loading">
@@ -32,6 +35,8 @@ function App() {
 		(state: RootState) => state.theme.mode as PaletteMode
 	);
 	const theme: Theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+	const dispatch = useDispatch();
+	dispatch(loginWithToken());
 	return (
 		<>
 			<BrowserRouter>

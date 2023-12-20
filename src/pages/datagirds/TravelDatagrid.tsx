@@ -1,6 +1,9 @@
 import { GridColDef } from "@mui/x-data-grid";
 import DataGridCustom from "../../components/DataGridCustom";
 import { travelsApi } from "../../api/travelsApi";
+import Header from "../../components/Header";
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const columns: GridColDef[] = [
 	{ field: "id", headerName: "ID", type: "number", width: 50 },
@@ -56,13 +59,15 @@ const columns: GridColDef[] = [
 ];
 function Travel() {
 	return (
-		<DataGridCustom
-			cols={columns}
-			title="Travel"
-			subtitle="Table des voyages"
-			path="/addtravel"
-			api={travelsApi}
-		/>
+		<div className="wrapper">
+			<div>
+				<Header title={"Travel"} subtitle={"Table des voyages"} />
+				<Button variant="contained">
+					<Link to={"/addtravel"}>Ajouter un élément</Link>
+				</Button>
+			</div>
+			<DataGridCustom cols={columns} api={travelsApi} />
+		</div>
 	);
 }
 

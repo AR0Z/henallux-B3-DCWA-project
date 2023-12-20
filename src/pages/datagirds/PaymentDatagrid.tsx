@@ -1,6 +1,9 @@
 import { GridColDef } from "@mui/x-data-grid";
 import DataGridCustom from "../../components/DataGridCustom";
 import { paymentsApi } from "../../api/paymentsApi";
+import Header from "../../components/Header";
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const columns: GridColDef[] = [
 	{ field: "id", headerName: "ID", width: 50, type: "number" },
@@ -38,13 +41,17 @@ const columns: GridColDef[] = [
 
 function Payment() {
 	return (
-		<DataGridCustom
-			cols={columns}
-			title="Payment"
-			subtitle="Table des payments"
-			path="/addpayment"
-			api={paymentsApi}
-		/>
+		<>
+			<div className="wrapper">
+				<div>
+					<Header title={"Payment"} subtitle={"Table des payments"} />
+					<Button variant="contained">
+						<Link to={"/addpayment"}>Ajouter un élément</Link>
+					</Button>
+				</div>
+				<DataGridCustom cols={columns} api={paymentsApi} />
+			</div>
+		</>
 	);
 }
 
