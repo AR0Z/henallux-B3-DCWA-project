@@ -1,14 +1,20 @@
 import { Button } from "@mui/material";
-import { getEmailFromId } from "../api/api";
-import { useEffect, useState } from "react";
 import "./licenseField.css";
-function LicenseField({ id }: { id: string }) {
-	const [email, setEmail] = useState("");
 
-	useEffect(() => {
-		getEmailFromId(id).then((res) => setEmail(res));
-	}, [id]);
+type User = {
+	id: number;
+	firstname: string;
+	lastname: string;
+	email: string;
+	phone: string;
+	drivingLicence: string;
+	faceImage: string;
+	isDriver: boolean;
+	isAdmin: boolean;
+	tokenImage: string;
+};
 
+function LicenseField({ user, key }: { user: User; key: number }) {
 	function onAccept() {
 		// TODO: call api to accept license
 	}
@@ -30,7 +36,7 @@ function LicenseField({ id }: { id: string }) {
 					onClick={onDisplayPicture}>
 					Display Picture
 				</Button>
-				<div className="email">{email}</div>
+				<div className="email">{user.email}</div>
 				<div className="action-btn">
 					<Button
 						variant="contained"

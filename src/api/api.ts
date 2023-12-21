@@ -51,4 +51,12 @@ export async function getTop10() {
 	return top10;
 }
 
+export async function toCheck() {
+	let toCheck: any[] = [];
+	await api.get("/users/toCheck").then((res) => {
+		toCheck = res.data;
+	});
+	return toCheck;
+}
+
 export default api;

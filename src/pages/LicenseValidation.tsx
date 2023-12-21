@@ -1,7 +1,36 @@
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import LicenseField from "../components/LicenseField";
+import { toCheck } from "../api/api";
+
+type User = {
+	id: number;
+	firstname: string;
+	lastname: string;
+	email: string;
+	phone: string;
+	drivingLicence: string;
+	faceImage: string;
+	isDriver: boolean;
+	isAdmin: boolean;
+	tokenImage: string;
+};
 
 function LicenseValidation() {
+	document.title = "License Validation";
+	const [data, setData] = useState<User[]>([]);
+
+	useEffect(() => {
+		// tocheck in data
+		const fetchData = async () => {
+			const result = await toCheck();
+			console.log(result);
+			// setData(result.data);
+		};
+
+		fetchData();
+	}, []);
+
 	return (
 		<>
 			<div
@@ -13,8 +42,17 @@ function LicenseValidation() {
 					title="License Validation"
 					subtitle="Validez les permis de conduire"
 				/>
-				<LicenseField id="1" />
-				<LicenseField id="2" />
+				{data.length > 0 ? (
+					<div className="license-fields">
+						{data.map((user, key) => (
+							<LicenseField user={user} key={key} />
+						))}
+					</div>
+				) : (
+					<div style={{ marginTop: "10px" }}>
+						Il n'y a pas de permis à valider
+					</div>
+				)}
 			</div>
 		</>
 	);
