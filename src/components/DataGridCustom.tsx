@@ -157,6 +157,9 @@ function DataGridCustom({ cols, api }: Props) {
 		if (editedRow!.isNew) {
 			setRows(rows.filter((row) => row.id !== id));
 		}
+		setSeverity("info");
+		setErrorMessage("L'élément n'a pas été modifié");
+		setOpen(true);
 	};
 
 	const processRowUpdate = useCallback(
@@ -168,10 +171,6 @@ function DataGridCustom({ cols, api }: Props) {
 		},
 		[rows]
 	);
-
-	const onProcessRowUpdateError = useCallback((err: unknown) => {
-		console.log(err);
-	}, []);
 
 	const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
 		setRowModesModel(newRowModesModel);
@@ -238,7 +237,6 @@ function DataGridCustom({ cols, api }: Props) {
 					onRowModesModelChange={handleRowModesModelChange}
 					onRowEditStop={handleRowEditStop}
 					processRowUpdate={processRowUpdate}
-					onProcessRowUpdateError={onProcessRowUpdateError}
 					onRowEditStart={handleRowEditStart}
 					slotProps={{
 						toolbar: {

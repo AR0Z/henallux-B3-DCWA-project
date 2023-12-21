@@ -4,7 +4,6 @@ import { selectIsLoggedIn } from "../state/authSlice";
 
 export default function RequireAuth() {
 	const isLoggedIn = useSelector(selectIsLoggedIn);
-	console.log(isLoggedIn);
 	const location = useLocation();
 	if (isLoggedIn) {
 		return <Outlet />;

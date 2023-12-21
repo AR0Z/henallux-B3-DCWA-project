@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect } from "react";
 import { Avatar, Button, TextField, Box, Typography } from "@mui/material/";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import SwitchThemeButton from "../components/SwitchThemeButton";
@@ -18,19 +18,17 @@ export default function Login() {
 	let isLoggedIn = useSelector(selectIsLoggedIn);
 	const error = useSelector((state: any) => state.auth.error);
 	const [logged, setLogged] = useState(isLoggedIn);
-	React.useEffect(() => {
+	useEffect(() => {
 		if (isLoggedIn) {
 			setLogged(true);
 		}
 	}, [isLoggedIn]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (error) {
 			setErrMsg(error);
 		}
 	}, [error]);
-
-	console.log(error);
 
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
