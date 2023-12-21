@@ -37,8 +37,7 @@ function InfoCard({ icon, data, label }: Props) {
 					flexDirection: "column",
 					alignItems: "center",
 					justifyContent: "center",
-					gap: "1rem",
-					height: "100%",
+					gap: ".5rem",
 				}}>
 				{/* Top icon */}
 				<div>{getIconFromName(icon)}</div>
@@ -46,12 +45,12 @@ function InfoCard({ icon, data, label }: Props) {
 				<div>{data ? <h1>{data}</h1> : <CircularProgress />}</div>
 				{/* label */}
 				<div>
-					<h4
+					<h3
 						style={{
 							textAlign: "center",
 						}}>
 						{label}
-					</h4>
+					</h3>
 				</div>
 			</CardContent>
 		</Card>

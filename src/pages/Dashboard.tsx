@@ -7,16 +7,16 @@ import InfoCard from "../components/InfoCard";
 import "./dashboard.css";
 
 const cols: GridColDef[] = [
-	{ sortable: false, field: "id", headerName: "ID" },
+	{ sortable: false, field: "id", headerName: "ID", width: 50 },
 	{
 		sortable: false,
 		field: "firstName",
 		headerName: "First name",
-		width: 130,
+		width: 75,
 	},
-	{ sortable: false, field: "lastName", headerName: "Last name", width: 130 },
-	{ sortable: false, field: "email", headerName: "Email", width: 130 },
-	{ sortable: false, field: "nbStars", headerName: "Nb stars", width: 130 },
+	{ sortable: false, field: "lastName", headerName: "Last name", width: 75 },
+	{ sortable: false, field: "email", headerName: "Email", width: 120 },
+	{ sortable: false, field: "nbStars", headerName: "Nb stars", width: 50 },
 	{
 		sortable: false,
 		field: "numberOfKm",
@@ -58,7 +58,12 @@ function Dashboard() {
 				subtitle="Bienvenue sur le dashboard du back office"
 			/>
 
-			<FlexBetween gap="10px">
+			<div
+				style={{
+					display: "grid",
+					gridTemplateColumns: "2fr 1fr",
+					gap: "2rem",
+				}}>
 				<div className="wrapper-info-card">
 					<InfoCard
 						icon={"valid"}
@@ -87,10 +92,10 @@ function Dashboard() {
 							sorting: {
 								sortModel: [{ field: "numberOfKm", sort: "desc" }],
 							},
-						}}	
+						}}
 					/>
 				</Box>
-			</FlexBetween>
+			</div>
 		</div>
 	);
 }

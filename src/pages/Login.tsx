@@ -16,12 +16,21 @@ export default function Login() {
 	const [errMsg, setErrMsg] = useState("");
 	const dispatch = useDispatch<AppDispatch>();
 	let isLoggedIn = useSelector(selectIsLoggedIn);
+	const error = useSelector((state: any) => state.auth.error);
 	const [logged, setLogged] = useState(isLoggedIn);
 	React.useEffect(() => {
 		if (isLoggedIn) {
 			setLogged(true);
 		}
 	}, [isLoggedIn]);
+
+	React.useEffect(() => {
+		if (error) {
+			setErrMsg(error);
+		}
+	}, [error]);
+
+	console.log(error);
 
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -30,9 +39,11 @@ export default function Login() {
 		} else {
 			const loginDetails = { email, password };
 			dispatch(userLogin(loginDetails));
-			if (!logged) {
-				setErrMsg("You are not an admin");
-			}
+			setTimeout(() => {
+				if (!logged) {
+					setErrMsg(error);
+				}
+			}, 500);
 		}
 	}
 

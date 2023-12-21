@@ -10,12 +10,14 @@ type AuthState = {
 	token: string | null;
 	refreshToken?: string | null;
 	isLoggedIn: boolean;
+	error?: string;
 };
 
 const initialState: AuthState = {
 	token: cookies.get("token") || null,
 	refreshToken: cookies.get("refreshToken") || null,
 	isLoggedIn: cookies.get("token") ? true : false,
+	error: undefined,
 };
 
 export const userLogin = createAsyncThunk(
@@ -27,10 +29,8 @@ export const userLogin = createAsyncThunk(
 			const refreshToken = loginResponse.data.refreshToken;
 
 			const meResponse = await getMe(token); // Assuming getMe is an async function returning a promise
-			console.log(meResponse.data);
 
 			if (!meResponse.data.isAdmin) {
-				console.log("not admin");
 				return { token, refreshToken, isAdmin: false };
 			}
 
@@ -40,7 +40,12 @@ export const userLogin = createAsyncThunk(
 
 			return { token, refreshToken, isAdmin: true };
 		} catch (error: any) {
-			return Promise.reject(error);
+			return {
+				token: null,
+				refreshToken: null,
+				isAdmin: false,
+				error: error.message,
+			};
 		}
 	}
 );
@@ -72,8 +77,13 @@ export const loginWithToken = createAsyncThunk(
 					isAdmin: true,
 				};
 			});
-		} catch (error) {
-			throw error;
+		} catch (error: any) {
+			return {
+				token: null,
+				refreshToken: null,
+				isAdmin: false,
+				error: error.message,
+			};
 		}
 	}
 );
@@ -101,10 +111,11 @@ const authSlice = createSlice({
 				state.isLoggedIn = false;
 			}
 		});
-		builder.addCase(userLogin.rejected, (state, _) => {
+		builder.addCase(userLogin.rejected, (state, action) => {
 			state.token = null;
 			state.refreshToken = null;
 			state.isLoggedIn = false;
+			state.error = action.error.message;
 		});
 	},
 });

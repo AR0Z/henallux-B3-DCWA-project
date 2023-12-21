@@ -11,13 +11,13 @@ const columns: GridColDef[] = [
 	{
 		field: "id",
 		headerName: "ID",
-		width: 50,
+		width: 30,
 		type: "number",
 	},
 	{
 		field: "firstname",
 		headerName: "First name",
-		width: 130,
+		width: 75,
 		type: "string",
 		editable: true,
 		preProcessEditCellProps(params: GridPreProcessEditCellProps) {
@@ -27,7 +27,7 @@ const columns: GridColDef[] = [
 	{
 		field: "lastname",
 		headerName: "Last name",
-		width: 130,
+		width: 75,
 		type: "string",
 		editable: true,
 		preProcessEditCellProps(params: GridPreProcessEditCellProps) {
@@ -47,7 +47,7 @@ const columns: GridColDef[] = [
 	{
 		field: "phone",
 		headerName: "Phone",
-		width: 130,
+		width: 100,
 		type: "string",
 		editable: true,
 		preProcessEditCellProps(params: GridPreProcessEditCellProps) {
@@ -57,14 +57,14 @@ const columns: GridColDef[] = [
 	{
 		field: "isDriver",
 		headerName: "Is driver",
-		width: 130,
+		width: 75,
 		type: "boolean",
 		editable: true,
 	},
 	{
 		field: "isAdmin",
 		headerName: "Is admin",
-		width: 130,
+		width: 75,
 		type: "boolean",
 		editable: true,
 	},
@@ -78,7 +78,7 @@ const columns: GridColDef[] = [
 	{
 		field: "vehicleId",
 		headerName: "Vehicle",
-		width: 130,
+		width: 100,
 		type: "string",
 		editable: true,
 	},
