@@ -4,8 +4,8 @@ export type User = {
 	lastname: string;
 	email: string;
 	password: string;
-	is_driver: boolean;
-	is_admin: boolean;
+	isDriver: boolean;
+	isAdmin: boolean;
 	phone: string;
 	description: string;
 	vehicle?: string;

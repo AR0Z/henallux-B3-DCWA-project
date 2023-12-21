@@ -84,6 +84,8 @@ const columns: GridColDef[] = [
 	},
 ];
 function User() {
+	document.title = "Users";
+
 	return (
 		<div className="wrapper">
 			<div>

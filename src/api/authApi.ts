@@ -1,6 +1,8 @@
 import axios from "axios";
 import api from "../api/api";
 import { Cookies } from "react-cookie";
+import { usersApi } from "./usersApi";
+import { User } from "model/User";
 
 const cookies = new Cookies();
 
@@ -52,3 +54,22 @@ export async function getMe(token: string) {
 	}
 	return data;
 }
+
+export function getUserEmailsID() {
+	let usersOptions: { label: string; value?: string }[] = [];
+	let usersEmails: string[] = [];
+	let userIds: string[] = [];
+
+	usersApi.getAll().then((res) => {
+		const users: User[] = res.data;
+		users.forEach((user) => {
+			usersOptions.push({ label: user.email, value: user.id });
+			usersEmails.push(user.email);
+			if (user.id) userIds.push(user.id);
+		});
+	});
+	return { usersOptions, usersEmails, userIds };
+}
+
+
+

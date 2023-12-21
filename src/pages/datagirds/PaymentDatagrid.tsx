@@ -40,6 +40,7 @@ const columns: GridColDef[] = [
 ];
 
 function Payment() {
+	document.title = "Payment";
 	return (
 		<>
 			<div className="wrapper">

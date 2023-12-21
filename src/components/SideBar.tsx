@@ -18,6 +18,7 @@ import {
 	MapOutlined,
 	BookOnlineOutlined,
 	LocationOnOutlined,
+	CheckCircleOutline,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -69,6 +70,11 @@ const navItems: NavItemProps[] = [
 		text: "Travels",
 		icon: <MapOutlined />,
 		path: "/travels",
+	},
+	{
+		text: "Licenses Validation",
+		icon: <CheckCircleOutline />,
+		path: "/licensesValidation",
 	},
 ];
 

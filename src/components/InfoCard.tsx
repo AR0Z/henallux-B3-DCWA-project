@@ -30,14 +30,14 @@ function getIconFromName(name: Icons) {
 
 function InfoCard({ icon, data, label }: Props) {
 	return (
-		<Card sx={{ width: "12rem", height: "12rem" }}>
+		<Card sx={{ width: "12rem", aspectRatio: 1 }}>
 			<CardContent
 				sx={{
 					display: "flex",
 					flexDirection: "column",
 					alignItems: "center",
-					justifyContent: "center",
-					gap: ".5rem",
+					justifyContent: "space-between",
+					padding: 0,
 				}}>
 				{/* Top icon */}
 				<div>{getIconFromName(icon)}</div>

@@ -8,48 +8,48 @@ import { Link } from "react-router-dom";
 const columns: GridColDef[] = [
 	{ field: "id", headerName: "ID", type: "number", width: 50 },
 	{
-		field: "travel_id",
+		field: "travelId",
 		headerName: "id voyage",
 		type: "number",
 		width: 130,
 	},
 	{
-		field: "passenger_id",
+		field: "passengerId",
 		headerName: "id Passager réservant",
 		type: "number",
 		editable: true,
 		width: 130,
 	},
 	{
-		field: "nb_spots",
+		field: "nbSpots",
 		headerName: "nombre de place réservé",
 		type: "number",
 		width: 130,
 		editable: true,
 	},
 	{
-		field: "is_paid",
+		field: "isPaid",
 		headerName: "est payé ?",
 		type: "boolean",
 		editable: true,
 		width: 130,
 	},
 	{
-		field: "is_cancelled",
+		field: "isCancelled",
 		headerName: "est annulé ?",
 		type: "boolean",
 		editable: true,
 		width: 130,
 	},
 	{
-		field: "is_confirmed",
+		field: "isConfirmed",
 		headerName: "est confirmé ?",
 		type: "boolean",
 		width: 130,
 		editable: true,
 	},
 	{
-		field: "is_done",
+		field: "isDone",
 		headerName: "est terminé ?",
 		type: "boolean",
 		width: 130,
@@ -58,6 +58,7 @@ const columns: GridColDef[] = [
 ];
 
 function Reservation() {
+	document.title = "Réservations";
 	return (
 		<div className="wrapper">
 			<div>

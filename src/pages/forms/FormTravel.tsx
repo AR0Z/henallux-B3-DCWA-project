@@ -1,14 +1,28 @@
 import FormCustom from "../../components/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
 import { travelsApi } from "../../api/travelsApi";
-
+import { getUserEmailsID } from "../../api/authApi";
 const path = "/travels";
+
+const {
+	usersOptions,
+	usersEmails,
+	userIds,
+}: {
+	usersOptions: { value?: string; label: string }[];
+	usersEmails: string[];
+	userIds: string[];
+} = getUserEmailsID();
+
 const Lines: LineOfForm[] = [
 	{
 		label: "id du conducteur",
-		type: "email",
+		type: "comboboxObject",
 		id: "driver",
 		required: true,
+		options: usersOptions,
+		optionsValues: userIds,
+		optionsLabels: usersEmails,
 	},
 	{
 		label: "Departure Date",
@@ -41,7 +55,7 @@ const baseData = {
 	availablePlaces: 0,
 	pricePerSpot: 0,
 	startingLocation: "",
-	isNew: true
+	isNew: true,
 };
 function FormTravel() {
 	return (

@@ -24,13 +24,12 @@ import type {} from "@mui/x-data-grid/themeAugmentation";
 import { GridRowId } from "@mui/x-data-grid";
 import { useCallback, useEffect, useState } from "react";
 import { Cancel, Delete, EditOutlined, Save } from "@mui/icons-material";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import "./datagrid.css";
 import { CRUDApiType } from "api/crudApi";
 
 type Props = {
 	cols: GridColDef[];
-
 	api: any;
 };
 
@@ -75,8 +74,8 @@ function DataGridCustom({ cols, api }: Props) {
 			.then((res: AxiosResponse) => {
 				setRows(res.data);
 			})
-			.catch((_: any) => {
-				setErrorMessage("Une erreur est survenue");
+			.catch((error: AxiosError) => {
+				setErrorMessage(error.message);
 				setSeverity("error");
 				setOpen(true);
 			});
@@ -88,8 +87,8 @@ function DataGridCustom({ cols, api }: Props) {
 			.then(() => {
 				updateData();
 			})
-			.catch((_: any) => {
-				setErrorMessage("Une erreur est survenue");
+			.catch((error: AxiosError) => {
+				setErrorMessage(error.message);
 				setSeverity("error");
 				setOpen(true);
 			})
@@ -106,8 +105,8 @@ function DataGridCustom({ cols, api }: Props) {
 			.then(() => {
 				updateData();
 			})
-			.catch((_: any) => {
-				setErrorMessage("Une erreur est survenue");
+			.catch((error: AxiosError) => {
+				setErrorMessage(error.message);
 				setSeverity("error");
 				setOpen(true);
 			})
@@ -134,33 +133,41 @@ function DataGridCustom({ cols, api }: Props) {
 		event.defaultMuiPrevented = true;
 	};
 
-	const handleEditClick = (id: GridRowId) => () => {
-		setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-	};
+	function handleEditClick(id: GridRowId) {
+		return () => {
+			setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+		};
+	}
 
-	const handleSaveClick = (id: GridRowId) => () => {
-		setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-	};
+	function handleSaveClick(id: GridRowId) {
+		return () => {
+			setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+		};
+	}
 
-	const handleDeleteClick = (id: GridRowId) => () => {
-		setRows(rows.filter((row) => row.id !== id));
-		removeData(id as string);
-	};
-
-	const handleCancelClick = (id: GridRowId) => () => {
-		setRowModesModel({
-			...rowModesModel,
-			[id]: { mode: GridRowModes.View, ignoreModifications: true },
-		});
-
-		const editedRow = rows.find((row) => row.id === id);
-		if (editedRow!.isNew) {
+	function handleDeleteClick(id: GridRowId) {
+		return () => {
 			setRows(rows.filter((row) => row.id !== id));
-		}
-		setSeverity("info");
-		setErrorMessage("L'élément n'a pas été modifié");
-		setOpen(true);
-	};
+			removeData(id as string);
+		};
+	}
+
+	function handleCancelClick(id: GridRowId) {
+		return () => {
+			setRowModesModel({
+				...rowModesModel,
+				[id]: { mode: GridRowModes.View, ignoreModifications: true },
+			});
+
+			const editedRow = rows.find((row) => row.id === id);
+			if (editedRow!.isNew) {
+				setRows(rows.filter((row) => row.id !== id));
+			}
+			setSeverity("info");
+			setErrorMessage("L'élément n'a pas été modifié");
+			setOpen(true);
+		};
+	}
 
 	const processRowUpdate = useCallback(
 		async (newRow: GridRowModel) => {
@@ -238,12 +245,13 @@ function DataGridCustom({ cols, api }: Props) {
 					onRowEditStop={handleRowEditStop}
 					processRowUpdate={processRowUpdate}
 					onRowEditStart={handleRowEditStart}
-					slotProps={{
-						toolbar: {
-							setRows,
-							setRowModesModel,
-						},
-					}}
+					// slotProps={{
+					// 	toolbar: {
+					// 		...GridToolbar.defaultProps,
+					// 		setRows,
+					// 		setRowModesModel,
+					// 	},
+					// }}
 					slots={{ toolbar: GridToolbar }}
 					sx={{
 						width: "90%",

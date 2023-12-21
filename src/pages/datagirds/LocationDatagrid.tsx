@@ -19,6 +19,7 @@ const columns: GridColDef[] = [
 ];
 
 function Location() {
+	document.title = "Location";
 	return (
 		<div className="wrapper">
 			<div>

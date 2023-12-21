@@ -2,7 +2,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Cookies } from "react-cookie";
 import { login, getMe } from "../api/authApi";
-import api from "../api/api";
+import { AxiosError, AxiosResponse } from "axios";
+import { RootState } from "./store";
 
 const cookies = new Cookies();
 
@@ -10,45 +11,63 @@ type AuthState = {
 	token: string | null;
 	refreshToken?: string | null;
 	isLoggedIn: boolean;
-	error?: string;
+	errorMsg?: string;
 };
 
 const initialState: AuthState = {
 	token: cookies.get("token") || null,
 	refreshToken: cookies.get("refreshToken") || null,
 	isLoggedIn: cookies.get("token") ? true : false,
-	error: undefined,
+	errorMsg: "",
 };
 
 export const userLogin = createAsyncThunk(
 	"auth/login",
-	async (loginData: { email: string; password: string }) => {
+	async (
+		loginData: { email: string; password: string },
+		{ rejectWithValue, dispatch }
+	) => {
 		try {
-			const loginResponse = await login(loginData); // Assuming login is an async function returning a promise
+			const loginResponse = await login(loginData);
 			const token = loginResponse.data.token;
 			const refreshToken = loginResponse.data.refreshToken;
 
-			const meResponse = await getMe(token); // Assuming getMe is an async function returning a promise
+			if (!token || !refreshToken) {
+				return {
+					token: null,
+					refreshToken: null,
+					isAdmin: false,
+					errorMsg: "Invalid credentials",
+				};
+			}
 
-			if (!meResponse.data.isAdmin) {
-				return { token, refreshToken, isAdmin: false };
+			const meResponse = await getMe(token);
+			const isAdmin = meResponse.data.isAdmin;
+
+			if (!isAdmin) {
+				return {
+					token: null,
+					refreshToken: null,
+					isAdmin: false,
+					errorMsg: "You are not an admin",
+				};
 			}
 
 			cookies.set("token", token, { path: "/" });
 			cookies.set("refreshToken", refreshToken, { path: "/" });
-			api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-			return { token, refreshToken, isAdmin: true };
-		} catch (error: any) {
 			return {
-				token: null,
-				refreshToken: null,
-				isAdmin: false,
-				error: error.message,
+				token,
+				refreshToken,
+				isAdmin: true,
+				errorMsg: "",
 			};
+		} catch (error: any) {
+			return rejectWithValue(error.response.data.message);
 		}
 	}
 );
+
 export const loginWithToken = createAsyncThunk(
 	"auth/loginWithToken",
 	async () => {
@@ -100,28 +119,25 @@ const authSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(userLogin.fulfilled, (state, action: any) => {
-			if (action.payload.isAdmin) {
-				state.token = action.payload.token;
-				state.refreshToken = action.payload.refreshToken;
-				state.isLoggedIn = true;
-			} else {
-				state.token = null;
-				state.refreshToken = null;
-				state.isLoggedIn = false;
-			}
+		builder.addCase(userLogin.fulfilled, (state, action) => {
+			state.token = action.payload.token;
+			state.refreshToken = action.payload.refreshToken;
+			state.isLoggedIn = true;
+			state.errorMsg = action.payload.errorMsg;
 		});
-		builder.addCase(userLogin.rejected, (state, action) => {
+		builder.addCase(userLogin.rejected, (state, _) => {
 			state.token = null;
 			state.refreshToken = null;
 			state.isLoggedIn = false;
-			state.error = action.error.message;
+			state.errorMsg = "Invalid login infos";
 		});
 	},
 });
 
 export const { userLogout } = authSlice.actions;
 
-export const selectIsLoggedIn = (state: any) => state.auth.isLoggedIn;
+export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
+
+export const selectErrorMessages = (state: RootState) => state.auth.errorMsg;
 
 export default authSlice;

@@ -5,19 +5,25 @@ import SwitchThemeButton from "../components/SwitchThemeButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsLoggedIn, userLogin } from "../state/authSlice";
+import {
+	selectErrorMessages,
+	selectIsLoggedIn,
+	userLogin,
+} from "../state/authSlice";
 import "./login.css";
 import { AppDispatch } from "state/store";
 
 export default function Login() {
+	document.title = "Login";
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errMsg, setErrMsg] = useState("");
 	const dispatch = useDispatch<AppDispatch>();
 	let isLoggedIn = useSelector(selectIsLoggedIn);
-	const error = useSelector((state: any) => state.auth.error);
+	const error = useSelector(selectErrorMessages);
 	const [logged, setLogged] = useState(isLoggedIn);
+
 	useEffect(() => {
 		if (isLoggedIn) {
 			setLogged(true);

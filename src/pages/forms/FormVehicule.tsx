@@ -37,10 +37,11 @@ const baseData = {
 	model: "",
 	color: 0,
 	nbSeats: 0,
-	isNew: true
+	isNew: true,
 };
 const path = "/vehicules";
 function FormVehicule() {
+
 	return (
 		<FormCustom
 			lines={Lines}

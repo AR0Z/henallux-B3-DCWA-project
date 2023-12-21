@@ -1,8 +1,20 @@
 import FormCustom from "../../components/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
 import { reservationsApi } from "../../api/reservationsApi";
+import { getUserEmailsID } from "../../api/authApi";
 
 const path = "/reservations";
+
+const {
+	usersOptions,
+	usersEmails,
+	userIds,
+}: {
+	usersOptions: { value?: string; label: string }[];
+	usersEmails: string[];
+	userIds: string[];
+} = getUserEmailsID();
+
 const Lines: LineOfForm[] = [
 	{
 		label: "Travel (id)",
@@ -13,8 +25,11 @@ const Lines: LineOfForm[] = [
 	{
 		label: "Passenger",
 		id: "passenger",
-		type: "text",
+		type: "comboboxObject",
 		required: false,
+		options: usersOptions,
+		optionsValues: userIds,
+		optionsLabels: usersEmails,
 	},
 	{
 		label: "Reserved Spots",
@@ -24,25 +39,25 @@ const Lines: LineOfForm[] = [
 	},
 	{
 		label: "Paid ?",
-		id: "is_paid",
+		id: "isPaid",
 		type: "checkbox",
 		required: true,
 	},
 	{
 		label: "Cancelled ?",
-		id: "is_cancelled",
+		id: "isCancelled",
 		type: "checkbox",
 		required: true,
 	},
 	{
 		label: "Confirmed ?",
-		id: "is_confirmed",
+		id: "isConfirmed",
 		type: "checkbox",
 		required: true,
 	},
 	{
 		label: "Done ?",
-		id: "is_done",
+		id: "isDone",
 		type: "checkbox",
 		required: true,
 	},
@@ -55,7 +70,7 @@ const baseData = {
 	is_cancelled: false,
 	is_confirmed: false,
 	is_done: false,
-	isNew: true
+	isNew: true,
 };
 
 function FormReservation() {

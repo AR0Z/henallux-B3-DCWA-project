@@ -1,10 +1,16 @@
 import { Box, Theme, useTheme } from "@mui/material";
-import FlexBetween from "../components/FlexBetween";
 import Header from "../components/Header";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 import InfoCard from "../components/InfoCard";
 import "./dashboard.css";
+import { useEffect, useState } from "react";
+import {
+	getTotalKM,
+	getTotalCarshareDone,
+	getTotalCanceled,
+	getTop10,
+} from "../api/api";
 
 const cols: GridColDef[] = [
 	{ sortable: false, field: "id", headerName: "ID", width: 50 },
@@ -26,13 +32,49 @@ const cols: GridColDef[] = [
 ];
 
 function Dashboard() {
+	document.title = "Dashboard";
 	const theme: Theme = useTheme();
 
-	const data = {
-		nbKm: 2000,
-		nbCovoit: 1000,
-		nbCovoitCanceled: 2,
-	};
+	const [data, setData] = useState({
+		nbKm: 0,
+		nbCovoit: 0,
+		nbCovoitCanceled: 0,
+	});
+
+	const [top10, setTop10] = useState([]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const resultTotalKm = await getTotalKM();
+			if (resultTotalKm.total === null) {
+				setData((prev) => ({ ...prev, nbKm: "0" }));
+			} else {
+				setData((prev) => ({ ...prev, nbKm: resultTotalKm.total }));
+			}
+			const resultTotalCarshareDone = await getTotalCarshareDone();
+			if (resultTotalCarshareDone.total !== undefined) {
+				setData((prev) => ({
+					...prev,
+					nbCovoit: resultTotalCarshareDone.total,
+				}));
+			}
+
+			const resultTotalCanceled = await getTotalCanceled();
+			if (resultTotalCanceled.total !== undefined) {
+				setData((prev) => ({
+					...prev,
+					nbCovoitCanceled: resultTotalCanceled.total,
+				}));
+			}
+
+			const resultTop10 = await getTop10();
+			if (resultTop10) {
+				setTop10(resultTop10);
+			}
+		};
+
+		fetchData();
+	}, []);
 
 	const datagridTheme = {
 		"& .MuiDataGrid-root": {
@@ -60,9 +102,7 @@ function Dashboard() {
 
 			<div
 				style={{
-					display: "grid",
-					gridTemplateColumns: "2fr 1fr",
-					gap: "2rem",
+					display: "flex",
 				}}>
 				<div className="wrapper-info-card">
 					<InfoCard
@@ -84,7 +124,7 @@ function Dashboard() {
 				<Box className="wrapper-datagrid" sx={datagridTheme}>
 					<DataGrid
 						loading={false}
-						rows={[]}
+						rows={top10}
 						columns={cols}
 						hideFooter
 						autoHeight

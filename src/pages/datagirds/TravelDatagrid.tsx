@@ -58,6 +58,8 @@ const columns: GridColDef[] = [
 	},
 ];
 function Travel() {
+	document.title = "Voyages";
+
 	return (
 		<div className="wrapper">
 			<div>

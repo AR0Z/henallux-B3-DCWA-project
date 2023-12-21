@@ -8,7 +8,11 @@ import {
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useState, ChangeEvent, FormEvent } from "react";
-import { ComboBoxAttributes, LineOfForm } from "../model/FormTypes";
+import {
+	ComboBoxAttributes,
+	ComboBoxAttributesObject,
+	LineOfForm,
+} from "../model/FormTypes";
 import FlexBetween from "./FlexBetween";
 import { Link, useNavigate } from "react-router-dom";
 import "./form.css";
@@ -94,6 +98,24 @@ function FormCustom({ lines, path, api, baseData }: Props) {
 		);
 	}
 
+	function getComboBoxObject(line: LineOfForm & ComboBoxAttributesObject) {
+		return (
+			<FormControl fullWidth>
+				<Autocomplete
+					id={line.id}
+					color="primary"
+					options={line.options}
+					getOptionLabel={(option) => option.label}
+					renderInput={(params) => <TextField {...params} label={line.id} />}
+					// type of line is {label: string, value: string} send only value
+					onChange={(_, field) => {
+						setData({ ...data, [line.id]: field?.value });
+					}}
+				/>
+			</FormControl>
+		);
+	}
+
 	function getTextArea(line: LineOfForm) {
 		return (
 			<FormControl fullWidth>
@@ -143,6 +165,8 @@ function FormCustom({ lines, path, api, baseData }: Props) {
 				return getCheckBox(line);
 			case "combobox":
 				return getComboBox(line);
+			case "comboboxObject":
+				return getComboBoxObject(line);
 			case "textarea":
 				return getTextArea(line);
 			default:

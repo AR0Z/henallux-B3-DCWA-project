@@ -1,0 +1,22 @@
+.license-field {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: baseline;
+	margin: 0 0 1rem 0;
+}
+
+.license-wrapper {
+	margin-top: 2rem;
+}
+
+.email {
+	margin-left: 1rem;
+}
+
+.action-btn {
+	margin-left: 1rem;
+	width: 175px;
+	display: flex;
+	justify-content: space-between;
+}
