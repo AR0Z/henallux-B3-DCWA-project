@@ -70,11 +70,11 @@ const baseData = {
 	email: "",
 	password: "",
 	phone: "",
-	is_admin: false,
-	is_driver: false,
+	isAdmin: false,
+	isDriver: false,
 	description: "",
 	vehicle: "",
-	isNew: true
+	isNew: true,
 };
 
 function FormUser() {

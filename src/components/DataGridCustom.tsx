@@ -116,7 +116,7 @@ function DataGridCustom({ cols, api }: Props) {
 				setOpen(true);
 			});
 	}
-
+	// Boilerplate code
 	const handleRowEditStop: GridEventListener<"rowEditStop"> = (
 		params,
 		event
@@ -245,13 +245,12 @@ function DataGridCustom({ cols, api }: Props) {
 					onRowEditStop={handleRowEditStop}
 					processRowUpdate={processRowUpdate}
 					onRowEditStart={handleRowEditStart}
-					// slotProps={{
-					// 	toolbar: {
-					// 		...GridToolbar.defaultProps,
-					// 		setRows,
-					// 		setRowModesModel,
-					// 	},
-					// }}
+					slotProps={{
+						toolbar: {
+							...GridToolbar.defaultProps,
+							showQuickFilter: true,
+						},
+					}}
 					slots={{ toolbar: GridToolbar }}
 					sx={{
 						width: "90%",

@@ -11,15 +11,15 @@ function SettingsButton() {
 	const dispatch = useDispatch();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [open, setOpen] = useState(false);
-	
+
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
 		setOpen(!open);
 	};
 
 	function handleLogout() {
+		dispatch(userLogout());
 		logout().then(() => {
-			dispatch(userLogout());
 			navigate("/login");
 		});
 	}

@@ -7,7 +7,6 @@ export default function RequireAuth() {
 	const location = useLocation();
 	if (isLoggedIn) {
 		return <Outlet />;
-	} else {
-		return <Navigate to="/login" state={{ from: location }} replace />;
 	}
+	return <Navigate to="/login" state={{ from: location }} replace />;
 }

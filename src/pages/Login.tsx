@@ -18,7 +18,7 @@ export default function Login() {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [errMsg, setErrMsg] = useState("");
+	const [errMsg, setErrMsg] = useState<string>("");
 	const dispatch = useDispatch<AppDispatch>();
 	let isLoggedIn = useSelector(selectIsLoggedIn);
 	const error = useSelector(selectErrorMessages);
@@ -45,7 +45,7 @@ export default function Login() {
 			dispatch(userLogin(loginDetails));
 			setTimeout(() => {
 				if (!logged) {
-					setErrMsg(error);
+					setErrMsg(error? error : "Something went wrong");
 				}
 			}, 500);
 		}
