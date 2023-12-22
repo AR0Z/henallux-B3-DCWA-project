@@ -1,4 +1,4 @@
-import FormCustom from "../../components/FormCustom";
+import FormCustom from "../../components/formCustom/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
 import { locationsApi } from "../../api/locationsApi";
 
@@ -34,7 +34,7 @@ const baseData = {
 	latitude: 0,
 	longitude: 0,
 	nextStopsId: "",
-	isNew: true
+	isNew: true,
 };
 function FormLocation() {
 	return (

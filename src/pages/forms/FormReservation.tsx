@@ -1,7 +1,7 @@
-import FormCustom from "../../components/FormCustom";
+import FormCustom from "../../components/formCustom/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
 import { reservationsApi } from "../../api/reservationsApi";
-import { getUserEmailsID } from "../../api/authApi";
+import { getUserEmailsID } from "../../api/api";
 
 const path = "/reservations";
 

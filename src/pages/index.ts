@@ -1,6 +1,6 @@
-export { default as Login } from "./Login";
-export { default as Dashboard } from "./Dashboard";
-export { default as LicenseValidation } from "./LicenseValidation";
+export { default as Login } from "./login/Login";
+export { default as Dashboard } from "./dashboard/Dashboard";
+export { default as LicenseValidation } from "./licenseValidation/LicenseValidation";
 export { default as Location } from "./datagirds/LocationDatagrid";
 export { default as User } from "./datagirds/UserDatagrid";
 export { default as Payment } from "./datagirds/PaymentDatagrid";

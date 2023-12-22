@@ -1,4 +1,4 @@
-import FormCustom from "../../components/FormCustom";
+import FormCustom from "../../components/formCustom/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
 import { paymentsApi } from "../../api/paymentsApi";
 
@@ -34,7 +34,7 @@ const Lines: LineOfForm[] = [
 const baseData = {
 	amount: 0,
 	reservationId: 0,
-	isNew: true
+	isNew: true,
 };
 function FormPayment() {
 	return (

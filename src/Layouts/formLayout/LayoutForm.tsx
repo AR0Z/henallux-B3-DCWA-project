@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import SwitchThemeButton from "../components/SwitchThemeButton";
+import SwitchThemeButton from "../../components/navbar/SwitchThemeButton";
 import { Outlet } from "react-router-dom";
 import "./form-layout.css";
 

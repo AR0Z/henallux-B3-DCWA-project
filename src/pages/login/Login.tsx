@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Avatar, Button, TextField, Box, Typography } from "@mui/material/";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import SwitchThemeButton from "../components/SwitchThemeButton";
+import SwitchThemeButton from "../../components/navbar/SwitchThemeButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +9,7 @@ import {
 	selectErrorMessages,
 	selectIsLoggedIn,
 	userLogin,
-} from "../state/authSlice";
+} from "../../state/authSlice";
 import "./login.css";
 import { AppDispatch } from "state/store";
 
@@ -45,7 +45,7 @@ export default function Login() {
 			dispatch(userLogin(loginDetails));
 			setTimeout(() => {
 				if (!logged) {
-					setErrMsg(error? error : "Something went wrong");
+					setErrMsg(error ? error : "Something went wrong");
 				}
 			}, 500);
 		}

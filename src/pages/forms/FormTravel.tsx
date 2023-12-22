@@ -1,7 +1,7 @@
-import FormCustom from "../../components/FormCustom";
+import FormCustom from "../../components/formCustom/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
 import { travelsApi } from "../../api/travelsApi";
-import { getUserEmailsID } from "../../api/authApi";
+import { getUserEmailsID } from "../../api/api";
 const path = "/travels";
 
 const {

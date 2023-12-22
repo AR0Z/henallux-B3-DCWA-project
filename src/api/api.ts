@@ -2,61 +2,66 @@ import axios from "axios";
 import { Cookies } from "react-cookie";
 import { usersApi } from "./usersApi";
 import { User } from "model/User";
+import axiosRetry from "axios-retry";
 
 const cookies = new Cookies();
 
 const api = axios.create({
-	baseURL: "https://smartcities.aroz.be/api/",
+	baseURL: "https://smartcities.aroz.be/api/v1/",
+});
+
+axiosRetry(api, {
+	retries: 3,
+	retryCondition: (error) => {
+		switch (error.response?.status) {
+			case 500:
+				return true;
+			default:
+				return false;
+		}
+	},
 });
 
 api.defaults.headers.common["Authorization"] = `Bearer ${cookies.get("token")}`;
 
 export async function getEmailFromId(id: string) {
-	let email = "";
-	await usersApi.get(id).then((res) => {
-		email = res.data.email;
-	});
-	return email;
+	return (await usersApi.get(id)).data.email;
 }
 
 export async function getTotalCarshareDone() {
-	let total = 0;
-	await api.get("/travels/totalDone").then((res) => {
-		total = res.data;
-	});
-	return total;
+	return (await api.get("/travels/totalCarshareDone")).data;
 }
 
 export async function getTotalKM() {
-	let total;
-	await api.get("/travels/totalKM").then((res) => {
-		total = res.data;
-	});
-	return total;
+	return (await api.get("/travels/totalKM")).data;
 }
 
 export async function getTotalCanceled() {
-	let total;
-	await api.get("/travels/totalCanceled").then((res) => {
-		total = res.data;
-	});
-	return total;
+	return (await api.get("/travels/totalCanceled")).data;
 }
 
 export async function getTop10() {
-	let top10: any[] = [];
-	await api.get("/users/top10").then((res) => {
-		top10 = res.data;
-	});
-	return top10;
+	return (await api.get("/travels/top10")).data;
 }
 
 export async function toCheck() {
-	let toCheck: any[] = [];
-	await api.get("/users/toCheck").then((res) => {
-		toCheck = res.data;
+	return (await api.get("/users/toCheck")).data;
+}
+
+export function getUserEmailsID() {
+	let usersOptions: { label: string; value?: string }[] = [];
+	let usersEmails: string[] = [];
+	let userIds: string[] = [];
+
+	usersApi.getAll().then((res) => {
+		const users: User[] = res.data;
+		users.forEach((user) => {
+			usersOptions.push({ label: user.email, value: user.id });
+			usersEmails.push(user.email);
+			if (user.id) userIds.push(user.id);
+		});
 	});
-	return toCheck;
+	return { usersOptions, usersEmails, userIds };
 }
 
 export default api;

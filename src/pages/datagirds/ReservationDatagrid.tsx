@@ -1,7 +1,7 @@
 import { GridColDef } from "@mui/x-data-grid";
-import DataGridCustom from "../../components/DataGridCustom";
+import DataGridCustom from "../../components/dataGridCustom/DataGridCustom";
 import { reservationsApi } from "../../api/reservationsApi";
-import Header from "../../components/Header";
+import Header from "../../components/header/Header";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 

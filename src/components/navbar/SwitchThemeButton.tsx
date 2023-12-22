@@ -1,7 +1,7 @@
 import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
 import { IconButton, useTheme } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { setMode } from "../state/themeSlice";
+import { setMode } from "../../state/themeSlice";
 
 function SwitchThemeButton() {
 	const dispatch = useDispatch();

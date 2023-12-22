@@ -1,5 +1,5 @@
 import { usersApi } from "../../api/usersApi";
-import FormCustom from "../../components/FormCustom";
+import FormCustom from "../../components/formCustom/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
 const path = "/users";
 const Lines: LineOfForm[] = [

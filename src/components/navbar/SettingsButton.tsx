@@ -3,8 +3,8 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { userLogout } from "../state/authSlice";
-import { logout } from "../api/authApi";
+import { userLogout } from "../../state/authSlice";
+import { logout } from "../../api/authApi";
 
 function SettingsButton() {
 	const navigate = useNavigate();

@@ -2,7 +2,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Cookies } from "react-cookie";
 import { login, getMe } from "../api/authApi";
-import { AxiosError, AxiosResponse } from "axios";
 import { RootState } from "./store";
 
 const cookies = new Cookies();
@@ -25,7 +24,7 @@ export const userLogin = createAsyncThunk(
 	"auth/login",
 	async (
 		loginData: { email: string; password: string },
-		{ rejectWithValue, dispatch }
+		{ rejectWithValue }
 	) => {
 		try {
 			const loginResponse = await login(loginData);

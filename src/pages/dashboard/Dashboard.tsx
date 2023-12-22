@@ -1,8 +1,8 @@
 import { Box, Theme, useTheme } from "@mui/material";
-import Header from "../components/Header";
+import Header from "../../components/header/Header";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
-import InfoCard from "../components/InfoCard";
+import InfoCard from "../../components/infoCard/InfoCard";
 import "./dashboard.css";
 import { useEffect, useState } from "react";
 import {
@@ -10,7 +10,7 @@ import {
 	getTotalCarshareDone,
 	getTotalCanceled,
 	getTop10,
-} from "../api/api";
+} from "../../api/api";
 
 const cols: GridColDef[] = [
 	{ sortable: false, field: "id", headerName: "ID", width: 50 },
@@ -47,7 +47,7 @@ function Dashboard() {
 		const fetchData = async () => {
 			const resultTotalKm = await getTotalKM();
 			if (resultTotalKm.total === null) {
-				setData((prev) => ({ ...prev, nbKm: "0" }));
+				setData((prev) => ({ ...prev, nbKm: 0 }));
 			} else {
 				setData((prev) => ({ ...prev, nbKm: resultTotalKm.total }));
 			}

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import { selectIsLoggedIn } from "../state/authSlice";
+import { selectIsLoggedIn } from "../../state/authSlice";
 
 export default function RequireAuth() {
 	const isLoggedIn = useSelector(selectIsLoggedIn);

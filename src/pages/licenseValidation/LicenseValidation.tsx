@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Header from "../components/Header";
-import LicenseField from "../components/LicenseField";
-import { toCheck } from "../api/api";
+import Header from "../../components/header/Header";
+import LicenseField from "../../components/licenseField/LicenseField";
+import { toCheck } from "../../api/api";
 
 type User = {
 	id: number;
@@ -23,11 +23,9 @@ function LicenseValidation() {
 	useEffect(() => {
 		// tocheck in data
 		const fetchData = async () => {
-			const result = await toCheck();
-			console.log(result);
-			// setData(result.data);
+			console.log(toCheck());
+			setData([]);
 		};
-
 		fetchData();
 	}, []);
 

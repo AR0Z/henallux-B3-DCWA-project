@@ -12,8 +12,8 @@ import {
 	ComboBoxAttributes,
 	ComboBoxAttributesObject,
 	LineOfForm,
-} from "../model/FormTypes";
-import FlexBetween from "./FlexBetween";
+} from "../../model/FormTypes";
+import FlexBetween from "../stylingComponents/FlexBetween";
 import { Link, useNavigate } from "react-router-dom";
 import "./form.css";
 

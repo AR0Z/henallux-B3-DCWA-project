@@ -1,9 +1,9 @@
 import { GridColDef, GridPreProcessEditCellProps } from "@mui/x-data-grid";
 import type {} from "@mui/x-data-grid/themeAugmentation";
-import DataGridCustom from "../../components/DataGridCustom";
+import DataGridCustom from "../../components/dataGridCustom/DataGridCustom";
 import { usersApi } from "../../api/usersApi";
 import { phoneFormat, emailFormat } from "../../components/utils";
-import Header from "../../components/Header";
+import Header from "../../components/header/Header";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 

@@ -1,5 +1,5 @@
 import { Menu as MenuIcon } from "@mui/icons-material";
-import FlexBetween from "./FlexBetween";
+import FlexBetween from "../stylingComponents/FlexBetween";
 
 import { AppBar, IconButton, Toolbar } from "@mui/material";
 import SwitchThemeButton from "./SwitchThemeButton";

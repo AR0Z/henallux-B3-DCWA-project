@@ -28,7 +28,7 @@ function LicenseField({ user, key }: { user: User; key: number }) {
 	}
 
 	return (
-		<div className="license-wrapper">
+		<div className="license-wrapper" key={key}>
 			<div className="license-field">
 				<Button
 					variant="contained"

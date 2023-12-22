@@ -20,7 +20,9 @@ const FormUser = lazy(() => import("./pages/forms/FormUser"));
 const FormVehicule = lazy(() => import("./pages/forms/FormVehicule"));
 const FormPayment = lazy(() => import("./pages/forms/FormPayment"));
 const FormTravel = lazy(() => import("./pages/forms/FormTravel"));
-const LicenseValidation = lazy(() => import("./pages/LicenseValidation"));
+const LicenseValidation = lazy(
+	() => import("./pages/licenseValidation/LicenseValidation.js")
+);
 import CircularProgress from "@mui/material/CircularProgress";
 import { AppDispatch, RootState } from "state/store.js";
 import { loginWithToken } from "./state/authSlice.js";

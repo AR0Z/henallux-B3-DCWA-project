@@ -1,4 +1,4 @@
-import FormCustom from "../../components/FormCustom";
+import FormCustom from "../../components/formCustom/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
 import { vehiculesApi } from "../../api/vehiclesApi";
 import { brands, models, color } from "../../assets/vehiculesData";
@@ -41,7 +41,6 @@ const baseData = {
 };
 const path = "/vehicules";
 function FormVehicule() {
-
 	return (
 		<FormCustom
 			lines={Lines}

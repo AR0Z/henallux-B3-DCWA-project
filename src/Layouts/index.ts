@@ -1,3 +1,3 @@
-export { default as Layout } from "./Layout";
-export { default as LayoutForm } from "./LayoutForm";
-export { default as RequireAuth } from "./RequireAuth";
+export { default as Layout } from "./baseLayout/Layout";
+export { default as LayoutForm } from "./formLayout/LayoutForm";
+export { default as RequireAuth } from "./requireAuth/RequireAuth";
