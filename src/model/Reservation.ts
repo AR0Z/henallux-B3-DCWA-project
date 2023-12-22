@@ -1,11 +1,13 @@
 export type Reservation = {
 	id?: string;
-	travel: string;
-	passenger: string;
-	reservedSpots: number;
-	is_paid: boolean;
-	is_cancelled: boolean;
-	is_confirmed: boolean;
-	is_done: boolean;
-	isNew: boolean;
+	travelId: number;
+	passengerId: number;
+	nbSpots: number;
+	cost?: number;
+	locationTravel?: number;
+	starConductor?: number;
+	starPassenger?: number;
+	isPaid?: boolean;
+	isCancelled: boolean;
+	bookingStatus: "pending" | "accepted" | "refused";
 };

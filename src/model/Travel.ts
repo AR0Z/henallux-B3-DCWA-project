@@ -1,10 +1,12 @@
 export type Travel = {
-	id?: string;
-	driver: string;
-	departureDate: Date;
-	creationDate?: Date;
-	availablePlaces: number;
-	pricePerSpot: number;
-	startingLocation: string;
-	isNew: boolean;
+	id?: number;
+	driver?: number;
+	startLoc?: number;
+	endLoc?: number;
+	costPerSpot: number;
+	nbSpots: number;
+	startingTimestamp: number;
+	timeTravel: number;
+	kmTravel: number;
+	isCancelled?: boolean;
 };

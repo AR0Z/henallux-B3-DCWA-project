@@ -78,8 +78,6 @@ const navItems: NavItemProps[] = [
 	},
 ];
 
-const drawerWidth = "15rem";
-
 function SideBar({ isSidebarOpen, setIsSidebarOpen }: Props) {
 	const { pathname } = useLocation();
 	const [active, setActive] = useState<string>("");
@@ -99,12 +97,12 @@ function SideBar({ isSidebarOpen, setIsSidebarOpen }: Props) {
 					variant="persistent"
 					anchor="left"
 					sx={{
-						width: drawerWidth,
+						width: "15rem",
 						[`& .MuiDrawer-paper`]: {
 							color: theme.palette.secondary.light,
 							backgroundColor: theme.palette.primary.dark,
 							borderWidth: "0px",
-							width: drawerWidth,
+							width: "15rem",
 							boxSizing: "border-box",
 						},
 					}}>
@@ -114,9 +112,7 @@ function SideBar({ isSidebarOpen, setIsSidebarOpen }: Props) {
 								variant="h4"
 								fontWeight="bold"
 								color={theme.palette.primary.main}>
-								<ListItem onClick={() => navigate("/")}>
-									CarpoolConnect
-								</ListItem>
+								<ListItem onClick={() => navigate("/")}>Carpool Panel</ListItem>
 							</Typography>
 						</div>
 					</div>

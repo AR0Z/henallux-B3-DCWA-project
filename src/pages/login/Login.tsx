@@ -43,16 +43,14 @@ export default function Login() {
 		} else {
 			const loginDetails = { email, password };
 			dispatch(userLogin(loginDetails));
-			setTimeout(() => {
-				if (!logged) {
-					setErrMsg(error ? error : "Something went wrong");
-				}
-			}, 500);
+			if (!logged) {
+				setErrMsg(error || "");
+			}
 		}
 	}
 
 	if (logged) {
-		navigate("/dashboard");
+		navigate("/dashboard", { replace: true });
 	}
 
 	return (

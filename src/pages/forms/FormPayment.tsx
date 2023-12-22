@@ -13,21 +13,21 @@ const Lines: LineOfForm[] = [
 	{
 		label: "reservation",
 		type: "number",
-		id: "reservation_id",
+		id: "reservationId",
 		required: true,
 	},
 	{
 		label: "method",
 		type: "combobox",
-		options: ["CREDIT_CARD", "PAYPAL"],
+		options: ["card", "paypal"],
 		id: "method",
 		required: true,
 	},
 	{
-		label: "status",
+		label: "status of payment",
 		type: "combobox",
 		options: ["pending", "paid", "failed"],
-		id: "payment_status",
+		id: "paymentStatus",
 		required: true,
 	},
 ];

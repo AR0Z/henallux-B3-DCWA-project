@@ -12,7 +12,13 @@ const {
 	usersOptions: { value?: string; label: string }[];
 	usersEmails: string[];
 	userIds: string[];
-} = getUserEmailsID();
+} = getUserEmailsID(true);
+
+/*
+{
+ ??"timeTravel": 0,
+  "??kmTravel": 0,
+*/
 
 const Lines: LineOfForm[] = [
 	{
@@ -27,35 +33,60 @@ const Lines: LineOfForm[] = [
 	{
 		label: "Departure Date",
 		type: "date",
-		id: "departureDate",
-		required: true,
-	},
-	{
-		label: "Available Places",
-		type: "number",
-		id: "availablePlaces",
+		id: "startingTimestamp",
 		required: true,
 	},
 	{
 		label: "Price Per Spot",
 		type: "number",
-		id: "pricePerSpot",
+		id: "costPerSpot",
 		required: true,
 	},
 	{
 		label: "id du lieu de départ",
-		type: "text",
-		id: "startingLocation",
+		type: "number",
+		id: "startLoc",
+		required: true,
+	},
+	{
+		label: "id du lieu d'arrivée",
+		type: "number",
+		id: "endLoc",
+		required: true,
+	},
+	{
+		label: "kilomètres parcourus",
+		type: "number",
+		id: "kmTravel",
+		required: false,
+	},
+	{
+		label: "is cancelled",
+		type: "checkbox",
+		id: "isCancelled",
+		required: false,
+	},
+	{
+		label: "is done",
+		type: "checkbox",
+		id: "isDone",
+		required: false,
+	},
+	{
+		label: "nb of sport available",
+		type: "number",
+		id: "nbSpots",
 		required: true,
 	},
 ];
 const baseData = {
-	driver: "",
-	departureDate: new Date(),
-	availablePlaces: 0,
-	pricePerSpot: 0,
-	startingLocation: "",
-	isNew: true,
+	costPerSpot: 0,
+	nbSpots: 0,
+	startingTimestamp: new Date().getTime(),
+	timeTravel: 0,
+	kmTravel: 0,
+	startLoc: 0,
+	endLoc: 0,
 };
 function FormTravel() {
 	return (

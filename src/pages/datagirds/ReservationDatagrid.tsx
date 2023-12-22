@@ -11,20 +11,54 @@ const columns: GridColDef[] = [
 		field: "travelId",
 		headerName: "id voyage",
 		type: "number",
-		width: 130,
+		width: 70,
+	},
+	{
+		field: "locationTravel",
+		headerName: "id lieu départ",
+		type: "number",
+		width: 90,
+	},
+	{
+		field: "starConductor",
+		headerName: "note conducteur",
+		type: "number",
+		width: 110,
+		valueFormatter(params) {
+			return params.value ? params.value : "Pas de note";
+		},
+	},
+	{
+		field: "starPassenger",
+		headerName: "Note passager",
+		type: "number",
+		width: 120,
+		valueFormatter(params) {
+			return params.value ? params.value : "Pas de note";
+		},
 	},
 	{
 		field: "passengerId",
-		headerName: "id Passager réservant",
+		headerName: "id passager",
 		type: "number",
 		editable: true,
-		width: 130,
+		width: 90,
+	},
+	{
+		field: "cost",
+		headerName: "coût",
+		type: "number",
+		editable: true,
+		width: 90,
+		valueFormatter(params) {
+			return params.value ? params.value : "GRATUIT";
+		},
 	},
 	{
 		field: "nbSpots",
-		headerName: "nombre de place réservé",
+		headerName: "place réservé",
 		type: "number",
-		width: 130,
+		width: 110,
 		editable: true,
 	},
 	{
@@ -32,28 +66,21 @@ const columns: GridColDef[] = [
 		headerName: "est payé ?",
 		type: "boolean",
 		editable: true,
-		width: 130,
+		width: 90,
 	},
 	{
 		field: "isCancelled",
 		headerName: "est annulé ?",
 		type: "boolean",
 		editable: true,
-		width: 130,
+		width: 90,
 	},
 	{
-		field: "isConfirmed",
-		headerName: "est confirmé ?",
-		type: "boolean",
-		width: 130,
-		editable: true,
-	},
-	{
-		field: "isDone",
-		headerName: "est terminé ?",
-		type: "boolean",
-		width: 130,
-		editable: true,
+		field: "bookingStatus",
+		headerName: "état",
+		type: "singleSelect",
+		valueOptions: ["accepted", "pending", "refused"],
+		width: 75,
 	},
 ];
 
@@ -62,7 +89,7 @@ function Reservation() {
 	return (
 		<div className="wrapper">
 			<div>
-				<Header title={"Réservation"} subtitle={"Table des réservations"} />
+				<Header title={"Bookings"} subtitle={"Table des réservations"} />
 				<Button variant="contained">
 					<Link to={"/addreservation"}>Ajouter un élément</Link>
 				</Button>

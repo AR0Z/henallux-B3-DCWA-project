@@ -5,6 +5,7 @@ import { brands } from "../../assets/vehiculesData";
 import Header from "../../components/header/Header";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { plateRegex } from "../../components/utils";
 const columns: GridColDef[] = [
 	{ field: "id", headerName: "ID", width: 50, type: "number" },
 	{
@@ -36,6 +37,23 @@ const columns: GridColDef[] = [
 		width: 130,
 		type: "number",
 	},
+	{
+		field: "ownerId",
+		headerName: "propriétaire",
+		editable: true,
+		width: 130,
+		type: "number",
+	},
+	{
+		field: "plate",
+		headerName: "plaque",
+		editable: true,
+		width: 130,
+		type: "string",
+		preProcessEditCellProps(params) {
+			return { ...params, error: !plateRegex.test(params.props.value) };
+		},
+	},
 ];
 function Vehicule() {
 	document.title = "Vehicules";
@@ -43,7 +61,7 @@ function Vehicule() {
 	return (
 		<div className="wrapper">
 			<div>
-				<Header title={"Véhicules"} subtitle={"Table des véhicules"} />
+				<Header title={"Vehicles"} subtitle={"Table des véhicules"} />
 				<Button variant="contained">
 					<Link to={"/addvehicle"}>Ajouter un élément</Link>
 				</Button>

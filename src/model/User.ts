@@ -7,7 +7,7 @@ export type User = {
 	isDriver: boolean;
 	isAdmin: boolean;
 	phone: string;
-	description: string;
+	descProfile: string;
 	vehicle?: string;
 	plateNumber?: string;
 	isNew: boolean;

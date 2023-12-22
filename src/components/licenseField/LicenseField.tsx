@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import "./licenseField.css";
-
+import { useState } from "react";
+import api from "../../api/api";
 type User = {
 	id: number;
 	firstname: string;
@@ -8,23 +9,56 @@ type User = {
 	email: string;
 	phone: string;
 	drivingLicence: string;
-	faceImage: string;
+	faceImg: string;
 	isDriver: boolean;
 	isAdmin: boolean;
-	tokenImage: string;
+	tokenImg: string;
 };
 
-function LicenseField({ user, key }: { user: User; key: number }) {
+type Props = {
+	user: User;
+	key: number;
+};
+
+function LicenseField({ user, key }: Props) {
+	const [imgFace, setImgFace] = useState(<img></img>);
+	const [imgLicense, setImgLicense] = useState(<img></img>);
+	const [isFaceActive, setIsFaceActive] = useState<boolean>(false);
+	const [isLicenseActive, setIsLicenseActive] = useState<boolean>(false);
+	const [isDisplay, setIsDisplay] = useState<boolean>(false);
+
 	function onAccept() {
-		// TODO: call api to accept license
+		api.put("users/toCheck/" + user.id, { action: "accept" });
 	}
 
 	function onReject() {
-		// TODO: call api to reject license
+		api.put("users/toCheck/" + user.id, { action: "refuse" });
 	}
 
 	function onDisplayPicture() {
-		// TODO: call api to display picture
+		if (isDisplay) {
+			setImgFace(<></>);
+			setImgLicense(<></>);
+			setIsDisplay(false);
+		} else {
+			setImgFace(
+				<img
+					src={`https://smartcities.aroz.be/api/v1/uploads/${user.faceImg}?token=${user.tokenImg}`}
+					alt=""
+					height={100}
+					id="face-img"
+				/>
+			);
+			setImgLicense(
+				<img
+					src={`https://smartcities.aroz.be/api/v1/uploads/${user.drivingLicence}?token=${user.tokenImg}`}
+					alt=""
+					height={100}
+					id="license-img"
+				/>
+			);
+			setIsDisplay(true);
+		}
 	}
 
 	return (
@@ -52,6 +86,19 @@ function LicenseField({ user, key }: { user: User; key: number }) {
 						onClick={onReject}>
 						Reject
 					</Button>
+				</div>
+
+				<div
+					id="face-wrapper"
+					className={isFaceActive ? "active" : "inactive"}
+					onClick={() => setIsFaceActive(!isFaceActive)}>
+					{imgFace}
+				</div>
+				<div
+					id="license-wrapper"
+					className={isLicenseActive ? "active" : "inactive"}
+					onClick={() => setIsLicenseActive(!isLicenseActive)}>
+					{imgLicense}
 				</div>
 			</div>
 		</div>

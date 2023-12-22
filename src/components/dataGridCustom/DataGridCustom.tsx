@@ -85,17 +85,21 @@ function DataGridCustom({ cols, api }: Props) {
 		api
 			.update(newData.id, newData)
 			.then(() => {
-				updateData();
+				setSeverity("success");
+				setErrorMessage("L'élément a bien été modifié");
+				setOpen(true);
 			})
 			.catch((error: AxiosError) => {
-				setErrorMessage(error.message);
+				if (error.response?.status === 500) {
+					setErrorMessage("l'id n'existe pas");
+				} else {
+					setErrorMessage(error.message);
+				}
 				setSeverity("error");
 				setOpen(true);
 			})
 			.finally(() => {
-				setSeverity("success");
-				setErrorMessage("L'élément a bien été modifié");
-				setOpen(true);
+				updateData();
 			});
 	}
 
@@ -103,7 +107,9 @@ function DataGridCustom({ cols, api }: Props) {
 		api
 			.delete(id)
 			.then(() => {
-				updateData();
+				setSeverity("success");
+				setErrorMessage("L'élément a bien été supprimé");
+				setOpen(true);
 			})
 			.catch((error: AxiosError) => {
 				setErrorMessage(error.message);
@@ -111,9 +117,7 @@ function DataGridCustom({ cols, api }: Props) {
 				setOpen(true);
 			})
 			.finally(() => {
-				setSeverity("success");
-				setErrorMessage("L'élément a bien été supprimé");
-				setOpen(true);
+				updateData();
 			});
 	}
 	// Boilerplate code
@@ -193,7 +197,7 @@ function DataGridCustom({ cols, api }: Props) {
 			width: 100,
 			cellClassName: "actions",
 			getActions: (params: GridRowParams<CRUDApiType>) => {
-				const id = params.id as string; // Assurez-vous que id est une chaîne
+				const id = params.id as string; 
 				return rowModesModel[id]?.mode === GridRowModes.Edit
 					? [
 							<GridActionsCellItem

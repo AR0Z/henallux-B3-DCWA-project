@@ -27,7 +27,7 @@ const columns: GridColDef[] = [
 	{
 		field: "lastname",
 		headerName: "Last name",
-		width: 75,
+		width: 100,
 		type: "string",
 		editable: true,
 		preProcessEditCellProps(params: GridPreProcessEditCellProps) {
@@ -37,7 +37,7 @@ const columns: GridColDef[] = [
 	{
 		field: "email",
 		headerName: "Email",
-		width: 130,
+		width: 175,
 		type: "string",
 		editable: true,
 		preProcessEditCellProps(params: GridPreProcessEditCellProps) {
@@ -47,11 +47,14 @@ const columns: GridColDef[] = [
 	{
 		field: "phone",
 		headerName: "Phone",
-		width: 100,
+		width: 130,
 		type: "string",
 		editable: true,
 		preProcessEditCellProps(params: GridPreProcessEditCellProps) {
 			return { ...params.props, error: !phoneFormat(params.props.value) };
+		},
+		valueFormatter: (params) => {
+			return params.value || "Pas de numéro";
 		},
 	},
 	{
@@ -74,13 +77,9 @@ const columns: GridColDef[] = [
 		width: 130,
 		type: "string",
 		editable: true,
-	},
-	{
-		field: "vehicleId",
-		headerName: "Vehicle",
-		width: 100,
-		type: "string",
-		editable: true,
+		valueFormatter: (params) => {
+			return params.value || "Pas de description";
+		},
 	},
 ];
 function User() {
@@ -89,7 +88,7 @@ function User() {
 	return (
 		<div className="wrapper">
 			<div>
-				<Header title={"User"} subtitle={"Liste des utilisateurs"} />
+				<Header title={"Users"} subtitle={"Liste des utilisateurs"} />
 				<Button variant="contained">
 					<Link to={"/adduser"}>Ajouter un élément</Link>
 				</Button>

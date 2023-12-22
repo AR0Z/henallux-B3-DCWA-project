@@ -1,11 +1,12 @@
 import axios from "axios";
 import { Cookies } from "react-cookie";
 import axiosRetry from "axios-retry";
+import { BASE_URL } from "../../BASE_URL";
 
 const cookies = new Cookies();
 
 const loginApi = axios.create({
-	baseURL: "https://smartcities.aroz.be/api/v1/",
+	baseURL: BASE_URL,
 });
 
 axiosRetry(loginApi, {
@@ -29,7 +30,7 @@ export async function login({
 }) {
 	let data;
 	try {
-		data = await loginApi.post("auth/login", {
+		data = await loginApi.post("/auth/login", {
 			email: email,
 			password: password,
 		});
@@ -41,7 +42,7 @@ export async function login({
 
 export async function logout() {
 	try {
-		await loginApi.delete("auth/logout", {
+		await loginApi.delete("/auth/logout", {
 			data: {
 				token: cookies.get("token"),
 			},
@@ -54,7 +55,7 @@ export async function logout() {
 export async function getMe(token: string) {
 	let data;
 	try {
-		data = await loginApi.get("users/me", {
+		data = await loginApi.get("/users/me", {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},

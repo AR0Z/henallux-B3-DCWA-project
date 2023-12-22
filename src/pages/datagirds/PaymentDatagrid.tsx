@@ -8,29 +8,29 @@ import { Link } from "react-router-dom";
 const columns: GridColDef[] = [
 	{ field: "id", headerName: "ID", width: 50, type: "number" },
 	{
-		field: "reservation_id",
-		headerName: "id_Reservation",
+		field: "reservationId",
+		headerName: "Reservation id",
 		editable: true,
-		width: 130,
+		width: 100,
 		type: "number",
 	},
 	{
 		field: "amount",
 		headerName: "Total",
 		editable: true,
-		width: 130,
+		width: 80,
 		type: "number",
 	},
 	{
 		field: "method",
 		headerName: "Méthode",
 		type: "singleSelect",
-		valueOptions: ["CREDIT_CARD", "PAYPAL"],
+		valueOptions: ["card", "paypal"],
 		editable: true,
 		width: 130,
 	},
 	{
-		field: "payment_status",
+		field: "paymentStatus",
 		headerName: "Etat",
 		type: "singleSelect",
 		valueOptions: ["pending", "paid", "failed"],
@@ -45,7 +45,7 @@ function Payment() {
 		<>
 			<div className="wrapper">
 				<div>
-					<Header title={"Payment"} subtitle={"Table des payments"} />
+					<Header title={"Payments"} subtitle={"Table des payments"} />
 					<Button variant="contained">
 						<Link to={"/addpayment"}>Ajouter un élément</Link>
 					</Button>

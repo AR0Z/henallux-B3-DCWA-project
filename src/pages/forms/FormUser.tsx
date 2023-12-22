@@ -1,7 +1,14 @@
+import { passwordRegex } from "../../components/utils";
 import { usersApi } from "../../api/usersApi";
 import FormCustom from "../../components/formCustom/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
 const path = "/users";
+
+/*
+    faceImage?: string;
+    drivingLicence?: string;
+    tokenImg?: string;
+*/
 const Lines: LineOfForm[] = [
 	{
 		label: "Nom",
@@ -26,6 +33,8 @@ const Lines: LineOfForm[] = [
 		type: "password",
 		id: "password",
 		required: true,
+		regex: passwordRegex,
+		helperText: "8 caractères dont 1 chiffre et 1 majuscule",
 	},
 	{
 		label: "Téléphone",
@@ -34,33 +43,22 @@ const Lines: LineOfForm[] = [
 		required: false,
 	},
 	{
-		label: "Date de naissance",
-		type: "date",
-		id: "dateNaissance",
-		required: true,
-	},
-	{
 		label: "Admin",
 		type: "checkbox",
-		id: "is_admin",
+		id: "isAdmin",
 		required: false,
 	},
 	{
 		label: "Driver",
 		type: "checkbox",
-		id: "is_driver",
+		id: "isDriver",
 		required: false,
 	},
-	{
-		label: "Vehicle",
-		type: "number",
-		id: "vehicle",
-		required: false,
-	},
+
 	{
 		label: "Description",
 		type: "textarea",
-		id: "description",
+		id: "descProfile",
 		required: false,
 	},
 ];
@@ -72,7 +70,7 @@ const baseData = {
 	phone: "",
 	isAdmin: false,
 	isDriver: false,
-	description: "",
+	descProfile: "",
 	vehicle: "",
 	isNew: true,
 };

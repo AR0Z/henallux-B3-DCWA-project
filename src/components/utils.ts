@@ -1,5 +1,3 @@
-// regex for grid conditional formatting
-
 export function phoneFormat(value: string) {
 	const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$/;
 	return phoneRegex.test(value);
@@ -11,6 +9,8 @@ export function emailFormat(value: string) {
 }
 
 export function passwordFormat(value: string) {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
-    return passwordRegex.test(value);
+	return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(value);
 }
+
+export const plateRegex = /^[0-9]-[A-Z]{3}-[0-9]{3}$/;
+export const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;

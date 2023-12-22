@@ -1,0 +1,1 @@
+export const BASE_URL = "https://smartcities.aroz.be/api/v1";

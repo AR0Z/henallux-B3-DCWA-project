@@ -3,12 +3,12 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { userLogout } from "../../state/authSlice";
-import { logout } from "../../api/authApi";
+import { logout as logoutAction } from "../../state/authSlice";
+import { AppDispatch } from "state/store";
 
 function SettingsButton() {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [open, setOpen] = useState(false);
 
@@ -18,10 +18,8 @@ function SettingsButton() {
 	};
 
 	function handleLogout() {
-		dispatch(userLogout());
-		logout().then(() => {
-			navigate("/login");
-		});
+		dispatch(logoutAction());
+		navigate("/login");
 	}
 
 	return (

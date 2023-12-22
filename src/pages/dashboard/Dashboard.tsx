@@ -13,21 +13,37 @@ import {
 } from "../../api/api";
 
 const cols: GridColDef[] = [
-	{ sortable: false, field: "id", headerName: "ID", width: 50 },
+	{ sortable: false, field: "id", headerName: "ID", width: 30 },
 	{
 		sortable: false,
-		field: "firstName",
+		field: "firstname",
 		headerName: "First name",
 		width: 75,
 	},
-	{ sortable: false, field: "lastName", headerName: "Last name", width: 75 },
-	{ sortable: false, field: "email", headerName: "Email", width: 120 },
-	{ sortable: false, field: "nbStars", headerName: "Nb stars", width: 50 },
+	{ sortable: false, field: "lastname", headerName: "Last name", width: 75 },
+	{ sortable: false, field: "email", headerName: "Email", width: 150 },
 	{
 		sortable: false,
-		field: "numberOfKm",
-		headerName: "Number of km",
+		field: "stars",
+		headerName: "Nombre d'étoile",
+		width: 120,
+		valueFormatter: (params) => {
+			if (params.value.starCount) return "Pas de note";
+			let result = "";
+			for (let i = 0; i < params.value.starCount; i++) {
+				result += "⭐";
+			}
+			return result;
+		},
+	},
+	{
+		sortable: false,
+		field: "totalKm",
+		headerName: "Km effectués",
 		width: 130,
+		valueFormatter: (params) => {
+			return params.value + " km";
+		},
 	},
 ];
 

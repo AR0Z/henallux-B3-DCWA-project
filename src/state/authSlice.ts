@@ -1,7 +1,6 @@
-// authSlice.js
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Cookies } from "react-cookie";
-import { login, getMe } from "../api/authApi";
+import { login, getMe, logout as apiLogout } from "../api/authApi";
 import { RootState } from "./store";
 
 const cookies = new Cookies();
@@ -10,7 +9,7 @@ type AuthState = {
 	token: string | null;
 	refreshToken?: string | null;
 	isLoggedIn: boolean;
-	errorMsg?: string;
+	errorMsg?: string | undefined;
 };
 
 const initialState: AuthState = {
@@ -27,10 +26,25 @@ export const userLogin = createAsyncThunk(
 		{ rejectWithValue }
 	) => {
 		try {
-			const loginResponse = await login(loginData);
-			const token = loginResponse.data.token;
-			const refreshToken = loginResponse.data.refreshToken;
-
+			let token,
+				refreshToken,
+				errorMsg: string = "";
+			await login(loginData)
+				.then((res) => {
+					token = res.data.token;
+					refreshToken = res.data.refreshToken;
+				})
+				.catch((err: any) => {
+					errorMsg = err.response.data.error;
+				});
+			if (errorMsg) {
+				return {
+					token: null,
+					refreshToken: null,
+					isAdmin: false,
+					errorMsg: errorMsg,
+				};
+			}
 			if (!token || !refreshToken) {
 				return {
 					token: null,
@@ -40,9 +54,7 @@ export const userLogin = createAsyncThunk(
 				};
 			}
 
-			const meResponse = await getMe(token);
-			const isAdmin = meResponse.data.isAdmin;
-
+			const { isAdmin } = (await getMe(token)).data;
 			if (!isAdmin) {
 				return {
 					token: null,
@@ -51,7 +63,6 @@ export const userLogin = createAsyncThunk(
 					errorMsg: "You are not an admin",
 				};
 			}
-
 			cookies.set("token", token, { path: "/" });
 			cookies.set("refreshToken", refreshToken, { path: "/" });
 
@@ -80,21 +91,19 @@ export const loginWithToken = createAsyncThunk(
 					isAdmin: false,
 				};
 			}
-			await getMe(token).then((res) => {
-				const { isAdmin } = res.data;
-				if (!isAdmin) {
-					return {
-						token: null,
-						refreshToken: null,
-						isAdmin: false,
-					};
-				}
+			const { isAdmin } = (await getMe(token)).data;
+			if (!isAdmin) {
 				return {
-					token: token,
-					refreshToken: refreshToken,
-					isAdmin: true,
+					token: null,
+					refreshToken: null,
+					isAdmin: false,
 				};
-			});
+			}
+			return {
+				token: token,
+				refreshToken: refreshToken,
+				isAdmin: true,
+			};
 		} catch (error: any) {
 			return {
 				token: null,
@@ -105,23 +114,38 @@ export const loginWithToken = createAsyncThunk(
 		}
 	}
 );
+
+export const logout = createAsyncThunk("auth/logout", async () => {
+	try {
+		apiLogout();
+		cookies.remove("token", { path: "/" });
+		cookies.remove("refreshToken", { path: "/" });
+		return {
+			token: null,
+			refreshToken: null,
+			isAdmin: false,
+		};
+	} catch (error: any) {
+		cookies.remove("token", { path: "/" });
+		cookies.remove("refreshToken", { path: "/" });
+		return {
+			token: null,
+			refreshToken: null,
+			isAdmin: false,
+			error: error.message,
+		};
+	}
+});
+
 const authSlice = createSlice({
 	name: "auth",
 	initialState,
-	reducers: {
-		userLogout: (state) => {
-			state.token = null;
-			cookies.remove("token", { path: "/" });
-			state.refreshToken = null;
-			cookies.remove("refreshToken", { path: "/" });
-			state.isLoggedIn = false;
-		},
-	},
+	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(userLogin.fulfilled, (state, action) => {
 			state.token = action.payload.token;
 			state.refreshToken = action.payload.refreshToken;
-			state.isLoggedIn = true;
+			state.isLoggedIn = action.payload.isAdmin;
 			state.errorMsg = action.payload.errorMsg;
 		});
 		builder.addCase(userLogin.rejected, (state, _) => {
@@ -130,10 +154,28 @@ const authSlice = createSlice({
 			state.isLoggedIn = false;
 			state.errorMsg = "Invalid login infos";
 		});
+		builder.addCase(loginWithToken.fulfilled, (state, action) => {
+			state.token = action.payload.token;
+			state.refreshToken = action.payload.refreshToken;
+			state.isLoggedIn = action.payload.isAdmin;
+		});
+		builder.addCase(loginWithToken.rejected, (state, _) => {
+			state.token = null;
+			state.refreshToken = null;
+			state.isLoggedIn = false;
+		});
+		builder.addCase(logout.fulfilled, (state, _) => {
+			state.token = null;
+			state.refreshToken = null;
+			state.isLoggedIn = false;
+		});
+		builder.addCase(logout.rejected, (state, _) => {
+			state.token = null;
+			state.refreshToken = null;
+			state.isLoggedIn = false;
+		});
 	},
 });
-
-export const { userLogout } = authSlice.actions;
 
 export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
 

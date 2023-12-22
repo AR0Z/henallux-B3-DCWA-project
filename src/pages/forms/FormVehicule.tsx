@@ -2,6 +2,19 @@ import FormCustom from "../../components/formCustom/FormCustom";
 import { LineOfForm } from "../../model/FormTypes";
 import { vehiculesApi } from "../../api/vehiclesApi";
 import { brands, models, color } from "../../assets/vehiculesData";
+import { getUserEmailsID } from "../../api/api";
+import { plateRegex } from "../../components/utils";
+
+const {
+	usersOptions,
+	usersEmails,
+	userIds,
+}: {
+	usersOptions: { value?: string; label: string }[];
+	usersEmails: string[];
+	userIds: string[];
+} = getUserEmailsID(true);
+
 const Lines: LineOfForm[] = [
 	{
 		label: "brand",
@@ -29,6 +42,23 @@ const Lines: LineOfForm[] = [
 		type: "number",
 		id: "nbSeats",
 		required: true,
+	},
+	{
+		label: "plate",
+		type: "text",
+		id: "plate",
+		required: true,
+		regex: plateRegex,
+		helperText: "Format: 0-XXX-000",
+	},
+	{
+		label: "id du conducteur",
+		type: "comboboxObject",
+		id: "ownerId",
+		required: true,
+		options: usersOptions,
+		optionsValues: userIds,
+		optionsLabels: usersEmails,
 	},
 ];
 

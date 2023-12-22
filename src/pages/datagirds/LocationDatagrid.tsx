@@ -7,14 +7,28 @@ import { Link } from "react-router-dom";
 
 const columns: GridColDef[] = [
 	{ field: "id", headerName: "ID", width: 50, type: "number" },
-	{ field: "label", headerName: "Nom", editable: true, width: 130 },
+	{ field: "label", headerName: "Nom", editable: true, width: 150 },
 	{ field: "latitude", headerName: "Latitude", editable: true, width: 130 },
 	{ field: "longitude", headerName: "Longitude", editable: true, width: 130 },
 	{
-		field: "next_stop",
+		field: "nextStop",
 		headerName: "prochain arret",
 		editable: true,
 		width: 130,
+		type: "number",
+	},
+	{
+		field: "nextStopLabel",
+		headerName: "prochain arret",
+		editable: false,
+		width: 150,
+		valueGetter: (params) => {
+			const nextStopRowId = params.api.getRowIdFromRowIndex(
+				params.row.nextStop - 1
+			);
+			if (!nextStopRowId) return "Fin";
+			return params.api.getCellValue(nextStopRowId, "label") || "";
+		},
 	},
 ];
 

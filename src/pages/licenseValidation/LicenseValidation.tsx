@@ -10,10 +10,10 @@ type User = {
 	email: string;
 	phone: string;
 	drivingLicence: string;
-	faceImage: string;
+	faceImg: string;
 	isDriver: boolean;
 	isAdmin: boolean;
-	tokenImage: string;
+	tokenImg: string;
 };
 
 function LicenseValidation() {
@@ -21,10 +21,8 @@ function LicenseValidation() {
 	const [data, setData] = useState<User[]>([]);
 
 	useEffect(() => {
-		// tocheck in data
 		const fetchData = async () => {
-			console.log(toCheck());
-			setData([]);
+			setData(await toCheck());
 		};
 		fetchData();
 	}, []);
@@ -40,10 +38,10 @@ function LicenseValidation() {
 					title="License Validation"
 					subtitle="Validez les permis de conduire"
 				/>
-				{data.length > 0 ? (
+				{data?.length > 0 ? (
 					<div className="license-fields">
-						{data.map((user, key) => (
-							<LicenseField user={user} key={key} />
+						{data.map((user, index) => (
+							<LicenseField user={user} key={index} />
 						))}
 					</div>
 				) : (

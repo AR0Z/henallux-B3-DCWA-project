@@ -14,9 +14,9 @@ type ColorTokens = {
 
 export const tokensDark: ColorTokens = {
 	grey: {
-		0: "#ffffff", // manually adjusted
-		10: "#f6f6f6", // manually adjusted
-		50: "#f0f0f0", // manually adjusted
+		0: "#ffffff",
+		10: "#f6f6f6",
+		50: "#f0f0f0",
 		100: "#e0e0e0",
 		200: "#c2c2c2",
 		300: "#a3a3a3",
@@ -26,7 +26,7 @@ export const tokensDark: ColorTokens = {
 		700: "#3d3d3d",
 		800: "#292929",
 		900: "#141414",
-		1000: "#000000", // manually adjusted
+		1000: "#000000",
 	},
 	primary: {
 		100: "#d5d4d4",
@@ -53,7 +53,6 @@ export const tokensDark: ColorTokens = {
 	},
 };
 
-// function that reverses the color palette
 function reverseTokens(tokensDark: Payload): ColorTokens {
 	const reversedTokens: ColorTokens = {};
 	Object.entries(tokensDark).forEach(([key, val]) => {
@@ -90,7 +89,7 @@ export const themeSettings = (mode: PaletteMode): ThemeOptions => {
 							...tokensDark.grey,
 							default: tokensDark.primary[600],
 						},
-					}
+				  }
 				: {
 						primary: {
 							...tokensLight.primary,
@@ -106,7 +105,7 @@ export const themeSettings = (mode: PaletteMode): ThemeOptions => {
 						background: {
 							default: tokensDark.grey[0],
 						},
-					}),
+				  }),
 		},
 		typography: {
 			fontFamily: font.join(","),

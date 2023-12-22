@@ -4,6 +4,7 @@
 	align-items: center;
 	justify-content: baseline;
 	margin: 0 0 1rem 0;
+	height: 100px !important;
 }
 
 .license-wrapper {
@@ -16,7 +17,21 @@
 
 .action-btn {
 	margin-left: 1rem;
+	margin-right: 2rem;
 	width: 175px;
 	display: flex;
 	justify-content: space-between;
+}
+
+.active > * {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 60vh;
+	width: 60vw;
+}
+
+.inactive > * {
+	display: block;
 }
