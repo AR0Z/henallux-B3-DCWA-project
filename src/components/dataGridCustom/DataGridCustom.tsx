@@ -91,9 +91,10 @@ function DataGridCustom({ cols, api }: Props) {
 			})
 			.catch((error: AxiosError) => {
 				if (error.response?.status === 500) {
+					// PUE LA MERDE
 					setErrorMessage("l'id n'existe pas");
 				} else {
-					setErrorMessage(error.message);
+					setErrorMessage(error.request?.data);
 				}
 				setSeverity("error");
 				setOpen(true);
@@ -197,7 +198,7 @@ function DataGridCustom({ cols, api }: Props) {
 			width: 100,
 			cellClassName: "actions",
 			getActions: (params: GridRowParams<CRUDApiType>) => {
-				const id = params.id as string; 
+				const id = params.id as string;
 				return rowModesModel[id]?.mode === GridRowModes.Edit
 					? [
 							<GridActionsCellItem

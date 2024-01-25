@@ -40,7 +40,9 @@ const Lines: LineOfForm[] = [
 		label: "Téléphone",
 		type: "tel",
 		id: "phone",
-		required: false,
+		required: true,
+		regex: /^0[1-9]([-. ]?[0-9]{2}){4,}$/,
+		helperText: "Numéro de téléphone invalide",
 	},
 	{
 		label: "Admin",

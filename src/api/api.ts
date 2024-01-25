@@ -13,7 +13,7 @@ const api = axios.create({
 
 axiosRetry(api, {
 	retries: 3,
-	retryCondition: (error) => {
+	retryCondition: (error) => { // return error.response?.status === 500;
 		switch (error.response?.status) {
 			case 500:
 				return true;

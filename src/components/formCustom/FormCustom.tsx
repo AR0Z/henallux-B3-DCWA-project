@@ -3,6 +3,7 @@ import {
 	Button,
 	FormControl,
 	FormLabel,
+	Snackbar,
 	TextField,
 } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
@@ -36,6 +37,23 @@ function FormCustom({ lines, path, api, baseData }: Props) {
 
 	function newData() {
 		api.create(data);
+		navigate(path);
+		// api => version qui handle les erreurs
+		// 	.create(data)
+		// 	.then(() => {
+		// 		navigate(path);
+		// 	})
+		// 	.catch((error) => {
+		// 		let errorStr: string = error.response.data.message;
+		// 		if (error.response.data.fields) {
+		// 			errorStr += "\n";
+		// 			error.response.data.fields.forEach((field: string) => {
+		// 				errorStr += field + " ";
+		// 			});
+		// 		}
+		// 		setErrorMessage(errorStr);
+		// 		setDisplayError(true);
+		// 	});
 	}
 
 	function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -45,7 +63,6 @@ function FormCustom({ lines, path, api, baseData }: Props) {
 		} else {
 			if (window.confirm("Êtes-vous sûr de vouloir envoyer ce formulaire ?")) {
 				newData();
-				navigate(path);
 			}
 		}
 	}
@@ -107,6 +124,7 @@ function FormCustom({ lines, path, api, baseData }: Props) {
 						setData({ ...data, [line.id]: value });
 					}}
 					title={line.label}
+					disableClearable // PAS DANS LE RENDU
 				/>
 			</FormControl>
 		);
